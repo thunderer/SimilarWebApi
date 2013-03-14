@@ -68,31 +68,123 @@ class SimilarWebTest extends \PHPUnit_Framework_TestCase
 
     public function apiCallsProvider()
         {
-        $sw = new SimilarWeb('da39a3ee5e6b4b0d3255bfef95601890');
+
+        /* ------------------------------------------------------------------ */
+        /* -- GLOBAL RANK --------------------------------------------------- */
+        /* ------------------------------------------------------------------ */
+
         return array(
-            array('google.pl', 'GlobalRank', array(200, '{"Rank": 1337}'), 1337),
-            array('invalid', 'GlobalRank', array(404, ''), -1),
+            array('GlobalRank', 'JSON', 'google.pl', 388, array(200, <<<EOT
+{"Rank":388}
+EOT
+                )),
+            array('GlobalRank', 'JSON', 'invalid', -1, array(404, <<<EOT
+{"Message":"Data Not Found"}
+EOT
+                )),
+            array('GlobalRank', 'XML', 'google.pl', 388, array(200, <<<EOT
+<GlobalRankResponse xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+    <Rank>388</Rank>
+</GlobalRankResponse>
+EOT
+                )),
+            array('GlobalRank', 'XML', 'invalid', -1, array(404, <<<EOT
+<Error>
+    <Message>Data Not Found</Message>
+</Error>
+EOT
+                )),
+
+        /* ------------------------------------------------------------------ */
+        /* -- COUNTRY RANK -------------------------------------------------- */
+        /* ------------------------------------------------------------------ */
+
+            array('CountryRank', 'JSON', 'google.pl',
+                array(616 => 1, 826 => 22, 276 => 69, 528 => 54, 840 => 1480),
+                array(200, <<<EOT
+{
+ "TopCountryRanks": [
+  {
+   "Code": 616,
+   "Rank": 1
+  },
+  {
+   "Code": 826,
+   "Rank": 22
+  },
+  {
+   "Code": 276,
+   "Rank": 69
+  },
+  {
+   "Code": 528,
+   "Rank": 54
+  },
+  {
+   "Code": 840,
+   "Rank": 1480
+  }
+ ]
+}
+EOT
+                )),
+            array('CountryRank', 'JSON', 'invalid', array(), array(200, <<<EOT
+{"TopCountryRanks":[]}
+EOT
+                )),
+            array('CountryRank', 'XML',  'google.pl',
+                array(616 => 1, 826 => 22, 276 => 69, 528 => 54, 840 => 1480),
+                array(200, <<<EOT
+<CountryRankResponse xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+    <TopCountryRanks>
+        <CountryRank>
+            <Code>616</Code>
+            <Rank>1</Rank>
+        </CountryRank>
+        <CountryRank>
+            <Code>826</Code>
+            <Rank>22</Rank>
+        </CountryRank>
+        <CountryRank>
+            <Code>276</Code>
+            <Rank>69</Rank>
+        </CountryRank>
+        <CountryRank>
+            <Code>528</Code>
+            <Rank>54</Rank>
+        </CountryRank>
+        <CountryRank>
+            <Code>840</Code>
+            <Rank>1480</Rank>
+        </CountryRank>
+    </TopCountryRanks>
+</CountryRankResponse>
+EOT
+                )),
+            array('CountryRank', 'XML',  'invalid', array(), array(200, <<<EOT
+<CountryRankResponse xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+    <TopCountryRanks />
+</CountryRankResponse>
+EOT
+                )),
+            array('CountryRank', 'XML',  'invalid', -1, array(404, '')),
             );
         }
 
     /**
      * @dataProvider apiCallsProvider
      */
-    public function testGlobalRankApiCall($domain, $call, $payload, $result)
+    public function testGlobalRankApiCall($call, $format, $domain, $result, $payload)
         {
-        $sw = new SimilarWeb('da39a3ee5e6b4b0d3255bfef95601890');
-        foreach($sw->getSupportedFormats() as $format)
-            {
-            $swMock = $this->getMock('Thunder\Api\SimilarWeb\SimilarWeb', array('executeCurlRequest'), array(
-                'userKey' => 'da39a3ee5e6b4b0d3255bfef95601890',
-                ));
-            $swMock
-                ->expects($this->once())
-                ->method('executeCurlRequest')
-                ->with($sw->getApiTargetUrl($call, $domain, $format))
-                ->will($this->returnValue($payload));
-            $actualResult = $swMock->api($call, $domain, $format);
-            $this->assertEquals($result, $actualResult);
-            }
+        $swMock = $this->getMock('Thunder\Api\SimilarWeb\SimilarWeb', array('executeCurlRequest'), array(
+            'userKey' => 'da39a3ee5e6b4b0d3255bfef95601890',
+            ));
+        $swMock
+            ->expects($this->once())
+            ->method('executeCurlRequest')
+            ->with($swMock->getApiTargetUrl($call, $domain, $format))
+            ->will($this->returnValue($payload));
+        $actualResult = $swMock->api($call, $domain, $format);
+        $this->assertEquals($result, $actualResult);
         }
     }

@@ -61,13 +61,26 @@ class SimilarWeb
 
     public function getGlobalRank($url, $format = null)
         {
-        $result = $this->executeCurlRequest($this->getApiTargetUrl('GlobalRank', $url, $this->computeFormat($format)));
+        $format = $this->computeFormat($format);
+        $apiTarget = $this->getApiTargetUrl('GlobalRank', $url, $format);
+        $result = $this->executeCurlRequest($apiTarget);
         if(200 != $result[0])
             {
             return -1;
             }
-        $json = json_decode($result[1], true);
-        return $json['Rank'];
+        switch($format)
+            {
+            case 'JSON':
+                {
+                $json = json_decode($result[1], true);
+                return $json['Rank'];
+                }
+            case 'XML':
+                {
+                $data = simplexml_load_string($result[1]);
+                return intval($data->Rank[0]);
+                }
+            }
         }
 
     public function getCountryRank($url, $format = null)
@@ -77,14 +90,33 @@ class SimilarWeb
             {
             return -1;
             }
-        $json = json_decode($result[1], true);
-        $json = $json['TopCountryRanks'];
-        $result = array();
-        foreach($json['TopCountryRanks'] as $country)
+        $return = array();
+        switch($format)
             {
-            $result[$country['Code']] = $country['Rank'];
+            case 'JSON':
+                {
+                $json = json_decode($result[1], true);
+                foreach($json['TopCountryRanks'] as $country)
+                    {
+                    $return[$country['Code']] = $country['Rank'];
+                    }
+                return $return;
+                }
+            case 'XML':
+                {
+                $data = simplexml_load_string($result[1]);
+                if(!isset($data->TopCountryRanks[0]->CountryRank))
+                    {
+                    return array();
+                    }
+                $items = count($data->TopCountryRanks->CountryRank);
+                for($i = 0; $i < $items; $i++)
+                    {
+                    $return[intval($data->TopCountryRanks->CountryRank[$i]->Code)] = intval($data->TopCountryRanks->CountryRank[$i]->Rank);
+                    }
+                return $return;
+                }
             }
-        return $result;
         }
 
     public function getCategoryRank($url, $format = null)
@@ -164,7 +196,7 @@ class SimilarWeb
             }
         if(!$this->isSupportedFormat($format))
             {
-            throw new \RuntimeException(sprintf('Invalid default response format: %s!', $format));
+            throw new \RuntimeException(sprintf('Invalid format: %s!', $format));
             }
         return $format;
         }
