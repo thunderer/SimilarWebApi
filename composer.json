@@ -11,5 +11,11 @@
     "minimum-stability": "stable",
     "require": {
 
-    }
+    },
+    "autoload": {
+        "psr-0": {
+            "Thunder\\Api\\SimilarWeb": ""
+        }
+    },
+    "target-dir": "Thunder/Api/SimilarWeb"
 }
