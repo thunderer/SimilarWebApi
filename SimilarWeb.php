@@ -126,23 +126,66 @@ class SimilarWeb
             {
             return -1;
             }
-        $json = json_decode($result[1], true);
-        return array(
-            'name' => $json['Category'],
-            'rank' => intval($json['CategoryRank']),
-            );
+        $return = array();
+        switch($format)
+            {
+            case 'JSON':
+                {
+                $json = json_decode($result[1], true);
+                $return = array(
+                    'name' => $json['Category'],
+                    'rank' => intval($json['CategoryRank']),
+                    );
+                if(!$return['name'] && !$return['rank'])
+                    {
+                    return -1;
+                    }
+                return $return;
+                }
+            case 'XML':
+                {
+                $data = simplexml_load_string($result[1]);
+                $return = array(
+                    'name' => $data->Category[0],
+                    'rank' => intval($data->CategoryRank[0]),
+                    );
+                if(!$return['name'] && !$return['rank'])
+                    {
+                    return -1;
+                    }
+                return $return;
+                }
+            }
         }
 
-    public function getWebsiteTags($url)
+    public function getWebsiteTags($url, $format = null)
         {
         }
 
-    public function getSimilarSites($url)
+    public function getSimilarSites($url, $format = null)
         {
         }
 
-    public function getWebsiteCategory($url)
+    public function getWebsiteCategory($url, $format = null)
         {
+        $result = $this->executeCurlRequest($this->getApiTargetUrl('Category', $url, $this->computeFormat($format)));
+        if(200 != $result[0])
+            {
+            return -1;
+            }
+        switch($format)
+            {
+            case 'JSON':
+                {
+                $json = json_decode($result[1], true);
+                return $json['Category'];
+                }
+            case 'XML':
+                {
+                $data = simplexml_load_string($result[1]);
+                return $data->Category[0];
+                }
+            }
         }
 
     public function api($call, $url, $format = null)
@@ -164,7 +207,7 @@ class SimilarWeb
                 return $this->getCategoryRank($url, $format);
                 break;
                 }
-            case 'WebsiteTags':
+            case 'Tags':
                 {
                 return $this->getWebsiteTags($url, $format);
                 break;
@@ -174,7 +217,7 @@ class SimilarWeb
                 return $this->getSimilarSites($url, $format);
                 break;
                 }
-            case 'WebsiteCategory':
+            case 'Category':
                 {
                 return $this->getWebsiteCategory($url, $format);
                 break;
