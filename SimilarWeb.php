@@ -126,7 +126,6 @@ class SimilarWeb
             {
             return -1;
             }
-        $return = array();
         switch($format)
             {
             case 'JSON':
@@ -160,10 +159,75 @@ class SimilarWeb
 
     public function getWebsiteTags($url, $format = null)
         {
+        $result = $this->executeCurlRequest($this->getApiTargetUrl('Tags', $url, $this->computeFormat($format)));
+        if(200 != $result[0])
+            {
+            return -1;
+            }
+        $return = array();
+        switch($format)
+            {
+            case 'JSON':
+                {
+                $json = json_decode($result[1], true);
+                foreach($json['Tags'] as $country)
+                    {
+                    $return[$country['Name']] = $country['Score'];
+                    }
+                return $return;
+                }
+            case 'XML':
+                {
+                $data = simplexml_load_string($result[1]);
+                if(!isset($data->Tags[0]->Tag))
+                    {
+                    return array();
+                    }
+                $items = count($data->Tags->Tag);
+                for($i = 0; $i < $items; $i++)
+                    {
+                    $return[strip_tags($data->Tags->Tag[$i]->Name->asXml())] = floatval($data->Tags->Tag[$i]->Score);
+                    }
+                return $return;
+                }
+            }
         }
 
     public function getSimilarSites($url, $format = null)
         {
+        $result = $this->executeCurlRequest($this->getApiTargetUrl('SimilarSites', $url, $this->computeFormat($format)));
+        if(200 != $result[0])
+            {
+            return -1;
+            }
+        $return = array();
+        switch($format)
+            {
+            case 'JSON':
+                {
+                $json = json_decode($result[1], true);
+                foreach($json['SimilarSites'] as $country)
+                    {
+                    $return[$country['Url']] = $country['Score'];
+                    }
+                return $return;
+                }
+            case 'XML':
+                {
+                $data = simplexml_load_string($result[1]);
+                if(!isset($data->SimilarSites[0]->SimilarSite))
+                    {
+                    return array();
+                    }
+                $items = count($data->SimilarSites->SimilarSite);
+                for($i = 0; $i < $items; $i++)
+                    {
+                    $return[strip_tags($data->SimilarSites->SimilarSite[$i]->Url->asXml())]
+                        = floatval($data->SimilarSites->SimilarSite[$i]->Score);
+                    }
+                return $return;
+                }
+            }
         }
 
     public function getWebsiteCategory($url, $format = null)
