@@ -61,7 +61,6 @@ class SimilarWeb
 
     public function getGlobalRank($url, $format = null)
         {
-        $format = $this->computeFormat($format);
         $apiTarget = $this->getApiTargetUrl('GlobalRank', $url, $format);
         $result = $this->executeCurlRequest($apiTarget);
         if(200 != $result[0])
@@ -85,7 +84,7 @@ class SimilarWeb
 
     public function getCountryRank($url, $format = null)
         {
-        $result = $this->executeCurlRequest($this->getApiTargetUrl('CountryRank', $url, $this->computeFormat($format)));
+        $result = $this->executeCurlRequest($this->getApiTargetUrl('CountryRank', $url, $format));
         if(200 != $result[0])
             {
             return -1;
@@ -121,7 +120,7 @@ class SimilarWeb
 
     public function getCategoryRank($url, $format = null)
         {
-        $result = $this->executeCurlRequest($this->getApiTargetUrl('CategoryRank', $url, $this->computeFormat($format)));
+        $result = $this->executeCurlRequest($this->getApiTargetUrl('CategoryRank', $url, $format));
         if(200 != $result[0])
             {
             return -1;
@@ -159,7 +158,7 @@ class SimilarWeb
 
     public function getWebsiteTags($url, $format = null)
         {
-        $result = $this->executeCurlRequest($this->getApiTargetUrl('Tags', $url, $this->computeFormat($format)));
+        $result = $this->executeCurlRequest($this->getApiTargetUrl('Tags', $url, $format));
         if(200 != $result[0])
             {
             return -1;
@@ -195,7 +194,7 @@ class SimilarWeb
 
     public function getSimilarSites($url, $format = null)
         {
-        $result = $this->executeCurlRequest($this->getApiTargetUrl('SimilarSites', $url, $this->computeFormat($format)));
+        $result = $this->executeCurlRequest($this->getApiTargetUrl('SimilarSites', $url, $format));
         if(200 != $result[0])
             {
             return -1;
@@ -232,7 +231,7 @@ class SimilarWeb
 
     public function getWebsiteCategory($url, $format = null)
         {
-        $result = $this->executeCurlRequest($this->getApiTargetUrl('Category', $url, $this->computeFormat($format)));
+        $result = $this->executeCurlRequest($this->getApiTargetUrl('Category', $url, $format));
         if(200 != $result[0])
             {
             return -1;
@@ -254,6 +253,14 @@ class SimilarWeb
 
     public function api($call, $url, $format = null)
         {
+        if(null === $format)
+            {
+            $format = $this->defaultResponseFormat;
+            }
+        if(!$this->isSupportedFormat($format))
+            {
+            throw new \RuntimeException(sprintf('Invalid format: %s!', $format));
+            }
         switch($call)
             {
             case 'GlobalRank':
@@ -293,19 +300,6 @@ class SimilarWeb
                     $call, $url, $format));
                 }
             }
-        }
-
-    protected function computeFormat($format)
-        {
-        if(null === $format)
-            {
-            return $this->defaultResponseFormat;
-            }
-        if(!$this->isSupportedFormat($format))
-            {
-            throw new \RuntimeException(sprintf('Invalid format: %s!', $format));
-            }
-        return $format;
         }
 
     protected function isSupportedFormat($format)
