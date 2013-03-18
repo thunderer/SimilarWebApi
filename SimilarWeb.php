@@ -44,29 +44,13 @@ class SimilarWeb
         return $this->defaultResponseFormat;
         }
 
-    public function getSupportedFormats()
-        {
-        return $this->supportedFormats;
-        }
-
     public function clearResultCache()
         {
         $this->resultCache = array();
         }
 
-    public function getApiTargetUrl($call, $url, $format)
+    protected function getGlobalRank($result, $format = null)
         {
-        return 'http://api.similarweb.com/Site/'.$url.'/'.$call.'?Format='.$format.'&UserKey='.$this->userKey;
-        }
-
-    public function getGlobalRank($url, $format = null)
-        {
-        $apiTarget = $this->getApiTargetUrl('GlobalRank', $url, $format);
-        $result = $this->executeCurlRequest($apiTarget);
-        if(200 != $result[0])
-            {
-            return -1;
-            }
         switch($format)
             {
             case 'JSON':
@@ -79,16 +63,15 @@ class SimilarWeb
                 $data = simplexml_load_string($result[1]);
                 return intval($data->Rank[0]);
                 }
+            default:
+                {
+                throw new \InvalidArgumentException(sprintf('Invalid format: %s!', $format));
+                }
             }
         }
 
-    public function getCountryRank($url, $format = null)
+    protected function getCountryRank($result, $format)
         {
-        $result = $this->executeCurlRequest($this->getApiTargetUrl('CountryRank', $url, $format));
-        if(200 != $result[0])
-            {
-            return -1;
-            }
         $return = array();
         switch($format)
             {
@@ -115,16 +98,15 @@ class SimilarWeb
                     }
                 return $return;
                 }
+            default:
+                {
+                throw new \InvalidArgumentException(sprintf('Invalid format: %s!', $format));
+                }
             }
         }
 
-    public function getCategoryRank($url, $format = null)
+    protected function getCategoryRank($result, $format = null)
         {
-        $result = $this->executeCurlRequest($this->getApiTargetUrl('CategoryRank', $url, $format));
-        if(200 != $result[0])
-            {
-            return -1;
-            }
         switch($format)
             {
             case 'JSON':
@@ -153,16 +135,15 @@ class SimilarWeb
                     }
                 return $return;
                 }
+            default:
+                {
+                throw new \InvalidArgumentException(sprintf('Invalid format: %s!', $format));
+                }
             }
         }
 
-    public function getWebsiteTags($url, $format = null)
+    protected function getTags($result, $format = null)
         {
-        $result = $this->executeCurlRequest($this->getApiTargetUrl('Tags', $url, $format));
-        if(200 != $result[0])
-            {
-            return -1;
-            }
         $return = array();
         switch($format)
             {
@@ -189,16 +170,15 @@ class SimilarWeb
                     }
                 return $return;
                 }
+            default:
+                {
+                throw new \InvalidArgumentException(sprintf('Invalid format: %s!', $format));
+                }
             }
         }
 
-    public function getSimilarSites($url, $format = null)
+    protected function getSimilarSites($result, $format = null)
         {
-        $result = $this->executeCurlRequest($this->getApiTargetUrl('SimilarSites', $url, $format));
-        if(200 != $result[0])
-            {
-            return -1;
-            }
         $return = array();
         switch($format)
             {
@@ -226,16 +206,15 @@ class SimilarWeb
                     }
                 return $return;
                 }
+            default:
+                {
+                throw new \InvalidArgumentException(sprintf('Invalid format: %s!', $format));
+                }
             }
         }
 
-    public function getWebsiteCategory($url, $format = null)
+    protected function getCategory($result, $format = null)
         {
-        $result = $this->executeCurlRequest($this->getApiTargetUrl('Category', $url, $format));
-        if(200 != $result[0])
-            {
-            return -1;
-            }
         switch($format)
             {
             case 'JSON':
@@ -248,7 +227,16 @@ class SimilarWeb
                 $data = simplexml_load_string($result[1]);
                 return $data->Category[0];
                 }
+            default:
+                {
+                throw new \InvalidArgumentException(sprintf('Invalid format: %s!', $format));
+                }
             }
+        }
+
+    public function getUrlTarget($call, $url, $format)
+        {
+        return 'http://api.similarweb.com/Site/'.$url.'/'.$call.'?Format='.$format.'&UserKey='.$this->userKey;
         }
 
     public function api($call, $url, $format = null)
@@ -259,46 +247,38 @@ class SimilarWeb
             }
         if(!$this->isSupportedFormat($format))
             {
-            throw new \RuntimeException(sprintf('Invalid format: %s!', $format));
+            throw new \InvalidArgumentException(sprintf('Invalid format: %s!', $format));
             }
-        switch($call)
+        $validCalls = array(
+            'GlobalRank',
+            'CountryRank',
+            'CategoryRank',
+            'Tags',
+            'SimilarSites',
+            'Category',
+            );
+        if(!in_array($call, $validCalls))
             {
-            case 'GlobalRank':
-                {
-                return $this->getGlobalRank($url, $format);
-                break;
-                }
-            case 'CountryRank':
-                {
-                return $this->getCountryRank($url, $format);
-                break;
-                }
-            case 'CategoryRank':
-                {
-                return $this->getCategoryRank($url, $format);
-                break;
-                }
-            case 'Tags':
-                {
-                return $this->getWebsiteTags($url, $format);
-                break;
-                }
-            case 'SimilarSites':
-                {
-                return $this->getSimilarSites($url, $format);
-                break;
-                }
-            case 'Category':
-                {
-                return $this->getWebsiteCategory($url, $format);
-                break;
-                }
-            default:
-                {
-                throw new \RuntimeException(sprintf(
-                    'Invalid API call: %s for URL %s with format %s!',
-                    $call, $url, $format));
-                }
+            throw new \InvalidArgumentException(sprintf('Invalid call: %s!', $call));
+            }
+        $result = $this->executeCurlRequest($this->getUrlTarget($call, $url, $format));
+        if(200 != $result[0])
+            {
+            return -1;
+            }
+        $method = 'get'.$call;
+        if(method_exists($this, $method))
+            {
+            return call_user_func_array(array($this, $method), array(
+                'result' => $result,
+                'format' => $format,
+                ));
+            }
+        else
+            {
+            throw new \RuntimeException(sprintf(
+                'Invalid API call: %s for URL %s with format %s!',
+                $call, $url, $format));
             }
         }
 

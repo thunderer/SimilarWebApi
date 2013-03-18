@@ -627,9 +627,42 @@ EOT
         $swMock
             ->expects($this->once())
             ->method('executeCurlRequest')
-            ->with($swMock->getApiTargetUrl($call, $domain, $format))
+            ->with($swMock->getUrlTarget($call, $domain, $format))
             ->will($this->returnValue($payload));
         $actualResult = $swMock->api($call, $domain, $format);
+        $this->assertEquals($result, $actualResult);
+        }
+
+    public function invalidCallsProvider()
+        {
+        return array(
+            array('getGlobalRank', array('response', 'INV'), '', 'InvalidArgumentException'),
+            array('getCountryRank', array('response', 'INV'), '', 'InvalidArgumentException'),
+            array('getCategoryRank', array('response', 'INV'), '', 'InvalidArgumentException'),
+            array('getTags', array('response', 'INV'), '', 'InvalidArgumentException'),
+            array('getSimilarSites', array('response', 'INV'), '', 'InvalidArgumentException'),
+            array('getCategory', array('response', 'INV'), '', 'InvalidArgumentException'),
+
+            array('api', array('GlobalRank', 'invalid', null), -1, null),
+            array('api', array('GlobalRank', 'google.pl', 'INV'), '', 'InvalidArgumentException'),
+            array('api', array('Invalid', 'google.pl', 'JSON'), '', 'InvalidArgumentException'),
+            );
+        }
+
+    /**
+     * @dataProvider invalidCallsProvider
+     */
+    public function testForCoverage($method, array $args, $result, $exception = null)
+        {
+        $sw = new SimilarWeb('da39a3ee5e6b4b0d3255bfef95601890');
+        if(null !== $exception)
+            {
+            $this->setExpectedException($exception);
+            }
+        $reflectionClass = new \ReflectionClass(get_class($sw));
+        $reflectionMethod = $reflectionClass->getMethod($method);
+        $reflectionMethod->setAccessible(true);
+        $actualResult = $reflectionMethod->invokeArgs($sw, $args);
         $this->assertEquals($result, $actualResult);
         }
     }
