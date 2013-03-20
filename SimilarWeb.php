@@ -8,6 +8,14 @@ class SimilarWeb
     protected $resultCache;
     protected $supportedFormats = array('XML', 'JSON');
     protected $countryData = null;
+    protected $validCalls = array(
+        'GlobalRank',
+        'CountryRank',
+        'CategoryRank',
+        'Tags',
+        'SimilarSites',
+        'Category',
+        );
     
     public function __construct($userKey, $defaultFormat = 'JSON')
         {
@@ -28,6 +36,18 @@ class SimilarWeb
     public function getUserKey()
         {
         return $this->userKey;
+        }
+
+    public function getCountryData($country = null)
+        {
+        $this->loadCountryData();
+        if(null === $country)
+            {
+            return $this->countryData;
+            }
+        return array_key_exists($country, $this->countryData)
+            ? $this->countryData[$country]
+            : null;
         }
 
     public function setDefaultResponseFormat($format)
@@ -249,15 +269,7 @@ class SimilarWeb
             {
             throw new \InvalidArgumentException(sprintf('Invalid format: %s!', $format));
             }
-        $validCalls = array(
-            'GlobalRank',
-            'CountryRank',
-            'CategoryRank',
-            'Tags',
-            'SimilarSites',
-            'Category',
-            );
-        if(!in_array($call, $validCalls))
+        if(!in_array($call, $this->validCalls))
             {
             throw new \InvalidArgumentException(sprintf('Invalid call: %s!', $call));
             }
@@ -301,13 +313,17 @@ class SimilarWeb
         return array($responseCode, $result);
         }
 
-    protected function loadCountryData($file = 'iso3166.csv', $forceReload = false)
+    public function loadCountryData($file = null, $forceReload = false)
         {
-        if(is_array($this->countryData) && !$forceReload)
+        if(is_array($this->countryData) && count($this->countryData) && !$forceReload)
             {
             return;
             }
-        $lines = @file($file);
+        if(null === $file)
+            {
+            $file = __DIR__.'/iso3166.csv';
+            }
+        $lines = file($file);
         $countries = array();
         $regexp = '/^([A-Z]{2})\s([A-Z]{2})\s([A-Z]{3}|null)\s([0-9]{1,3}|null)\s([^\n]+)$/';
         if($lines)
@@ -317,7 +333,13 @@ class SimilarWeb
                 $preg = preg_match_all($regexp, $line, $matches, PREG_SET_ORDER);
                 if(false !== $preg && isset($matches[0]) && 6 == count($matches[0]))
                     {
-                    $countries[intval($matches[0][4])] = $matches;
+                    $countries[intval($matches[0][4])] = array(
+                        'continent' => $matches[0][1],
+                        'twoLetter' => $matches[0][2],
+                        'threeLetter' => $matches[0][3],
+                        'numeric' => $matches[0][4],
+                        'name' => $matches[0][5],
+                        );
                     }
                 }
             }

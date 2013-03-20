@@ -665,4 +665,37 @@ EOT
         $actualResult = $reflectionMethod->invokeArgs($sw, $args);
         $this->assertEquals($result, $actualResult);
         }
+
+    public function testCountryData()
+        {
+        $sw = new SimilarWeb('da39a3ee5e6b4b0d3255bfef95601890');
+        $data = $sw->getCountryData(616);
+        $this->assertEquals(array(
+            'continent' => 'EU',
+            'twoLetter' => 'PL',
+            'threeLetter' => 'POL',
+            'numeric' => 616,
+            'name' => 'Poland, Republic of'
+            ), $data);
+        $this->assertEquals($sw->getCountryData(null), $sw->getCountryData(null));
+        }
+
+    public function testInvalidCall()
+        {
+        $sw = new SimilarWeb('da39a3ee5e6b4b0d3255bfef95601890');
+        $this->setExpectedException('RuntimeException');
+        $swMock = $this->getMock('Thunder\Api\SimilarWeb\SimilarWeb', array('executeCurlRequest'), array(
+            'userKey' => 'da39a3ee5e6b4b0d3255bfef95601890',
+            ));
+        $swMock
+            ->expects($this->once())
+            ->method('executeCurlRequest')
+            ->with($swMock->getUrlTarget('Invalid', 'google.pl', 'JSON'))
+            ->will($this->returnValue(array(200, '')));
+        $reflectionObject = new \ReflectionObject($swMock);
+        $reflectionProperty = $reflectionObject->getProperty('validCalls');
+        $reflectionProperty->setAccessible(true);
+        $reflectionProperty->setValue($swMock, array('Invalid'));
+        $swMock->api('Invalid', 'google.pl');
+        }
     }
