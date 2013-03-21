@@ -73,22 +73,22 @@ class SimilarWebTest extends \PHPUnit_Framework_TestCase
         /* -- GLOBAL RANK --------------------------------------------------- */
         /* ------------------------------------------------------------------ */
 
-        return array(
-            array('GlobalRank', 'JSON', 'google.pl', 388, array(200, <<<EOT
+        return array( /* #0 */
+            array('GlobalRank', 'JSON', 'google.pl', 388, null, array(200, <<<EOT
 {"Rank":388}
 EOT
                 )),
-            array('GlobalRank', 'JSON', 'invalid', -1, array(404, <<<EOT
+            array('GlobalRank', 'JSON', 'invalid', 'exception', 'RuntimeException', array(404, <<<EOT
 {"Message":"Data Not Found"}
 EOT
                 )),
-            array('GlobalRank', 'XML', 'google.pl', 388, array(200, <<<EOT
+            array('GlobalRank', 'XML', 'google.pl', 388, null, array(200, <<<EOT
 <GlobalRankResponse xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
     <Rank>388</Rank>
 </GlobalRankResponse>
 EOT
                 )),
-            array('GlobalRank', 'XML', 'invalid', -1, array(404, <<<EOT
+            array('GlobalRank', 'XML', 'invalid', 'exception', 'RuntimeException', array(404, <<<EOT
 <Error>
     <Message>Data Not Found</Message>
 </Error>
@@ -101,6 +101,7 @@ EOT
 
             array('CountryRank', 'JSON', 'google.pl',
                 array(616 => 1, 826 => 22, 276 => 69, 528 => 54, 840 => 1480),
+                null,
                 array(200, <<<EOT
 {
  "TopCountryRanks": [
@@ -128,12 +129,13 @@ EOT
 }
 EOT
                 )),
-            array('CountryRank', 'JSON', 'invalid', array(), array(200, <<<EOT
+            array('CountryRank', 'JSON', 'invalid', array(), null, array(200, <<<EOT
 {"TopCountryRanks":[]}
 EOT
                 )),
             array('CountryRank', 'XML',  'google.pl',
                 array(616 => 1, 826 => 22, 276 => 69, 528 => 54, 840 => 1480),
+                null,
                 array(200, <<<EOT
 <CountryRankResponse xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
     <TopCountryRanks>
@@ -161,13 +163,13 @@ EOT
 </CountryRankResponse>
 EOT
                 )),
-            array('CountryRank', 'XML',  'invalid', array(), array(200, <<<EOT
+            array('CountryRank', 'XML',  'invalid', array(), null, array(200, <<<EOT
 <CountryRankResponse xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
     <TopCountryRanks />
 </CountryRankResponse>
 EOT
                 )),
-            array('CountryRank', 'XML',  'invalid', -1, array(404, '')),
+            array('CountryRank', 'XML',  'invalid', 'exception', 'RuntimeException', array(404, '')),
 
         /* ------------------------------------------------------------------ */
         /* -- CATEGORY RANK ------------------------------------------------- */
@@ -178,14 +180,15 @@ EOT
                     'name' => 'Internet_and_Telecom/Search_Engine',
                     'rank' => 20,
                     ),
-                array(200, <<<EOT
+                null,
+            array(200, <<<EOT
 {
  "Category": "Internet_and_Telecom/Search_Engine",
  "CategoryRank": 20
 }
 EOT
                 )),
-            array('CategoryRank', 'JSON', 'invalid', -1, array(200, <<<EOT
+            array('CategoryRank', 'JSON', 'invalid', -1, null, array(200, <<<EOT
 {"Category":"","CategoryRank":0}
 EOT
                 )),
@@ -194,6 +197,7 @@ EOT
                     'name' => 'Internet_and_Telecom/Search_Engine',
                     'rank' => 20,
                     ),
+                null,
                 array(200, <<<EOT
 <CategoryRankResponse xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
     <Category>Internet_and_Telecom/Search_Engine</Category>
@@ -201,14 +205,14 @@ EOT
 </CategoryRankResponse>
 EOT
                 )),
-            array('CategoryRank', 'XML',  'invalid', -1, array(200, <<<EOT
+            array('CategoryRank', 'XML',  'invalid', -1, null, array(200, <<<EOT
 <CategoryRankResponse xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
     <Category/>
     <CategoryRank>0</CategoryRank>
 </CategoryRankResponse>
 EOT
                 )),
-            array('CategoryRank', 'XML',  'invalid', -1, array(404, '')),
+            array('CategoryRank', 'XML',  'invalid', 'exception', 'RuntimeException', array(404, '')),
 
         /* ------------------------------------------------------------------ */
         /* -- WEBSITE TAGS -------------------------------------------------- */
@@ -227,6 +231,7 @@ EOT
                     'wyszukiwanie' => 0.0970751723399089,
                     'z internet explorer' => 0.0889742436821045,
                     ),
+                null,
                 array(200, <<<EOT
 {
  "Tags": [
@@ -274,7 +279,7 @@ EOT
 }
 EOT
                 )),
-            array('Tags', 'JSON', 'invalid', array(), array(200, <<<EOT
+            array('Tags', 'JSON', 'invalid', array(), null, array(200, <<<EOT
 {"Tags":[]}
 EOT
                 )),
@@ -291,6 +296,7 @@ EOT
                     'wyszukiwanie' => 0.0970751723399089,
                     'z internet explorer' => 0.0889742436821045,
                     ),
+                null,
                 array(200, <<<EOT
 <TagsResponse xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
     <Tags>
@@ -338,13 +344,13 @@ EOT
 </TagsResponse>
 EOT
                 )),
-            array('Tags', 'XML', 'invalid', array(), array(200, <<<EOT
+            array('Tags', 'XML', 'invalid', array(), null, array(200, <<<EOT
 <TagsResponse xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
     <Tags/>
 </TagsResponse>
 EOT
                 )),
-            array('Tags', 'XML', 'invalid', -1, array(404, '')),
+            array('Tags', 'XML', 'invalid', 'exception', 'RuntimeException', array(404, '')),
 
         /* ------------------------------------------------------------------ */
         /* -- SIMILAR SITES ------------------------------------------------ */
@@ -373,6 +379,7 @@ EOT
                     'zumi.pl' => 0.36051490096293,
                     'tlen.pl' => 0.36048139871828,
                     ),
+                null,
                 array(200, <<<EOT
 {
  "SimilarSites": [
@@ -460,7 +467,7 @@ EOT
 }
 EOT
                 )),
-            array('SimilarSites', 'JSON', 'invalid', array(), array(200, <<<EOT
+            array('SimilarSites', 'JSON', 'invalid', array(), null, array(200, <<<EOT
 {"SimilarSites":[]}
 EOT
                 )),
@@ -487,6 +494,7 @@ EOT
                     'zumi.pl' => 0.36051490096293,
                     'tlen.pl' => 0.36048139871828,
                     ),
+                null,
                 array(200, <<<EOT
 <SimilarSitesResponse xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
     <SimilarSites>
@@ -574,44 +582,44 @@ EOT
 </SimilarSitesResponse>
 EOT
                 )),
-            array('SimilarSites', 'XML',  'invalid', array(), array(200, <<<EOT
+            array('SimilarSites', 'XML',  'invalid', array(), null, array(200, <<<EOT
 <CategoryRankResponse xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
     <Category/>
     <CategoryRank>0</CategoryRank>
 </CategoryRankResponse>
 EOT
                 )),
-            array('SimilarSites', 'XML',  'invalid', -1, array(404, '')),
+            array('SimilarSites', 'XML',  'invalid', 'exception', 'RuntimeException', array(404, '')),
 
         /* ------------------------------------------------------------------ */
         /* -- CATEGORY ------------------------------------------------------ */
         /* ------------------------------------------------------------------ */
 
-            array('Category', 'JSON', 'google.pl', 'Internet_and_Telecom/Search_Engine',
+            array('Category', 'JSON', 'google.pl', 'Internet_and_Telecom/Search_Engine', null,
                 array(200, <<<EOT
 {
  "Category": "Internet_and_Telecom/Search_Engine"
 }
 EOT
                 )),
-            array('Category', 'JSON', 'invalid', '', array(200, <<<EOT
+            array('Category', 'JSON', 'invalid', '', null, array(200, <<<EOT
 {"Category":""}
 EOT
             )),
-            array('Category', 'XML',  'google.pl', 'Internet_and_Telecom/Search_Engine',
+            array('Category', 'XML',  'google.pl', 'Internet_and_Telecom/Search_Engine', null,
                 array(200, <<<EOT
 <CategoryResponse xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
     <Category>Internet_and_Telecom/Search_Engine</Category>
 </CategoryResponse>
 EOT
                 )),
-            array('Category', 'XML',  'invalid', '', array(200, <<<EOT
+            array('Category', 'XML',  'invalid', '', null, array(200, <<<EOT
 <CategoryResponse xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
     <Category/>
 </CategoryResponse>
 EOT
             )),
-            array('Category', 'XML',  'invalid', -1, array(404, '')),
+            array('Category', 'XML',  'invalid', 'exception', 'RuntimeException', array(404, '')),
 
             );
         }
@@ -619,7 +627,7 @@ EOT
     /**
      * @dataProvider apiCallsProvider
      */
-    public function testGlobalRankApiCall($call, $format, $domain, $result, $payload)
+    public function testApiCalls($call, $format, $domain, $result, $exception, $payload)
         {
         $swMock = $this->getMock('Thunder\Api\SimilarWeb\SimilarWeb', array('executeCurlRequest'), array(
             'userKey' => 'da39a3ee5e6b4b0d3255bfef95601890',
@@ -629,8 +637,15 @@ EOT
             ->method('executeCurlRequest')
             ->with($swMock->getUrlTarget($call, $domain, $format))
             ->will($this->returnValue($payload));
+        if('exception' == $result)
+            {
+            $this->setExpectedException($exception);
+            }
         $actualResult = $swMock->api($call, $domain, $format);
-        $this->assertEquals($result, $actualResult);
+        if('exception' != $result)
+            {
+            $this->assertEquals($result, $actualResult);
+            }
         }
 
     public function invalidCallsProvider()
@@ -643,7 +658,7 @@ EOT
             array('parseSimilarSitesResponse', array('response', 'INV'), '', 'InvalidArgumentException'),
             array('parseCategoryResponse', array('response', 'INV'), '', 'InvalidArgumentException'),
 
-            array('api', array('GlobalRank', 'invalid', null), -1, null),
+            array('api', array('GlobalRank', 'invalid', null), '', 'RuntimeException'),
             array('api', array('GlobalRank', 'google.pl', 'INV'), '', 'InvalidArgumentException'),
             array('api', array('Invalid', 'google.pl', 'JSON'), '', 'InvalidArgumentException'),
             );
