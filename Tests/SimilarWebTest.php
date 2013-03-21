@@ -690,7 +690,7 @@ EOT
             'twoLetter' => 'PL',
             'threeLetter' => 'POL',
             'numeric' => 616,
-            'name' => 'Poland, Republic of'
+            'name' => 'Poland, Republic of',
             ), $data);
         $this->assertEquals($sw->getCountryData(null), $sw->getCountryData(null));
         }

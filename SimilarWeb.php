@@ -1,6 +1,11 @@
 <?php
 namespace Thunder\Api\SimilarWeb;
 
+/**
+ * SimilarWeb API class
+ *
+ * @author Tomasz Kowalczyk <tomasz@kowalczyk.cc>
+ */
 class SimilarWeb
     {
     protected $userKey;
@@ -69,6 +74,14 @@ class SimilarWeb
         $this->resultCache = array();
         }
 
+    /**
+     * Get API endpoint URL address
+     *
+     * @param string $call API call name
+     * @param string $url Domain name
+     * @param string $format Response format
+     * @return string API endpoint URL address
+     */
     public function getUrlTarget($call, $url, $format)
         {
         return 'http://api.similarweb.com/Site/'.$url.'/'.$call.'?Format='.$format.'&UserKey='.$this->userKey;
@@ -126,16 +139,34 @@ class SimilarWeb
             }
         }
 
+    /**
+     * Check if given format is supported by API and / or this client library
+     *
+     * @param string $format Format name
+     * @return bool Support status
+     */
     protected function isSupportedFormat($format)
         {
-        return in_array($format, $this->supportedFormats);
+        return in_array(strtoupper($format), $this->supportedFormats);
         }
 
+    /**
+     * Simple check if given API User Key is valid
+     *
+     * @param string $userKey User key
+     * @return bool Validation status
+     */
     protected function isValidUserKey($userKey)
         {
         return (bool)preg_match('/^[a-z0-9]{32}$/', $userKey);
         }
 
+    /**
+     * Wrapper for cURL requests to API endpoints
+     *
+     * @param string $url Target URL
+     * @return array Result (integer status code, string result)
+     */
     protected function executeCurlRequest($url)
         {
         $ch = curl_init($url);
@@ -145,6 +176,12 @@ class SimilarWeb
         return array($responseCode, $result);
         }
 
+    /**
+     * Load countries data from file provided by library or your own
+     *
+     * @param string $file Path to country data file
+     * @param bool $forceReload Force reload contents if already loaded
+     */
     public function loadCountryData($file = null, $forceReload = false)
         {
         if(is_array($this->countryData) && count($this->countryData) && !$forceReload)
@@ -182,25 +219,41 @@ class SimilarWeb
     /* --- PARSING RESPONSES ------------------------------------------------ */
     /* ---------------------------------------------------------------------- */
 
-    protected function parseGlobalRankResponse($result, $format = null)
+    /**
+     * Parse GlobalRank response returning rank position number
+     *
+     * @param array|\SimpleXMLElement $response Response data
+     * @param string $format Response format
+     * @return int domain GlobalRank value
+     * @throws \InvalidArgumentException when format is not supported
+     */
+    protected function parseGlobalRankResponse($response, $format)
         {
         if('JSON' == $format)
             {
-            return $result['Rank'];
+            return intval($response['Rank']);
             }
         else if('XML' == $format)
             {
-            return intval($result->Rank[0]);
+            return intval($response->Rank[0]);
             }
         throw new \InvalidArgumentException(sprintf('Invalid format: %s!', $format));
         }
 
-    protected function parseCountryRankResponse($result, $format)
+    /**
+     * Parse CountryRank response returning list of positions for countries
+     *
+     * @param array|\SimpleXMLElement $response Response data
+     * @param string $format Response format
+     * @return array List of CountryRank positions
+     * @throws \InvalidArgumentException When format is not supported
+     */
+    protected function parseCountryRankResponse($response, $format)
         {
         $return = array();
         if('JSON' == $format)
             {
-            foreach($result['TopCountryRanks'] as $country)
+            foreach($response['TopCountryRanks'] as $country)
                 {
                 $return[$country['Code']] = $country['Rank'];
                 }
@@ -208,28 +261,36 @@ class SimilarWeb
             }
         else if('XML' == $format)
             {
-            if(!isset($result->TopCountryRanks[0]->CountryRank))
+            if(!isset($response->TopCountryRanks[0]->CountryRank))
                 {
                 return array();
                 }
-            $items = count($result->TopCountryRanks->CountryRank);
+            $items = count($response->TopCountryRanks->CountryRank);
             for($i = 0; $i < $items; $i++)
                 {
-                $return[intval($result->TopCountryRanks->CountryRank[$i]->Code)] = intval($result->TopCountryRanks->CountryRank[$i]->Rank);
+                $return[intval($response->TopCountryRanks->CountryRank[$i]->Code)] = intval($response->TopCountryRanks->CountryRank[$i]->Rank);
                 }
             return $return;
             }
         throw new \InvalidArgumentException(sprintf('Invalid format: %s!', $format));
         }
 
-    protected function parseCategoryRankResponse($result, $format = null)
+    /**
+     * Parse CategoryRank response returning rank number and category
+     *
+     * @param array|\SimpleXMLElement $response Response data
+     * @param string $format Response format
+     * @return array Category name and rank
+     * @throws \InvalidArgumentException When format is not supported
+     */
+    protected function parseCategoryRankResponse($response, $format)
         {
         if('JSON' == $format)
             {
             $return = array(
-                'name' => $result['Category'],
-                'rank' => intval($result['CategoryRank']),
-            );
+                'name' => $response['Category'],
+                'rank' => intval($response['CategoryRank']),
+                );
             if(!$return['name'] && !$return['rank'])
                 {
                 return -1;
@@ -239,8 +300,8 @@ class SimilarWeb
         else if('XML' == $format)
             {
             $return = array(
-                'name' => $result->Category[0],
-                'rank' => intval($result->CategoryRank[0]),
+                'name' => $response->Category[0],
+                'rank' => intval($response->CategoryRank[0]),
                 );
             if(!$return['name'] && !$return['rank'])
                 {
@@ -251,12 +312,12 @@ class SimilarWeb
         throw new \InvalidArgumentException(sprintf('Invalid format: %s!', $format));
         }
 
-    protected function parseTagsResponse($result, $format = null)
+    protected function parseTagsResponse($response, $format)
         {
         $return = array();
         if('JSON' == $format)
             {
-            foreach($result['Tags'] as $country)
+            foreach($response['Tags'] as $country)
                 {
                 $return[$country['Name']] = $country['Score'];
                 }
@@ -264,26 +325,26 @@ class SimilarWeb
             }
         else if('XML' == $format)
             {
-            if(!isset($result->Tags[0]->Tag))
+            if(!isset($response->Tags[0]->Tag))
                 {
                 return array();
                 }
-            $items = count($result->Tags->Tag);
+            $items = count($response->Tags->Tag);
             for($i = 0; $i < $items; $i++)
                 {
-                $return[strip_tags($result->Tags->Tag[$i]->Name->asXml())] = floatval($result->Tags->Tag[$i]->Score);
+                $return[strip_tags($response->Tags->Tag[$i]->Name->asXml())] = floatval($response->Tags->Tag[$i]->Score);
                 }
             return $return;
             }
         throw new \InvalidArgumentException(sprintf('Invalid format: %s!', $format));
         }
 
-    protected function parseSimilarSitesResponse($result, $format)
+    protected function parseSimilarSitesResponse($response, $format)
         {
         $return = array();
         if('JSON' == $format)
             {
-            foreach($result['SimilarSites'] as $country)
+            foreach($response['SimilarSites'] as $country)
                 {
                 $return[$country['Url']] = $country['Score'];
                 }
@@ -291,30 +352,30 @@ class SimilarWeb
             }
         else if('XML' == $format)
             {
-            if(!isset($result->SimilarSites[0]->SimilarSite))
+            if(!isset($response->SimilarSites[0]->SimilarSite))
                 {
                 return array();
                 }
-            $items = count($result->SimilarSites->SimilarSite);
+            $items = count($response->SimilarSites->SimilarSite);
             for($i = 0; $i < $items; $i++)
                 {
-                $return[strip_tags($result->SimilarSites->SimilarSite[$i]->Url->asXml())]
-                    = floatval($result->SimilarSites->SimilarSite[$i]->Score);
+                $return[strip_tags($response->SimilarSites->SimilarSite[$i]->Url->asXml())]
+                    = floatval($response->SimilarSites->SimilarSite[$i]->Score);
                 }
             return $return;
             }
         throw new \InvalidArgumentException(sprintf('Invalid format: %s!', $format));
         }
 
-    protected function parseCategoryResponse($result, $format)
+    protected function parseCategoryResponse($response, $format)
         {
         if('JSON' == $format)
             {
-            return $result['Category'];
+            return $response['Category'];
             }
         else if('XML' == $format)
             {
-            return $result->Category[0];
+            return $response->Category[0];
             }
         throw new \InvalidArgumentException(sprintf('Invalid format: %s!', $format));
         }
