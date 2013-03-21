@@ -638,6 +638,7 @@ EOT
         {
         $swMock = $this->getMock('Thunder\Api\SimilarWeb\SimilarWeb', array('executeCurlRequest'), array(
             'userKey' => 'da39a3ee5e6b4b0d3255bfef95601890',
+            'format' => $format,
             ));
         $swMock
             ->expects($this->once())
@@ -666,7 +667,7 @@ EOT
             array('parseCategoryResponse', array('response', 'INV'), '', 'InvalidArgumentException'),
 
             array('api', array('GlobalRank', 'invalid', null), '', 'RuntimeException'),
-            array('api', array('GlobalRank', 'google.pl', 'INV'), '', 'InvalidArgumentException'),
+            array('api', array('GlobalRank', 'google.pl', 'INV'), '', 'RuntimeException'),
             array('api', array('Invalid', 'google.pl', 'JSON'), '', 'InvalidArgumentException'),
             );
         }
@@ -676,7 +677,7 @@ EOT
      */
     public function testForCoverage($method, array $args, $result, $exception = null)
         {
-        $sw = new SimilarWeb('da39a3ee5e6b4b0d3255bfef95601890');
+        $sw = new SimilarWeb('da39a3ee5e6b4b0d3255bfef95601890', 'JSON');
         if(null !== $exception)
             {
             $this->setExpectedException($exception);

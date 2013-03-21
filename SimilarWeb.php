@@ -38,7 +38,7 @@ class SimilarWeb
             }
         $this->userKey = $userKey;
 
-        if(!$this->isSupportedFormat($format))
+        if(!in_array(strtoupper($format), $this->supportedFormats))
             {
             throw new \InvalidArgumentException(sprintf('Unsupported response format: %s. Accepted formats are: %s.', $format, implode(',', $this->supportedFormats)));
             }
@@ -85,35 +85,26 @@ class SimilarWeb
      *
      * @param string $call API call name
      * @param string $url Domain name
-     * @param string|null $format Request format, default used if none present
      * @return string|array Depends on specific API call
      * @throws \RuntimeException When request or parsing response failed
      * @throws \InvalidArgumentException When invalid or unsupported call or format is given
      */
-    public function api($call, $url, $format = null)
+    public function api($call, $url)
         {
-        if(null === $format)
-            {
-            $format = $this->format;
-            }
-        if(!$this->isSupportedFormat($format))
-            {
-            throw new \InvalidArgumentException(sprintf('Invalid format: %s!', $format));
-            }
         if(!in_array($call, $this->validCalls))
             {
             throw new \InvalidArgumentException(sprintf('Invalid call: %s!', $call));
             }
-        $result = $this->executeCurlRequest($this->getUrlTarget($call, $url, $format));
+        $result = $this->executeCurlRequest($this->getUrlTarget($call, $url, $this->format));
         if(200 != $result[0])
             {
-            throw new \RuntimeException(sprintf('API request failed with code %s!', $result[0]));
+            throw new \RuntimeException(sprintf('API request failed with code %s, response: "%s".', $result[0], $result[1]));
             }
         $method = 'parse'.$call.'Response';
         if(method_exists($this, $method))
             {
             $process = '';
-            if('JSON' == $format)
+            if('JSON' == $this->format)
                 {
                 $process = json_decode($result[1], true);
                 if(null === $process)
@@ -121,7 +112,7 @@ class SimilarWeb
                     throw new \RuntimeException(sprintf('Failed to decode JSON response: %s!', $result[1]));
                     }
                 }
-            else if('XML' == $format)
+            else if('XML' == $this->format)
                 {
                 $process = simplexml_load_string($result[1]);
                 if(false === $process)
@@ -131,26 +122,15 @@ class SimilarWeb
                 }
             return call_user_func_array(array($this, $method), array(
                 'result' => $process,
-                'format' => $format,
+                'format' => $this->format,
                 ));
             }
         else
             {
             throw new \RuntimeException(sprintf(
                 'Invalid API call: %s for URL %s with format %s!',
-                $call, $url, $format));
+                $call, $url, $this->format));
             }
-        }
-
-    /**
-     * Check if given format is supported by API and / or this client library
-     *
-     * @param string $format Format name
-     * @return bool Support status
-     */
-    protected function isSupportedFormat($format)
-        {
-        return in_array(strtoupper($format), $this->supportedFormats);
         }
 
     /**
