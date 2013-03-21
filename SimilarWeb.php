@@ -123,7 +123,7 @@ class SimilarWeb
         {
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        $result = null; // curl_exec($ch);
+        $result = curl_exec($ch);
         $responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         return array($responseCode, $result);
         }
