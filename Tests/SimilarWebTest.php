@@ -627,7 +627,9 @@ EOT
 EOT
             )),
             array('Category', 'XML',  'invalid', 'exception', 'RuntimeException', array(404, '')),
+
             array('Category', 'XML',  'invalid', 'exception', 'RuntimeException', array(200, 'xxx')),
+            array('Category', 'JSON',  'invalid', 'exception', 'RuntimeException', array(200, '}{')),
 
             );
         }
