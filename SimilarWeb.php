@@ -107,18 +107,15 @@ class SimilarWeb
             if('JSON' == $this->format)
                 {
                 $process = json_decode($result[1], true);
-                if(null === $process)
-                    {
-                    throw new \RuntimeException(sprintf('Failed to decode JSON response: %s!', $result[1]));
-                    }
                 }
             else if('XML' == $this->format)
                 {
+                libxml_use_internal_errors(true);
                 $process = simplexml_load_string($result[1]);
-                if(false === $process)
-                    {
-                    throw new \RuntimeException(sprintf('Failed to decode XML response: %s!', $result[1]));
-                    }
+                }
+            if(!$process)
+                {
+                throw new \RuntimeException(sprintf('Failed to decode %s response: %s!', $this->format, $result[1]));
                 }
             return call_user_func_array(array($this, $method), array(
                 'result' => $process,
