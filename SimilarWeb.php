@@ -69,191 +69,6 @@ class SimilarWeb
         $this->resultCache = array();
         }
 
-    protected function getGlobalRank($result, $format = null)
-        {
-        switch($format)
-            {
-            case 'JSON':
-                {
-                $json = json_decode($result[1], true);
-                return $json['Rank'];
-                }
-            case 'XML':
-                {
-                $data = simplexml_load_string($result[1]);
-                return intval($data->Rank[0]);
-                }
-            default:
-                {
-                throw new \InvalidArgumentException(sprintf('Invalid format: %s!', $format));
-                }
-            }
-        }
-
-    protected function getCountryRank($result, $format)
-        {
-        $return = array();
-        switch($format)
-            {
-            case 'JSON':
-                {
-                $json = json_decode($result[1], true);
-                foreach($json['TopCountryRanks'] as $country)
-                    {
-                    $return[$country['Code']] = $country['Rank'];
-                    }
-                return $return;
-                }
-            case 'XML':
-                {
-                $data = simplexml_load_string($result[1]);
-                if(!isset($data->TopCountryRanks[0]->CountryRank))
-                    {
-                    return array();
-                    }
-                $items = count($data->TopCountryRanks->CountryRank);
-                for($i = 0; $i < $items; $i++)
-                    {
-                    $return[intval($data->TopCountryRanks->CountryRank[$i]->Code)] = intval($data->TopCountryRanks->CountryRank[$i]->Rank);
-                    }
-                return $return;
-                }
-            default:
-                {
-                throw new \InvalidArgumentException(sprintf('Invalid format: %s!', $format));
-                }
-            }
-        }
-
-    protected function getCategoryRank($result, $format = null)
-        {
-        switch($format)
-            {
-            case 'JSON':
-                {
-                $json = json_decode($result[1], true);
-                $return = array(
-                    'name' => $json['Category'],
-                    'rank' => intval($json['CategoryRank']),
-                    );
-                if(!$return['name'] && !$return['rank'])
-                    {
-                    return -1;
-                    }
-                return $return;
-                }
-            case 'XML':
-                {
-                $data = simplexml_load_string($result[1]);
-                $return = array(
-                    'name' => $data->Category[0],
-                    'rank' => intval($data->CategoryRank[0]),
-                    );
-                if(!$return['name'] && !$return['rank'])
-                    {
-                    return -1;
-                    }
-                return $return;
-                }
-            default:
-                {
-                throw new \InvalidArgumentException(sprintf('Invalid format: %s!', $format));
-                }
-            }
-        }
-
-    protected function getTags($result, $format = null)
-        {
-        $return = array();
-        switch($format)
-            {
-            case 'JSON':
-                {
-                $json = json_decode($result[1], true);
-                foreach($json['Tags'] as $country)
-                    {
-                    $return[$country['Name']] = $country['Score'];
-                    }
-                return $return;
-                }
-            case 'XML':
-                {
-                $data = simplexml_load_string($result[1]);
-                if(!isset($data->Tags[0]->Tag))
-                    {
-                    return array();
-                    }
-                $items = count($data->Tags->Tag);
-                for($i = 0; $i < $items; $i++)
-                    {
-                    $return[strip_tags($data->Tags->Tag[$i]->Name->asXml())] = floatval($data->Tags->Tag[$i]->Score);
-                    }
-                return $return;
-                }
-            default:
-                {
-                throw new \InvalidArgumentException(sprintf('Invalid format: %s!', $format));
-                }
-            }
-        }
-
-    protected function getSimilarSites($result, $format = null)
-        {
-        $return = array();
-        switch($format)
-            {
-            case 'JSON':
-                {
-                $json = json_decode($result[1], true);
-                foreach($json['SimilarSites'] as $country)
-                    {
-                    $return[$country['Url']] = $country['Score'];
-                    }
-                return $return;
-                }
-            case 'XML':
-                {
-                $data = simplexml_load_string($result[1]);
-                if(!isset($data->SimilarSites[0]->SimilarSite))
-                    {
-                    return array();
-                    }
-                $items = count($data->SimilarSites->SimilarSite);
-                for($i = 0; $i < $items; $i++)
-                    {
-                    $return[strip_tags($data->SimilarSites->SimilarSite[$i]->Url->asXml())]
-                        = floatval($data->SimilarSites->SimilarSite[$i]->Score);
-                    }
-                return $return;
-                }
-            default:
-                {
-                throw new \InvalidArgumentException(sprintf('Invalid format: %s!', $format));
-                }
-            }
-        }
-
-    protected function getCategory($result, $format = null)
-        {
-        switch($format)
-            {
-            case 'JSON':
-                {
-                $json = json_decode($result[1], true);
-                return $json['Category'];
-                }
-            case 'XML':
-                {
-                $data = simplexml_load_string($result[1]);
-                return $data->Category[0];
-                }
-            default:
-                {
-                throw new \InvalidArgumentException(sprintf('Invalid format: %s!', $format));
-                }
-            }
-        }
-
     public function getUrlTarget($call, $url, $format)
         {
         return 'http://api.similarweb.com/Site/'.$url.'/'.$call.'?Format='.$format.'&UserKey='.$this->userKey;
@@ -278,7 +93,7 @@ class SimilarWeb
             {
             return -1;
             }
-        $method = 'get'.$call;
+        $method = 'parse'.$call.'Response';
         if(method_exists($this, $method))
             {
             return call_user_func_array(array($this, $method), array(
@@ -344,5 +159,194 @@ class SimilarWeb
                 }
             }
         $this->countryData = $countries;
+        }
+
+    /* ---------------------------------------------------------------------- */
+    /* --- PARSING RESPONSES ------------------------------------------------ */
+    /* ---------------------------------------------------------------------- */
+
+    protected function parseGlobalRankResponse($result, $format = null)
+        {
+        switch($format)
+            {
+            case 'JSON':
+                {
+                $json = json_decode($result[1], true);
+                return $json['Rank'];
+                }
+            case 'XML':
+                {
+                $data = simplexml_load_string($result[1]);
+                return intval($data->Rank[0]);
+                }
+            default:
+                {
+                throw new \InvalidArgumentException(sprintf('Invalid format: %s!', $format));
+                }
+            }
+        }
+
+    protected function parseCountryRankResponse($result, $format)
+        {
+        $return = array();
+        switch($format)
+            {
+            case 'JSON':
+                {
+                $json = json_decode($result[1], true);
+                foreach($json['TopCountryRanks'] as $country)
+                    {
+                    $return[$country['Code']] = $country['Rank'];
+                    }
+                return $return;
+                }
+            case 'XML':
+                {
+                $data = simplexml_load_string($result[1]);
+                if(!isset($data->TopCountryRanks[0]->CountryRank))
+                    {
+                    return array();
+                    }
+                $items = count($data->TopCountryRanks->CountryRank);
+                for($i = 0; $i < $items; $i++)
+                    {
+                    $return[intval($data->TopCountryRanks->CountryRank[$i]->Code)] = intval($data->TopCountryRanks->CountryRank[$i]->Rank);
+                    }
+                return $return;
+                }
+            default:
+                {
+                throw new \InvalidArgumentException(sprintf('Invalid format: %s!', $format));
+                }
+            }
+        }
+
+    protected function parseCategoryRankResponse($result, $format = null)
+        {
+        switch($format)
+            {
+            case 'JSON':
+                {
+                $json = json_decode($result[1], true);
+                $return = array(
+                    'name' => $json['Category'],
+                    'rank' => intval($json['CategoryRank']),
+                );
+                if(!$return['name'] && !$return['rank'])
+                    {
+                    return -1;
+                    }
+                return $return;
+                }
+            case 'XML':
+                {
+                $data = simplexml_load_string($result[1]);
+                $return = array(
+                    'name' => $data->Category[0],
+                    'rank' => intval($data->CategoryRank[0]),
+                );
+                if(!$return['name'] && !$return['rank'])
+                    {
+                    return -1;
+                    }
+                return $return;
+                }
+            default:
+                {
+                throw new \InvalidArgumentException(sprintf('Invalid format: %s!', $format));
+                }
+            }
+        }
+
+    protected function parseTagsResponse($result, $format = null)
+        {
+        $return = array();
+        switch($format)
+            {
+            case 'JSON':
+                {
+                $json = json_decode($result[1], true);
+                foreach($json['Tags'] as $country)
+                    {
+                    $return[$country['Name']] = $country['Score'];
+                    }
+                return $return;
+                }
+            case 'XML':
+                {
+                $data = simplexml_load_string($result[1]);
+                if(!isset($data->Tags[0]->Tag))
+                    {
+                    return array();
+                    }
+                $items = count($data->Tags->Tag);
+                for($i = 0; $i < $items; $i++)
+                    {
+                    $return[strip_tags($data->Tags->Tag[$i]->Name->asXml())] = floatval($data->Tags->Tag[$i]->Score);
+                    }
+                return $return;
+                }
+            default:
+                {
+                throw new \InvalidArgumentException(sprintf('Invalid format: %s!', $format));
+                }
+            }
+        }
+
+    protected function parseSimilarSitesResponse($result, $format = null)
+        {
+        $return = array();
+        switch($format)
+            {
+            case 'JSON':
+                {
+                $json = json_decode($result[1], true);
+                foreach($json['SimilarSites'] as $country)
+                    {
+                    $return[$country['Url']] = $country['Score'];
+                    }
+                return $return;
+                }
+            case 'XML':
+                {
+                $data = simplexml_load_string($result[1]);
+                if(!isset($data->SimilarSites[0]->SimilarSite))
+                    {
+                    return array();
+                    }
+                $items = count($data->SimilarSites->SimilarSite);
+                for($i = 0; $i < $items; $i++)
+                    {
+                    $return[strip_tags($data->SimilarSites->SimilarSite[$i]->Url->asXml())]
+                        = floatval($data->SimilarSites->SimilarSite[$i]->Score);
+                    }
+                return $return;
+                }
+            default:
+                {
+                throw new \InvalidArgumentException(sprintf('Invalid format: %s!', $format));
+                }
+            }
+        }
+
+    protected function parseCategoryResponse($result, $format = null)
+        {
+        switch($format)
+            {
+            case 'JSON':
+                {
+                $json = json_decode($result[1], true);
+                return $json['Category'];
+                }
+            case 'XML':
+                {
+                $data = simplexml_load_string($result[1]);
+                return $data->Category[0];
+                }
+            default:
+                {
+                throw new \InvalidArgumentException(sprintf('Invalid format: %s!', $format));
+                }
+            }
         }
     }

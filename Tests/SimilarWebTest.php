@@ -636,12 +636,12 @@ EOT
     public function invalidCallsProvider()
         {
         return array(
-            array('getGlobalRank', array('response', 'INV'), '', 'InvalidArgumentException'),
-            array('getCountryRank', array('response', 'INV'), '', 'InvalidArgumentException'),
-            array('getCategoryRank', array('response', 'INV'), '', 'InvalidArgumentException'),
-            array('getTags', array('response', 'INV'), '', 'InvalidArgumentException'),
-            array('getSimilarSites', array('response', 'INV'), '', 'InvalidArgumentException'),
-            array('getCategory', array('response', 'INV'), '', 'InvalidArgumentException'),
+            array('parseGlobalRankResponse', array('response', 'INV'), '', 'InvalidArgumentException'),
+            array('parseCountryRankResponse', array('response', 'INV'), '', 'InvalidArgumentException'),
+            array('parseCategoryRankResponse', array('response', 'INV'), '', 'InvalidArgumentException'),
+            array('parseTagsResponse', array('response', 'INV'), '', 'InvalidArgumentException'),
+            array('parseSimilarSitesResponse', array('response', 'INV'), '', 'InvalidArgumentException'),
+            array('parseCategoryResponse', array('response', 'INV'), '', 'InvalidArgumentException'),
 
             array('api', array('GlobalRank', 'invalid', null), -1, null),
             array('api', array('GlobalRank', 'google.pl', 'INV'), '', 'InvalidArgumentException'),
@@ -682,8 +682,6 @@ EOT
 
     public function testInvalidCall()
         {
-        $sw = new SimilarWeb('da39a3ee5e6b4b0d3255bfef95601890');
-        $this->setExpectedException('RuntimeException');
         $swMock = $this->getMock('Thunder\Api\SimilarWeb\SimilarWeb', array('executeCurlRequest'), array(
             'userKey' => 'da39a3ee5e6b4b0d3255bfef95601890',
             ));
@@ -696,6 +694,7 @@ EOT
         $reflectionProperty = $reflectionObject->getProperty('validCalls');
         $reflectionProperty->setAccessible(true);
         $reflectionProperty->setValue($swMock, array('Invalid'));
+        $this->setExpectedException('RuntimeException');
         $swMock->api('Invalid', 'google.pl');
         }
     }
