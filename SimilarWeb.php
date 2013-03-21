@@ -9,7 +9,7 @@ namespace Thunder\Api\SimilarWeb;
 class SimilarWeb
     {
     protected $userKey;
-    protected $defaultResponseFormat;
+    protected $format;
     protected $resultCache;
     protected $supportedFormats = array('XML', 'JSON');
     protected $countryData = null;
@@ -21,28 +21,40 @@ class SimilarWeb
         'SimilarSites',
         'Category',
         );
-    
-    public function __construct($userKey, $defaultFormat = 'JSON')
-        {
-        $this->setUserKey($userKey);
-        $this->setDefaultResponseFormat($defaultFormat);
-        $this->clearResultCache();
-        }
 
-    public function setUserKey($userKey)
+    /**
+     * Initialize API client environment
+     *
+     * @param string $userKey API User Key
+     * @param string $format Response format
+     * @throws \InvalidArgumentException When either User Key or default format is invalid
+     */
+    public function __construct($userKey, $format = 'JSON')
         {
-        if(!$this->isValidUserKey($userKey))
+        $userKeyTest = '/^[a-z0-9]{32}$/';
+        if(!preg_match($userKeyTest, $userKey))
             {
-            throw new \RuntimeException(sprintf('Invalid user API key: %s!', $userKey));
+            throw new \InvalidArgumentException(sprintf('Invalid or empty user API key: %s. Key must conform to RegExp: %s (32 lowercase alphanumeric characters).', $userKey, $userKeyTest));
             }
         $this->userKey = $userKey;
+
+        if(!$this->isSupportedFormat($format))
+            {
+            throw new \InvalidArgumentException(sprintf('Unsupported response format: %s. Accepted formats are: %s.', $format, implode(',', $this->supportedFormats)));
+            }
+        $this->format = $format;
+
+        $this->resultCache = array();
         }
 
-    public function getUserKey()
-        {
-        return $this->userKey;
-        }
-
+    /**
+     * Helper method for getting country data (API requests return only country
+     * code) using integer ISO3166 numeric code. Returns array with all
+     * countries data when no country code specified
+     *
+     * @param int|null $country
+     * @return null
+     */
     public function getCountryData($country = null)
         {
         $this->loadCountryData();
@@ -53,25 +65,6 @@ class SimilarWeb
         return array_key_exists($country, $this->countryData)
             ? $this->countryData[$country]
             : null;
-        }
-
-    public function setDefaultResponseFormat($format)
-        {
-        if(!$this->isSupportedFormat($format))
-            {
-            throw new \RuntimeException(sprintf('Invalid default response format: %s!', $format));
-            }
-        $this->defaultResponseFormat = $format;
-        }
-
-    public function getDefaultResponseFormat()
-        {
-        return $this->defaultResponseFormat;
-        }
-
-    public function clearResultCache()
-        {
-        $this->resultCache = array();
         }
 
     /**
@@ -87,11 +80,21 @@ class SimilarWeb
         return 'http://api.similarweb.com/Site/'.$url.'/'.$call.'?Format='.$format.'&UserKey='.$this->userKey;
         }
 
+    /**
+     * Call API endpoint and return nicely formatted data
+     *
+     * @param string $call API call name
+     * @param string $url Domain name
+     * @param string|null $format Request format, default used if none present
+     * @return string|array Depends on specific API call
+     * @throws \RuntimeException When request or parsing response failed
+     * @throws \InvalidArgumentException When invalid or unsupported call or format is given
+     */
     public function api($call, $url, $format = null)
         {
         if(null === $format)
             {
-            $format = $this->defaultResponseFormat;
+            $format = $this->format;
             }
         if(!$this->isSupportedFormat($format))
             {
@@ -148,17 +151,6 @@ class SimilarWeb
     protected function isSupportedFormat($format)
         {
         return in_array(strtoupper($format), $this->supportedFormats);
-        }
-
-    /**
-     * Simple check if given API User Key is valid
-     *
-     * @param string $userKey User key
-     * @return bool Validation status
-     */
-    protected function isValidUserKey($userKey)
-        {
-        return (bool)preg_match('/^[a-z0-9]{32}$/', $userKey);
         }
 
     /**

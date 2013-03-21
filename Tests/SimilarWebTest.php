@@ -23,22 +23,29 @@ class SimilarWebTest extends \PHPUnit_Framework_TestCase
 
     public function testDefaultResponseFormatHandling()
         {
-        $sw = new SimilarWeb('da39a3ee5e6b4b0d3255bfef95601890');
-        $this->assertEquals('JSON', $sw->getDefaultResponseFormat());
-        $sw->setDefaultResponseFormat('XML');
-        $this->assertEquals('XML', $sw->getDefaultResponseFormat());
-        $this->setExpectedException('RuntimeException');
-        $sw->setDefaultResponseFormat('INVALID');
+        $testUserKey = 'da39a3ee5e6b4b0d3255bfef95601890';
+        $sw = new SimilarWeb($testUserKey);
+        $reflectionObject = new \ReflectionObject($sw);
+        $defaultFormat = $reflectionObject->getProperty('format');
+        $defaultFormat->setAccessible(true);
+        $this->assertEquals('JSON', $defaultFormat->getValue($sw));
+        $sw = new SimilarWeb($testUserKey, 'XML');
+        $this->assertEquals('XML', $defaultFormat->getValue($sw));
+        $this->setExpectedException('InvalidArgumentException');
+        $sw = new SimilarWeb($testUserKey, 'INVALID');
         }
 
     public function testUserKeyHandling()
         {
         $testUserKey = 'da39a3ee5e6b4b0d3255bfef95601890';
-        $sw = new SimilarWeb('da39a3ee5e6b4b0d3255bfef95601890');
-        $this->assertEquals($testUserKey, $sw->getUserKey());
+        $sw = new SimilarWeb($testUserKey);
+        $reflectionObject = new \ReflectionObject($sw);
+        $userKey = $reflectionObject->getProperty('userKey');
+        $userKey->setAccessible(true);
+        $this->assertEquals($testUserKey, $userKey->getValue($sw));
         $anotherUserKey = 'da39a3ee5e6b4b0d3255bfef95601891';
-        $sw->setUserKey($anotherUserKey);
-        $this->assertEquals($anotherUserKey, $sw->getUserKey());
+        $sw = new SimilarWeb($anotherUserKey);
+        $this->assertEquals($anotherUserKey, $userKey->getValue($sw));
         $userKeys = array(
             '',
             'random_invalid_sequence',
@@ -51,9 +58,9 @@ class SimilarWebTest extends \PHPUnit_Framework_TestCase
             $failed = false;
             try
                 {
-                $sw->setUserKey($key);
+                $sw = new SimilarWeb($key);
                 }
-            catch(\RuntimeException $e)
+            catch(\InvalidArgumentException $e)
                 {
                 $failed = true;
                 }
