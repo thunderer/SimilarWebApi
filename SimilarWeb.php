@@ -28,7 +28,7 @@ class SimilarWeb
      *
      * @var array
      */
-    protected $resultCache = array();
+    protected $cache = array();
 
     /**
      * Supported response formats
@@ -96,7 +96,7 @@ class SimilarWeb
             }
         $this->format = $format;
 
-        $this->resultCache = array();
+        $this->cache = array();
         }
 
     /**
@@ -145,64 +145,64 @@ class SimilarWeb
      */
     public function api($call, $url, $force = false)
         {
+        if(isset($this->cache[$call][$url]))
+            {
+            return $this->cache[$call][$url];
+            }
+
         $method = 'parse'.$call.'Response';
         if(!method_exists($this, $method))
             {
             throw new \RuntimeException(sprintf($this->messages['invalid_call'], $call, $url, $this->format));
             }
-        list($status, $response) = $this->executeCurlRequest($this->getUrlTarget($call, $url, $this->format));
+
+        list($status, $response) = $this->executeRequest($call, $url, $force);
         if(200 != $status)
             {
             throw new \RuntimeException(sprintf($this->messages['request_failed'], $status, $response));
             }
-        $process = $this->prepareResponse($response);
-        if(!$process)
-            {
-            throw new \RuntimeException(sprintf($this->messages['invalid_response'], $this->format, $response));
-            }
-        return call_user_func_array(array($this, $method), array(
-            'result' => $process,
-            'format' => $this->format,
-            ));
-        }
 
-    /**
-     * Performs basic response parsing to be accessible from code (array, XML
-     * object)
-     *
-     * @param string $response Raw API response
-     * @return mixed|\SimpleXMLElement Parsed response
-     * @throws \InvalidArgumentException When requested format is unsupported
-     */
-    protected function prepareResponse($response)
-        {
+        $process = false;
         if('JSON' == $this->format)
             {
             $process = json_decode($response, true);
-            return $process;
             }
         else if('XML' == $this->format)
             {
             libxml_use_internal_errors(true);
             $process = simplexml_load_string($response);
-            return $process;
             }
-        throw $this->createInvalidFormatException($this->format);
+        if(!$process)
+            {
+            throw new \RuntimeException(sprintf($this->messages['invalid_response'], $this->format, $response));
+            }
+
+        $response = call_user_func_array(array($this, $method), array(
+            'result' => $process,
+            'format' => $this->format,
+            ));
+        $this->cache[$call][$url] = $response;
+
+        return $response;
         }
 
     /**
      * Wrapper for cURL requests to API endpoints
      *
+     * @param string $call API call name
      * @param string $url Target URL
+     * @param bool $force Whether to allow cache or not
      * @return array Result (integer status code, string result)
      */
-    protected function executeCurlRequest($url)
+    protected function executeRequest($call, $url, $force = false)
         {
-        $ch = curl_init($url);
+        $urlTarget = $this->getUrlTarget($call, $url, $this->format);
+        $ch = curl_init($urlTarget);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $result = curl_exec($ch);
-        $responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        return array($responseCode, $result);
+        $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        return array($status, $result);
         }
 
     /**
@@ -221,28 +221,26 @@ class SimilarWeb
             {
             $file = __DIR__.'/iso3166.csv';
             }
-        $lines = file($file);
+        $lines = @file($file);
         $countries = array();
         $regexp = '/^([A-Z]{2})\s([A-Z]{2})\s([A-Z]{3}|null)\s([0-9]{1,3}|null)\s([^\n]+)$/';
         if(!$lines)
             {
-            $this->countryData = $countries;
             return;
             }
         foreach($lines as $line)
             {
             $preg = preg_match_all($regexp, $line, $matches, PREG_SET_ORDER);
-            if(!(false !== $preg && isset($matches[0]) && 6 == count($matches[0])))
+            if(false !== $preg && isset($matches[0]) && 6 == count($matches[0]))
                 {
-                continue;
+                $countries[intval($matches[0][4])] = array(
+                    'continent' => $matches[0][1],
+                    'twoLetter' => $matches[0][2],
+                    'threeLetter' => $matches[0][3],
+                    'numeric' => $matches[0][4],
+                    'name' => $matches[0][5],
+                    );
                 }
-            $countries[intval($matches[0][4])] = array(
-                'continent' => $matches[0][1],
-                'twoLetter' => $matches[0][2],
-                'threeLetter' => $matches[0][3],
-                'numeric' => $matches[0][4],
-                'name' => $matches[0][5],
-                );
             }
         $this->countryData = $countries;
         }

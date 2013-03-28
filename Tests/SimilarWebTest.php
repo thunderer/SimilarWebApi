@@ -240,7 +240,7 @@ class SimilarWebTest extends \PHPUnit_Framework_TestCase
      */
     public function testApiCalls($call, $format, $domain, $result, $exception, $payload)
         {
-        $swMock = $this->getMock('Thunder\Api\SimilarWeb\SimilarWeb', array('executeCurlRequest'), array(
+        $swMock = $this->getMock('Thunder\Api\SimilarWeb\SimilarWeb', array('executeRequest'), array(
             'userKey' => 'da39a3ee5e6b4b0d3255bfef95601890',
             'format' => $format,
             ));
@@ -249,16 +249,24 @@ class SimilarWebTest extends \PHPUnit_Framework_TestCase
             {
             $payload[1] = $contents;
             }
+
         $swMock
             ->expects($this->once())
-            ->method('executeCurlRequest')
-            ->with($swMock->getUrlTarget($call, $domain, $format))
+            ->method('executeRequest')
+            ->with($call, $domain, false)
             ->will($this->returnValue($payload));
+
         if('exception' == $result)
             {
             $this->setExpectedException($exception);
             }
-        $actualResult = $swMock->api($call, $domain, $format);
+        $actualResult = $swMock->api($call, $domain, false);
+        if('exception' != $result)
+            {
+            $this->assertEquals($result, $actualResult);
+            }
+
+        $actualResult = $swMock->api($call, $domain, false);
         if('exception' != $result)
             {
             $this->assertEquals($result, $actualResult);
@@ -310,25 +318,27 @@ class SimilarWebTest extends \PHPUnit_Framework_TestCase
             'name' => 'Poland, Republic of',
             ), $data);
         $this->assertEquals($sw->getCountryData(null), $sw->getCountryData(null));
+
+        $sw->loadCountryData('invalid', true);
         }
 
-    public function testInvalidFormat()
-        {
-        // $sw = new SimilarWeb('da39a3ee5e6b4b0d3255bfef95601890');
-        $swMock = $this->getMock('Thunder\Api\SimilarWeb\SimilarWeb', array('executeCurlRequest'), array(
-            'userKey' => 'da39a3ee5e6b4b0d3255bfef95601890',
-            'format' => 'JSON',
-            ));
-        $swMock
-            ->expects($this->once())
-            ->method('executeCurlRequest')
-            ->with($swMock->getUrlTarget('GlobalRank', 'google.pl', 'Invalid'))
-            ->will($this->returnValue(array(200, '')));
-        $reflectionObject = new \ReflectionObject($swMock);
-        $reflectionProperty = $reflectionObject->getProperty('format');
-        $reflectionProperty->setAccessible(true);
-        $reflectionProperty->setValue($swMock, 'Invalid');
-        $this->setExpectedException('InvalidArgumentException');
-        $swMock->api('GlobalRank', 'google.pl');
-        }
+//    public function testInvalidFormat()
+//        {
+//        // $sw = new SimilarWeb('da39a3ee5e6b4b0d3255bfef95601890');
+//        $swMock = $this->getMock('Thunder\Api\SimilarWeb\SimilarWeb', array('executeCurlRequest'), array(
+//            'userKey' => 'da39a3ee5e6b4b0d3255bfef95601890',
+//            'format' => 'JSON',
+//            ));
+//        $swMock
+//            ->expects($this->once())
+//            ->method('executeCurlRequest')
+//            ->with($swMock->getUrlTarget('GlobalRank', 'google.pl', 'Invalid'))
+//            ->will($this->returnValue(array(200, '')));
+//        $reflectionObject = new \ReflectionObject($swMock);
+//        $reflectionProperty = $reflectionObject->getProperty('format');
+//        $reflectionProperty->setAccessible(true);
+//        $reflectionProperty->setValue($swMock, 'Invalid');
+//        $this->setExpectedException('InvalidArgumentException');
+//        $swMock->api('GlobalRank', 'google.pl');
+//        }
     }
