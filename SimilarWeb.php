@@ -10,7 +10,7 @@ class SimilarWeb
     {
 
     /**
-     * SimilarWeb API key
+     * SimilarWeb API UserKey
      *
      * @var string
      */
@@ -102,7 +102,7 @@ class SimilarWeb
 
         if(!in_array(strtoupper($format), $this->supportedFormats))
             {
-            throw new \InvalidArgumentException(sprintf($this->messages['invalid_format'], $format, implode(',', $this->supportedFormats)));
+            throw $this->createInvalidFormatException($format);
             }
         $this->format = $format;
 
@@ -243,6 +243,11 @@ class SimilarWeb
         $this->countryData = $countries;
         }
 
+    protected function createInvalidFormatException($format)
+        {
+        return new \InvalidArgumentException(sprintf($this->messages['invalid_format'], $format, implode(',', $this->supportedFormats)));
+        }
+
     /* ---------------------------------------------------------------------- */
     /* --- PARSING RESPONSES ------------------------------------------------ */
     /* ---------------------------------------------------------------------- */
@@ -265,7 +270,7 @@ class SimilarWeb
             {
             return intval($response->Rank[0]);
             }
-        throw new \InvalidArgumentException(sprintf('Invalid format: %s!', $format));
+        throw $this->createInvalidFormatException($format);
         }
 
     /**
@@ -300,7 +305,7 @@ class SimilarWeb
                 }
             return $return;
             }
-        throw new \InvalidArgumentException(sprintf('Invalid format: %s!', $format));
+        throw $this->createInvalidFormatException($format);
         }
 
     /**
@@ -337,7 +342,7 @@ class SimilarWeb
                 }
             return $return;
             }
-        throw new \InvalidArgumentException(sprintf('Invalid format: %s!', $format));
+        throw $this->createInvalidFormatException($format);
         }
 
     protected function parseTagsResponse($response, $format)
@@ -364,7 +369,7 @@ class SimilarWeb
                 }
             return $return;
             }
-        throw new \InvalidArgumentException(sprintf('Invalid format: %s!', $format));
+        throw $this->createInvalidFormatException($format);
         }
 
     protected function parseSimilarSitesResponse($response, $format)
@@ -392,7 +397,7 @@ class SimilarWeb
                 }
             return $return;
             }
-        throw new \InvalidArgumentException(sprintf('Invalid format: %s!', $format));
+        throw $this->createInvalidFormatException($format);
         }
 
     protected function parseCategoryResponse($response, $format)
@@ -405,6 +410,6 @@ class SimilarWeb
             {
             return $response->Category[0];
             }
-        throw new \InvalidArgumentException(sprintf('Invalid format: %s!', $format));
+        throw $this->createInvalidFormatException($format);
         }
     }
