@@ -311,4 +311,24 @@ class SimilarWebTest extends \PHPUnit_Framework_TestCase
             ), $data);
         $this->assertEquals($sw->getCountryData(null), $sw->getCountryData(null));
         }
+
+    public function testInvalidFormat()
+        {
+        // $sw = new SimilarWeb('da39a3ee5e6b4b0d3255bfef95601890');
+        $swMock = $this->getMock('Thunder\Api\SimilarWeb\SimilarWeb', array('executeCurlRequest'), array(
+            'userKey' => 'da39a3ee5e6b4b0d3255bfef95601890',
+            'format' => 'JSON',
+            ));
+        $swMock
+            ->expects($this->once())
+            ->method('executeCurlRequest')
+            ->with($swMock->getUrlTarget('GlobalRank', 'google.pl', 'Invalid'))
+            ->will($this->returnValue(array(200, '')));
+        $reflectionObject = new \ReflectionObject($swMock);
+        $reflectionProperty = $reflectionObject->getProperty('format');
+        $reflectionProperty->setAccessible(true);
+        $reflectionProperty->setValue($swMock, 'Invalid');
+        $this->setExpectedException('InvalidArgumentException');
+        $swMock->api('GlobalRank', 'google.pl');
+        }
     }

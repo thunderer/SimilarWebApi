@@ -150,29 +150,36 @@ class SimilarWeb
             {
             throw new \RuntimeException(sprintf($this->messages['invalid_call'], $call, $url, $this->format));
             }
-        $result = $this->executeCurlRequest($this->getUrlTarget($call, $url, $this->format));
-        if(200 != $result[0])
+        list($status, $response) = $this->executeCurlRequest($this->getUrlTarget($call, $url, $this->format));
+        if(200 != $status)
             {
-            throw new \RuntimeException(sprintf($this->messages['request_failed'], $result[0], $result[1]));
+            throw new \RuntimeException(sprintf($this->messages['request_failed'], $status, $response));
             }
-        $process = '';
-        if('JSON' == $this->format)
-            {
-            $process = json_decode($result[1], true);
-            }
-        else if('XML' == $this->format)
-            {
-            libxml_use_internal_errors(true);
-            $process = simplexml_load_string($result[1]);
-            }
+        $process = $this->prepareResponse($response);
         if(!$process)
             {
-            throw new \RuntimeException(sprintf($this->messages['invalid_response'], $this->format, $result[1]));
+            throw new \RuntimeException(sprintf($this->messages['invalid_response'], $this->format, $response));
             }
         return call_user_func_array(array($this, $method), array(
             'result' => $process,
             'format' => $this->format,
             ));
+        }
+
+    protected function prepareResponse($response)
+        {
+        if('JSON' == $this->format)
+            {
+            $process = json_decode($response, true);
+            return $process;
+            }
+        else if('XML' == $this->format)
+            {
+            libxml_use_internal_errors(true);
+            $process = simplexml_load_string($response);
+            return $process;
+            }
+        throw $this->createInvalidFormatException($this->format);
         }
 
     /**
