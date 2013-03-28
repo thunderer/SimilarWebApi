@@ -224,22 +224,23 @@ class SimilarWeb
         $lines = file($file);
         $countries = array();
         $regexp = '/^([A-Z]{2})\s([A-Z]{2})\s([A-Z]{3}|null)\s([0-9]{1,3}|null)\s([^\n]+)$/';
-        if($lines)
+        if(!$lines)
             {
-            foreach($lines as $line)
+            }
+        foreach($lines as $line)
+            {
+            $preg = preg_match_all($regexp, $line, $matches, PREG_SET_ORDER);
+            if(!(false !== $preg && isset($matches[0]) && 6 == count($matches[0])))
                 {
-                $preg = preg_match_all($regexp, $line, $matches, PREG_SET_ORDER);
-                if(false !== $preg && isset($matches[0]) && 6 == count($matches[0]))
-                    {
-                    $countries[intval($matches[0][4])] = array(
-                        'continent' => $matches[0][1],
-                        'twoLetter' => $matches[0][2],
-                        'threeLetter' => $matches[0][3],
-                        'numeric' => $matches[0][4],
-                        'name' => $matches[0][5],
-                        );
-                    }
+                continue;
                 }
+            $countries[intval($matches[0][4])] = array(
+                'continent' => $matches[0][1],
+                'twoLetter' => $matches[0][2],
+                'threeLetter' => $matches[0][3],
+                'numeric' => $matches[0][4],
+                'name' => $matches[0][5],
+                );
             }
         $this->countryData = $countries;
         }
