@@ -85,12 +85,16 @@ class SimilarWeb
         'Category',
         );
 
+    /* ---------------------------------------------------------------------- */
+    /* --- METHODS ---------------------------------------------------------- */
+    /* ---------------------------------------------------------------------- */
+
     /**
      * Initialize API client environment
      *
      * @param string $userKey API User Key
      * @param string $format Response format
-     * @throws \InvalidArgumentException When either User Key or default format is invalid
+     * @throws \InvalidArgumentException When either User Key or format is invalid
      */
     public function __construct($userKey, $format = 'JSON')
         {
