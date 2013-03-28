@@ -277,7 +277,7 @@ class SimilarWebTest extends \PHPUnit_Framework_TestCase
 
             array('api', array('GlobalRank', 'invalid', null), '', 'RuntimeException'),
             array('api', array('GlobalRank', 'google.pl', 'INV'), '', 'RuntimeException'),
-            array('api', array('Invalid', 'google.pl', 'JSON'), '', 'InvalidArgumentException'),
+            array('api', array('Invalid', 'google.pl', 'JSON'), '', 'RuntimeException'),
             );
         }
 
@@ -310,16 +310,5 @@ class SimilarWebTest extends \PHPUnit_Framework_TestCase
             'name' => 'Poland, Republic of',
             ), $data);
         $this->assertEquals($sw->getCountryData(null), $sw->getCountryData(null));
-        }
-
-    public function testInvalidCall()
-        {
-        $sw = new SimilarWeb('da39a3ee5e6b4b0d3255bfef95601890');
-        $reflectionObject = new \ReflectionObject($sw);
-        $reflectionProperty = $reflectionObject->getProperty('validCalls');
-        $reflectionProperty->setAccessible(true);
-        $reflectionProperty->setValue($sw, array('Invalid'));
-        $this->setExpectedException('RuntimeException');
-        $sw->api('Invalid', 'google.pl');
         }
     }

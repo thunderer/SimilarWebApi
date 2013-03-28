@@ -71,20 +71,6 @@ class SimilarWeb
      */
     protected $apiTarget = 'http://api.similarweb.com/Site/%s/%s?Format=%s&UserKey=%s';
 
-    /**
-     * List of valid (supported) API calls to detect invalid ones
-     *
-     * @var array
-     */
-    protected $validCalls = array(
-        'GlobalRank',
-        'CountryRank',
-        'CategoryRank',
-        'Tags',
-        'SimilarSites',
-        'Category',
-        );
-
     /* ---------------------------------------------------------------------- */
     /* --- METHODS ---------------------------------------------------------- */
     /* ---------------------------------------------------------------------- */
@@ -159,10 +145,6 @@ class SimilarWeb
      */
     public function api($call, $url, $force = false)
         {
-        if(!in_array($call, $this->validCalls))
-            {
-            throw new \InvalidArgumentException(sprintf('Invalid call: %s!', $call));
-            }
         $method = 'parse'.$call.'Response';
         if(!method_exists($this, $method))
             {
