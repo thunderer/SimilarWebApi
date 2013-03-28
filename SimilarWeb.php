@@ -166,6 +166,14 @@ class SimilarWeb
             ));
         }
 
+    /**
+     * Performs basic response parsing to be accessible from code (array, XML
+     * object)
+     *
+     * @param string $response Raw API response
+     * @return mixed|\SimpleXMLElement Parsed response
+     * @throws \InvalidArgumentException When requested format is unsupported
+     */
     protected function prepareResponse($response)
         {
         if('JSON' == $this->format)
