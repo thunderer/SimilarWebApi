@@ -163,15 +163,15 @@ class SimilarWeb
             {
             throw new \InvalidArgumentException(sprintf('Invalid call: %s!', $call));
             }
-        $result = $this->executeCurlRequest($this->getUrlTarget($call, $url, $this->format));
-        if(200 != $result[0])
-            {
-            throw new \RuntimeException(sprintf($this->messages['request_failed'], $result[0], $result[1]));
-            }
         $method = 'parse'.$call.'Response';
         if(!method_exists($this, $method))
             {
             throw new \RuntimeException(sprintf($this->messages['invalid_call'], $call, $url, $this->format));
+            }
+        $result = $this->executeCurlRequest($this->getUrlTarget($call, $url, $this->format));
+        if(200 != $result[0])
+            {
+            throw new \RuntimeException(sprintf($this->messages['request_failed'], $result[0], $result[1]));
             }
         $process = '';
         if('JSON' == $this->format)

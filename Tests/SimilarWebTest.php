@@ -314,19 +314,12 @@ class SimilarWebTest extends \PHPUnit_Framework_TestCase
 
     public function testInvalidCall()
         {
-        $swMock = $this->getMock('Thunder\Api\SimilarWeb\SimilarWeb', array('executeCurlRequest'), array(
-            'userKey' => 'da39a3ee5e6b4b0d3255bfef95601890',
-            ));
-        $swMock
-            ->expects($this->once())
-            ->method('executeCurlRequest')
-            ->with($swMock->getUrlTarget('Invalid', 'google.pl', 'JSON'))
-            ->will($this->returnValue(array(200, '')));
-        $reflectionObject = new \ReflectionObject($swMock);
+        $sw = new SimilarWeb('da39a3ee5e6b4b0d3255bfef95601890');
+        $reflectionObject = new \ReflectionObject($sw);
         $reflectionProperty = $reflectionObject->getProperty('validCalls');
         $reflectionProperty->setAccessible(true);
-        $reflectionProperty->setValue($swMock, array('Invalid'));
+        $reflectionProperty->setValue($sw, array('Invalid'));
         $this->setExpectedException('RuntimeException');
-        $swMock->api('Invalid', 'google.pl');
+        $sw->api('Invalid', 'google.pl');
         }
     }
