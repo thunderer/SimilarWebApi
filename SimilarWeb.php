@@ -9,17 +9,11 @@ namespace Thunder\Api\SimilarWeb;
 class SimilarWeb
     {
     protected $userKey;
-
     protected $format;
-
     protected $resultCache;
-
     protected $supportedFormats = array('XML', 'JSON');
-
     protected $countryData = null;
-
     protected $userKeyRegexp = '/^[a-z0-9]{32}$/';
-
     protected $messages = array(
         'invalid_user_key' => 'Invalid or empty user API key: %s. Key must be 32 lowercase alphanumeric characters.',
         'invalid_format' => 'Unsupported response format: %s. Accepted formats are: %s.',
@@ -27,9 +21,7 @@ class SimilarWeb
         'invalid_call' => 'Invalid API call: %s for URL %s with format %s!',
         'invalid_response' => 'Failed to decode %s response: %s!',
         );
-
     protected $apiTarget = 'http://api.similarweb.com/Site/%s/%s?Format=%s&UserKey=%s';
-
     protected $validCalls = array(
         'GlobalRank',
         'CountryRank',
@@ -50,13 +42,13 @@ class SimilarWeb
         {
         if(!preg_match($this->userKeyRegexp, $userKey))
             {
-            $this->throwException('InvalidArgumentException', 'invalid_user_key', array($userKey, $this->userKeyRegexp));
+            throw new \InvalidArgumentException(sprintf($this->messages['invalid_user_key'], $userKey, $this->userKeyRegexp));
             }
         $this->userKey = $userKey;
 
         if(!in_array(strtoupper($format), $this->supportedFormats))
             {
-            $this->throwException('InvalidArgumentException', 'invalid_format', array($format, implode(',', $this->supportedFormats)));
+            throw new \InvalidArgumentException(sprintf($this->messages['invalid_format'], $format, implode(',', $this->supportedFormats)));
             }
         $this->format = $format;
 
@@ -116,12 +108,12 @@ class SimilarWeb
         $result = $this->executeCurlRequest($this->getUrlTarget($call, $url, $this->format));
         if(200 != $result[0])
             {
-            $this->throwException('RuntimeException', 'request_failed', array($result[0], $result[1]));
+            throw new \RuntimeException(sprintf($this->messages['request_failed'], $result[0], $result[1]));
             }
         $method = 'parse'.$call.'Response';
         if(!method_exists($this, $method))
             {
-            $this->throwException('RuntimeException', 'invalid_call', array($call, $url, $this->format));
+            throw new \RuntimeException(sprintf($this->messages['invalid_call'], $call, $url, $this->format));
             }
         $process = '';
         if('JSON' == $this->format)
@@ -135,17 +127,12 @@ class SimilarWeb
             }
         if(!$process)
             {
-            $this->throwException('RuntimeException', 'invalid_response', array($this->format, $result[1]));
+            throw new \RuntimeException(sprintf($this->messages['invalid_response'], $this->format, $result[1]));
             }
         return call_user_func_array(array($this, $method), array(
             'result' => $process,
             'format' => $this->format,
             ));
-        }
-
-    protected function throwException($type, $message, array $args)
-        {
-        throw new $type(vsprintf($this->messages[$message], $args));
         }
 
     /**
