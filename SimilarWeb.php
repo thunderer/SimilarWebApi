@@ -226,6 +226,8 @@ class SimilarWeb
         $regexp = '/^([A-Z]{2})\s([A-Z]{2})\s([A-Z]{3}|null)\s([0-9]{1,3}|null)\s([^\n]+)$/';
         if(!$lines)
             {
+            $this->countryData = $countries;
+            return;
             }
         foreach($lines as $line)
             {
