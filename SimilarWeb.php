@@ -8,12 +8,54 @@ namespace Thunder\Api\SimilarWeb;
  */
 class SimilarWeb
     {
+
+    /**
+     * SimilarWeb API key
+     *
+     * @var string
+     */
     protected $userKey;
+
+    /**
+     * Requested response format
+     *
+     * @var string
+     */
     protected $format;
-    protected $resultCache;
+
+    /**
+     * Response cache
+     *
+     * @var array
+     */
+    protected $resultCache = array();
+
+    /**
+     * Supported response formats
+     *
+     * @var array
+     */
     protected $supportedFormats = array('XML', 'JSON');
+
+    /**
+     * Lazy-loaded country data array
+     *
+     * @var array
+     */
     protected $countryData = null;
+
+    /**
+     * API UserKey validation regexp
+     *
+     * @var string
+     */
     protected $userKeyRegexp = '/^[a-z0-9]{32}$/';
+
+    /**
+     * Various status / exception messages for possible i18n in the future
+     *
+     * @var array
+     */
     protected $messages = array(
         'invalid_user_key' => 'Invalid or empty user API key: %s. Key must be 32 lowercase alphanumeric characters.',
         'invalid_format' => 'Unsupported response format: %s. Accepted formats are: %s.',
@@ -21,7 +63,19 @@ class SimilarWeb
         'invalid_call' => 'Invalid API call: %s for URL %s with format %s!',
         'invalid_response' => 'Failed to decode %s response: %s!',
         );
+
+    /**
+     * API target URL used in sprintf() function to produce request target URL
+     *
+     * @var string
+     */
     protected $apiTarget = 'http://api.similarweb.com/Site/%s/%s?Format=%s&UserKey=%s';
+
+    /**
+     * List of valid (supported) API calls to detect invalid ones
+     *
+     * @var array
+     */
     protected $validCalls = array(
         'GlobalRank',
         'CountryRank',
