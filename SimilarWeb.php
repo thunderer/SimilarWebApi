@@ -2,7 +2,7 @@
 namespace Thunder\Api\SimilarWeb;
 
 /**
- * SimilarWeb API class
+ * SimilarWeb API client.
  *
  * @author Tomasz Kowalczyk <tomasz@kowalczyk.cc>
  */
@@ -34,7 +34,7 @@ class SimilarWeb
         $userKeyTest = '/^[a-z0-9]{32}$/';
         if(!preg_match($userKeyTest, $userKey))
             {
-            throw new \InvalidArgumentException(sprintf('Invalid or empty user API key: %s. Key must conform to RegExp: %s (32 lowercase alphanumeric characters).', $userKey, $userKeyTest));
+            throw new \InvalidArgumentException(sprintf('Invalid or empty user API key: %s. Key must be 32 lowercase alphanumeric characters.', $userKey, $userKeyTest));
             }
         $this->userKey = $userKey;
 
@@ -62,6 +62,7 @@ class SimilarWeb
             {
             return $this->countryData;
             }
+
         return array_key_exists($country, $this->countryData)
             ? $this->countryData[$country]
             : null;
@@ -77,7 +78,7 @@ class SimilarWeb
      */
     public function getUrlTarget($call, $url, $format)
         {
-        return 'http://api.similarweb.com/Site/'.$url.'/'.$call.'?Format='.$format.'&UserKey='.$this->userKey;
+        return sprintf('http://api.similarweb.com/Site/%s/%s?Format=%s&UserKey=%s', $url, $call, $format, $this->userKey);
         }
 
     /**
@@ -85,11 +86,12 @@ class SimilarWeb
      *
      * @param string $call API call name
      * @param string $url Domain name
+     * @param bool $force Do not load result from cache
      * @return string|array Depends on specific API call
      * @throws \RuntimeException When request or parsing response failed
      * @throws \InvalidArgumentException When invalid or unsupported call or format is given
      */
-    public function api($call, $url)
+    public function api($call, $url, $force = false)
         {
         if(!in_array($call, $this->validCalls))
             {
@@ -193,8 +195,8 @@ class SimilarWeb
      *
      * @param array|\SimpleXMLElement $response Response data
      * @param string $format Response format
-     * @return int domain GlobalRank value
-     * @throws \InvalidArgumentException when format is not supported
+     * @return int Domain GlobalRank value
+     * @throws \InvalidArgumentException When format is not supported
      */
     protected function parseGlobalRankResponse($response, $format)
         {
