@@ -100,27 +100,6 @@ class SimilarWeb
         }
 
     /**
-     * Helper method for getting country data (API requests return only country
-     * code) using integer ISO3166 numeric code. Returns array with all
-     * countries data when no country code specified
-     *
-     * @param int|null $country
-     * @return null
-     */
-    public function getCountryData($country = null)
-        {
-        $this->loadCountryData();
-        if(null === $country)
-            {
-            return $this->countryData;
-            }
-
-        return array_key_exists($country, $this->countryData)
-            ? $this->countryData[$country]
-            : null;
-        }
-
-    /**
      * Get API endpoint URL address
      *
      * @param string $call API call name
@@ -205,46 +184,6 @@ class SimilarWeb
         return array($status, $result);
         }
 
-    /**
-     * Load countries data from file provided by library or your own
-     *
-     * @param string $file Path to country data file
-     * @param bool $forceReload Force reload contents if already loaded
-     */
-    public function loadCountryData($file = null, $forceReload = false)
-        {
-        if(is_array($this->countryData) && count($this->countryData) && !$forceReload)
-            {
-            return;
-            }
-        if(null === $file)
-            {
-            $file = __DIR__.'/iso3166.csv';
-            }
-        $lines = @file($file);
-        $countries = array();
-        $regexp = '/^([A-Z]{2})\s([A-Z]{2})\s([A-Z]{3}|null)\s([0-9]{1,3}|null)\s([^\n]+)$/';
-        if(!$lines)
-            {
-            return;
-            }
-        foreach($lines as $line)
-            {
-            $preg = preg_match_all($regexp, $line, $matches, PREG_SET_ORDER);
-            if(false !== $preg && isset($matches[0]) && 6 == count($matches[0]))
-                {
-                $countries[intval($matches[0][4])] = array(
-                    'continent' => $matches[0][1],
-                    'twoLetter' => $matches[0][2],
-                    'threeLetter' => $matches[0][3],
-                    'numeric' => $matches[0][4],
-                    'name' => $matches[0][5],
-                    );
-                }
-            }
-        $this->countryData = $countries;
-        }
-
     protected function createInvalidFormatException($format)
         {
         return new \InvalidArgumentException(sprintf($this->messages['invalid_format'], $format, implode(',', $this->supportedFormats)));
@@ -266,11 +205,15 @@ class SimilarWeb
         {
         if('JSON' == $format)
             {
-            return intval($response['Rank']);
+            return array_key_exists('Rank', $response)
+                ? intval($response['Rank'])
+                : null;
             }
         else if('XML' == $format)
             {
-            return intval($response->Rank[0]);
+            return isset($response->Rank[0])
+                ? intval($response->Rank[0])
+                : null;
             }
         throw $this->createInvalidFormatException($format);
         }
@@ -413,5 +356,70 @@ class SimilarWeb
             return $response->Category[0];
             }
         throw $this->createInvalidFormatException($format);
+        }
+
+    /* ---------------------------------------------------------------------- */
+    /* --- UTILITIES -------------------------------------------------------- */
+    /* ---------------------------------------------------------------------- */
+
+    /**
+     * Helper method for getting country data (API requests return only country
+     * code) using integer ISO3166 numeric code. Returns array with all
+     * countries data when no country code specified
+     *
+     * @param int|null $country
+     * @return null
+     */
+    public function getCountryData($country = null)
+        {
+        $this->loadCountryData();
+        if(null === $country)
+            {
+            return $this->countryData;
+            }
+
+        return array_key_exists($country, $this->countryData)
+            ? $this->countryData[$country]
+            : null;
+        }
+
+    /**
+     * Load countries data from file provided by library or your own
+     *
+     * @param string $file Path to country data file
+     * @param bool $forceReload Force reload contents if already loaded
+     */
+    public function loadCountryData($file = null, $forceReload = false)
+        {
+        if(is_array($this->countryData) && count($this->countryData) && !$forceReload)
+            {
+            return;
+            }
+        if(null === $file)
+            {
+            $file = __DIR__.'/iso3166.csv';
+            }
+        $lines = @file($file);
+        $countries = array();
+        $regexp = '/^([A-Z]{2})\s([A-Z]{2})\s([A-Z]{3}|null)\s([0-9]{1,3}|null)\s([^\n]+)$/';
+        if(!$lines)
+            {
+            return;
+            }
+        foreach($lines as $line)
+            {
+            $preg = preg_match_all($regexp, $line, $matches, PREG_SET_ORDER);
+            if(false !== $preg && isset($matches[0]) && 6 == count($matches[0]))
+                {
+                $countries[intval($matches[0][4])] = array(
+                    'continent' => $matches[0][1],
+                    'twoLetter' => $matches[0][2],
+                    'threeLetter' => $matches[0][3],
+                    'numeric' => $matches[0][4],
+                    'name' => $matches[0][5],
+                    );
+                }
+            }
+        $this->countryData = $countries;
         }
     }
