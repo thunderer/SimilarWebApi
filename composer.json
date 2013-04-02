@@ -4,13 +4,12 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Tomasz Kowalczyk",
-            "email": "tomasz@kowalczyk.cc"
+        "name": "Tomasz Kowalczyk",
+        "email": "tomasz@kowalczyk.cc"
         }
     ],
     "minimum-stability": "stable",
     "require": {
-
     },
     "autoload": {
         "psr-0": {
