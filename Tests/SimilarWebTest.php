@@ -309,22 +309,6 @@ class SimilarWebTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($result, $actualResult);
         }
 
-    public function testCountryData()
-        {
-        $sw = new SimilarWeb('da39a3ee5e6b4b0d3255bfef95601890');
-        $data = $sw->getCountryData(616);
-        $this->assertEquals(array(
-            'continent' => 'EU',
-            'twoLetter' => 'PL',
-            'threeLetter' => 'POL',
-            'numeric' => 616,
-            'name' => 'Poland, Republic of',
-            ), $data);
-        $this->assertEquals($sw->getCountryData(null), $sw->getCountryData(null));
-
-        $sw->loadCountryData('invalid', true);
-        }
-
     public function testRealRequest()
         {
         $sw = new SimilarWeb('da39a3ee5e6b4b0d3255bfef95601890', 'JSON');
