@@ -287,9 +287,13 @@ class SimilarWebTest extends \PHPUnit_Framework_TestCase
             array('CountryRank', array('<x />', 'XML'), '', 'RuntimeException'),
 
             array('CategoryRank', array('response', 'INV'), '', 'InvalidArgumentException'),
+
             array('Tags', array('response', 'INV'), '', 'InvalidArgumentException'),
             array('SimilarSites', array('response', 'INV'), '', 'InvalidArgumentException'),
+
             array('Category', array('response', 'INV'), '', 'InvalidArgumentException'),
+            array('Category', array('{}', 'JSON'), '', 'RuntimeException'),
+            array('Category', array('<x />', 'XML'), '', 'RuntimeException'),
             );
         }
 
