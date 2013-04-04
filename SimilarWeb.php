@@ -28,14 +28,16 @@ class SimilarWeb
         {
         if(!preg_match('/^[a-z0-9]{32}$/', $userKey))
             {
-            throw new \InvalidArgumentException(sprintf('Invalid or empty user API key: %s. Key must be 32 lowercase alphanumeric characters.', $userKey));
+            $message = 'Invalid or empty user API key: %s. Key must be 32 lowercase alphanumeric characters.';
+            throw new \InvalidArgumentException(sprintf($message, $userKey));
             }
         $this->userKey = $userKey;
 
         $supportedFormats = array('XML', 'JSON');
         if(!in_array(strtoupper($format), $supportedFormats))
             {
-            throw new \InvalidArgumentException(sprintf('Unsupported response format: %s. Accepted formats are: %s.', $format, implode(',', $supportedFormats)));
+            $message = 'Unsupported response format: %s. Accepted formats are: %s.';
+            throw new \InvalidArgumentException(sprintf($message, $format, implode(',', $supportedFormats)));
             }
         $this->format = $format;
 
@@ -59,13 +61,14 @@ class SimilarWeb
      *
      * @param string $call API call name
      * @param string $url Domain name
+     * @param bool $force Force request / override cache
      * @return string|array Depends on specific API call
      * @throws \RuntimeException When request or parsing response failed
      * @throws \InvalidArgumentException When invalid or unsupported call or format is given
      */
-    public function api($call, $url)
+    public function api($call, $url, $force = false)
         {
-        if(isset($this->cache[$call][$url]))
+        if(isset($this->cache[$call][$url]) && !$force)
             {
             return $this->cache[$call][$url];
             }
