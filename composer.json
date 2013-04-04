@@ -13,8 +13,8 @@
     },
     "autoload": {
         "psr-0": {
-            "Thunder\\Api\\SimilarWeb": ""
+            "Thunder\\SimilarWebApi": ""
         }
     },
-    "target-dir": "Thunder/Api/SimilarWeb"
+    "target-dir": "Thunder/SimilarWebApi"
 }

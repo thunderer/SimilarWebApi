@@ -1,5 +1,5 @@
 <?php
-namespace Thunder\Api\SimilarWeb;
+namespace Thunder\SimilarWebApi;
 
 abstract class Parser
     {

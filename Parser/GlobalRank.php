@@ -1,7 +1,7 @@
 <?php
-namespace Thunder\Api\SimilarWeb\Parser;
+namespace Thunder\SimilarWebApi\Parser;
 
-use Thunder\Api\SimilarWeb\Parser;
+use Thunder\SimilarWebApi\Parser;
 
 class GlobalRank extends Parser
     {

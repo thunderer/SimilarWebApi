@@ -1,7 +1,7 @@
 <?php
-namespace Thunder\Api\SimilarWeb\Tests;
+namespace Thunder\SimilarWebApi\Tests;
 
-use Thunder\Api\SimilarWeb\SimilarWeb;
+use Thunder\SimilarWebApi\SimilarWeb;
 
 class SimilarWebTest extends \PHPUnit_Framework_TestCase
     {
@@ -18,7 +18,7 @@ class SimilarWebTest extends \PHPUnit_Framework_TestCase
     public function testInstance()
         {
         $sw = new SimilarWeb('da39a3ee5e6b4b0d3255bfef95601890');
-        $this->assertInstanceOf('Thunder\Api\SimilarWeb\SimilarWeb', $sw);
+        $this->assertInstanceOf('Thunder\SimilarWebApi\SimilarWeb', $sw);
         }
 
     public function testDefaultResponseFormatHandling()
@@ -240,7 +240,7 @@ class SimilarWebTest extends \PHPUnit_Framework_TestCase
      */
     public function testApiCalls($call, $format, $domain, $result, $exception, $payload)
         {
-        $swMock = $this->getMock('Thunder\Api\SimilarWeb\SimilarWeb', array('executeRequest'), array(
+        $swMock = $this->getMock('Thunder\SimilarWebApi\SimilarWeb', array('executeRequest'), array(
             'userKey' => 'da39a3ee5e6b4b0d3255bfef95601890',
             'format' => $format,
             ));
@@ -303,7 +303,7 @@ class SimilarWebTest extends \PHPUnit_Framework_TestCase
             {
             $this->setExpectedException($exception);
             }
-        $className = 'Thunder\\Api\\SimilarWeb\\Parser\\'.$method;
+        $className = 'Thunder\SimilarWebApi\\Parser\\'.$method;
         $parser = new $className();
         $actualResult = $parser->parse($args[0], $args[1]);
         $this->assertEquals($result, $actualResult);

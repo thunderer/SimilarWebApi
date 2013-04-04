@@ -1,5 +1,5 @@
 <?php
-namespace Thunder\Api\SimilarWeb;
+namespace Thunder\SimilarWebApi;
 
 /**
  * SimilarWeb API client.
@@ -10,18 +10,14 @@ class SimilarWeb
     {
     protected $userKey;
     protected $format;
-    protected $cache = array();
-
-    /* ---------------------------------------------------------------------- */
-    /* --- METHODS ---------------------------------------------------------- */
-    /* ---------------------------------------------------------------------- */
+    protected $cache;
 
     /**
      * Initialize API client environment
      *
      * @param string $userKey API User Key
      * @param string $format Response format
-     * @throws \InvalidArgumentException When either User Key or format is invalid
+     * @throws \InvalidArgumentException When UserKey or format is invalid
      */
     public function __construct($userKey, $format = 'JSON')
         {
@@ -62,8 +58,7 @@ class SimilarWeb
      * @param string $url Domain name
      * @param bool $force Force request / override cache
      * @return string|array Depends on specific API call
-     * @throws \RuntimeException When request or parsing response failed
-     * @throws \InvalidArgumentException When invalid or unsupported call or format is given
+     * @throws \RuntimeException On request, response parsing and formatting failures
      */
     public function api($call, $url, $force = false)
         {
@@ -98,6 +93,7 @@ class SimilarWeb
     protected function executeRequest($call, $url)
         {
         $urlTarget = $this->getUrlTarget($call, $url);
+
         $ch = curl_init($urlTarget);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $result = curl_exec($ch);
