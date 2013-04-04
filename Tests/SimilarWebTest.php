@@ -1,7 +1,7 @@
 <?php
 namespace Thunder\SimilarWebApi\Tests;
 
-use Thunder\SimilarWebApi\SimilarWeb;
+use Thunder\SimilarWebApi\Client;
 
 class SimilarWebTest extends \PHPUnit_Framework_TestCase
     {
@@ -17,34 +17,34 @@ class SimilarWebTest extends \PHPUnit_Framework_TestCase
 
     public function testInstance()
         {
-        $sw = new SimilarWeb('da39a3ee5e6b4b0d3255bfef95601890');
-        $this->assertInstanceOf('Thunder\SimilarWebApi\SimilarWeb', $sw);
+        $sw = new Client('da39a3ee5e6b4b0d3255bfef95601890');
+        $this->assertInstanceOf('Thunder\SimilarWebApi\Client', $sw);
         }
 
     public function testDefaultResponseFormatHandling()
         {
         $testUserKey = 'da39a3ee5e6b4b0d3255bfef95601890';
-        $sw = new SimilarWeb($testUserKey);
+        $sw = new Client($testUserKey);
         $reflectionObject = new \ReflectionObject($sw);
         $defaultFormat = $reflectionObject->getProperty('format');
         $defaultFormat->setAccessible(true);
         $this->assertEquals('JSON', $defaultFormat->getValue($sw));
-        $sw = new SimilarWeb($testUserKey, 'XML');
+        $sw = new Client($testUserKey, 'XML');
         $this->assertEquals('XML', $defaultFormat->getValue($sw));
         $this->setExpectedException('InvalidArgumentException');
-        $sw = new SimilarWeb($testUserKey, 'INVALID');
+        $sw = new Client($testUserKey, 'INVALID');
         }
 
     public function testUserKeyHandling()
         {
         $testUserKey = 'da39a3ee5e6b4b0d3255bfef95601890';
-        $sw = new SimilarWeb($testUserKey);
+        $sw = new Client($testUserKey);
         $reflectionObject = new \ReflectionObject($sw);
         $userKey = $reflectionObject->getProperty('userKey');
         $userKey->setAccessible(true);
         $this->assertEquals($testUserKey, $userKey->getValue($sw));
         $anotherUserKey = 'da39a3ee5e6b4b0d3255bfef95601891';
-        $sw = new SimilarWeb($anotherUserKey);
+        $sw = new Client($anotherUserKey);
         $this->assertEquals($anotherUserKey, $userKey->getValue($sw));
         $userKeys = array(
             '',
@@ -58,7 +58,7 @@ class SimilarWebTest extends \PHPUnit_Framework_TestCase
             $failed = false;
             try
                 {
-                $sw = new SimilarWeb($key);
+                $sw = new Client($key);
                 }
             catch(\InvalidArgumentException $e)
                 {
@@ -240,7 +240,7 @@ class SimilarWebTest extends \PHPUnit_Framework_TestCase
      */
     public function testApiCalls($call, $format, $domain, $result, $exception, $payload)
         {
-        $swMock = $this->getMock('Thunder\SimilarWebApi\SimilarWeb', array('executeRequest'), array(
+        $swMock = $this->getMock('Thunder\SimilarWebApi\Client', array('executeRequest'), array(
             'userKey' => 'da39a3ee5e6b4b0d3255bfef95601890',
             'format' => $format,
             ));
@@ -298,7 +298,7 @@ class SimilarWebTest extends \PHPUnit_Framework_TestCase
      */
     public function testForCoverage($method, array $args, $result, $exception = null)
         {
-        $sw = new SimilarWeb('da39a3ee5e6b4b0d3255bfef95601890', 'JSON');
+        $sw = new Client('da39a3ee5e6b4b0d3255bfef95601890', 'JSON');
         if(null !== $exception)
             {
             $this->setExpectedException($exception);
@@ -311,7 +311,7 @@ class SimilarWebTest extends \PHPUnit_Framework_TestCase
 
     public function testRealRequest()
         {
-        $sw = new SimilarWeb('da39a3ee5e6b4b0d3255bfef95601890', 'JSON');
+        $sw = new Client('da39a3ee5e6b4b0d3255bfef95601890', 'JSON');
         $this->setExpectedException('RuntimeException');
         $actualResult = $sw->api('GlobalRank', 'google.pl');
         }

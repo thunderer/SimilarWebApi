@@ -6,19 +6,12 @@ namespace Thunder\SimilarWebApi;
  *
  * @author Tomasz Kowalczyk <tomasz@kowalczyk.cc>
  */
-class SimilarWeb
+class Client
     {
     protected $userKey;
     protected $format;
     protected $cache;
 
-    /**
-     * Initialize API client environment
-     *
-     * @param string $userKey API User Key
-     * @param string $format Response format
-     * @throws \InvalidArgumentException When UserKey or format is invalid
-     */
     public function __construct($userKey, $format = 'JSON')
         {
         if(!preg_match('/^[a-z0-9]{32}$/', $userKey))
@@ -39,27 +32,11 @@ class SimilarWeb
         $this->cache = array();
         }
 
-    /**
-     * Get API endpoint URL address
-     *
-     * @param string $call API call name
-     * @param string $url Domain name
-     * @return string API endpoint URL address
-     */
     public function getUrlTarget($call, $url)
         {
         return sprintf('http://api.similarweb.com/Site/%s/%s?Format=%s&UserKey=%s', $url, $call, $this->format, $this->userKey);
         }
 
-    /**
-     * Call API endpoint and return nicely formatted data
-     *
-     * @param string $call API call name
-     * @param string $url Domain name
-     * @param bool $force Force request / override cache
-     * @return string|array Depends on specific API call
-     * @throws \RuntimeException On request, response parsing and formatting failures
-     */
     public function api($call, $url, $force = false)
         {
         if(isset($this->cache[$call][$url]) && !$force)
@@ -83,13 +60,6 @@ class SimilarWeb
         return $result;
         }
 
-    /**
-     * Wrapper for cURL requests to API endpoints
-     *
-     * @param string $call API call name
-     * @param string $url Target URL
-     * @return array Result (integer status code, string result)
-     */
     protected function executeRequest($call, $url)
         {
         $urlTarget = $this->getUrlTarget($call, $url);
