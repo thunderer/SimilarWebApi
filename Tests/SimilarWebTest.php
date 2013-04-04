@@ -114,14 +114,14 @@ class SimilarWebTest extends \PHPUnit_Framework_TestCase
                     'rank' => 20,
                     ),
                 null, array(200, 'CategoryRank-200.json')),
-            array('CategoryRank', 'JSON', 'invalid', -1, null, array(200, 'CategoryRank-404.json')),
+            array('CategoryRank', 'JSON', 'invalid', array(), null, array(200, 'CategoryRank-404.json')),
             array('CategoryRank', 'XML',  'google.pl',
                 array(
                     'name' => 'Internet_and_Telecom/Search_Engine',
                     'rank' => 20,
                     ),
                 null, array(200, 'CategoryRank-200.xml')),
-            array('CategoryRank', 'XML',  'invalid', -1, null, array(200, 'CategoryRank-404.xml')),
+            array('CategoryRank', 'XML',  'invalid', array(), null, array(200, 'CategoryRank-404.xml')),
             array('CategoryRank', 'XML',  'invalid', 'exception', 'RuntimeException', array(404, '')),
 
         /* ------------------------------------------------------------------ */
@@ -321,24 +321,4 @@ class SimilarWebTest extends \PHPUnit_Framework_TestCase
 
         $sw->loadCountryData('invalid', true);
         }
-
-//    public function testInvalidFormat()
-//        {
-//        // $sw = new SimilarWeb('da39a3ee5e6b4b0d3255bfef95601890');
-//        $swMock = $this->getMock('Thunder\Api\SimilarWeb\SimilarWeb', array('executeCurlRequest'), array(
-//            'userKey' => 'da39a3ee5e6b4b0d3255bfef95601890',
-//            'format' => 'JSON',
-//            ));
-//        $swMock
-//            ->expects($this->once())
-//            ->method('executeCurlRequest')
-//            ->with($swMock->getUrlTarget('GlobalRank', 'google.pl', 'Invalid'))
-//            ->will($this->returnValue(array(200, '')));
-//        $reflectionObject = new \ReflectionObject($swMock);
-//        $reflectionProperty = $reflectionObject->getProperty('format');
-//        $reflectionProperty->setAccessible(true);
-//        $reflectionProperty->setValue($swMock, 'Invalid');
-//        $this->setExpectedException('InvalidArgumentException');
-//        $swMock->api('GlobalRank', 'google.pl');
-//        }
     }

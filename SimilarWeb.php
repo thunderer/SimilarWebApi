@@ -271,7 +271,7 @@ class SimilarWeb
                 );
             if(!$return['name'] && !$return['rank'])
                 {
-                return -1;
+                return array();
                 }
             return $return;
             }
@@ -283,7 +283,7 @@ class SimilarWeb
                 );
             if(!$return['name'] && !$return['rank'])
                 {
-                return -1;
+                return array();
                 }
             return $return;
             }
