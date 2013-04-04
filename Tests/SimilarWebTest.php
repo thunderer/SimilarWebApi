@@ -227,8 +227,8 @@ class SimilarWebTest extends \PHPUnit_Framework_TestCase
             array('Category', 'XML',  'invalid', '', null, array(200, 'Category-404.xml')),
             array('Category', 'XML',  'invalid', 'exception', 'RuntimeException', array(404, '')),
 
-            array('Category', 'XML',  'invalid', 'exception', 'RuntimeException', array(200, 'xxx')),
-            array('Category', 'JSON',  'invalid', 'exception', 'RuntimeException', array(200, '}{')),
+            array('Category', 'XML',  'invalid', 'exception', 'InvalidArgumentException', array(200, 'xxx')),
+            array('Category', 'JSON',  'invalid', 'exception', 'InvalidArgumentException', array(200, '}{')),
 
             /* -------------------------------------------------------------- */
 
@@ -253,20 +253,20 @@ class SimilarWebTest extends \PHPUnit_Framework_TestCase
         $swMock
             ->expects($this->once())
             ->method('executeRequest')
-            ->with($call, $domain, false)
+            ->with($call, $domain)
             ->will($this->returnValue($payload));
 
         if('exception' == $result)
             {
             $this->setExpectedException($exception);
             }
-        $actualResult = $swMock->api($call, $domain, false);
+        $actualResult = $swMock->api($call, $domain);
         if('exception' != $result)
             {
             $this->assertEquals($result, $actualResult);
             }
 
-        $actualResult = $swMock->api($call, $domain, false);
+        $actualResult = $swMock->api($call, $domain);
         if('exception' != $result)
             {
             $this->assertEquals($result, $actualResult);
@@ -276,16 +276,20 @@ class SimilarWebTest extends \PHPUnit_Framework_TestCase
     public function invalidCallsProvider()
         {
         return array(
-            array('parseGlobalRankResponse', array('response', 'INV'), '', 'InvalidArgumentException'),
-            array('parseCountryRankResponse', array('response', 'INV'), '', 'InvalidArgumentException'),
-            array('parseCategoryRankResponse', array('response', 'INV'), '', 'InvalidArgumentException'),
-            array('parseTagsResponse', array('response', 'INV'), '', 'InvalidArgumentException'),
-            array('parseSimilarSitesResponse', array('response', 'INV'), '', 'InvalidArgumentException'),
-            array('parseCategoryResponse', array('response', 'INV'), '', 'InvalidArgumentException'),
+            array('GlobalRank', array('response', 'INV'), '', 'InvalidArgumentException'),
+            array('GlobalRank', array('}{', 'JSON'), '', 'InvalidArgumentException'),
+            array('GlobalRank', array('{}', 'JSON'), '', 'RuntimeException'),
+            array('GlobalRank', array('<>', 'XML'), '', 'InvalidArgumentException'),
+            array('GlobalRank', array('<x />', 'XML'), '', 'RuntimeException'),
 
-            array('api', array('GlobalRank', 'invalid', null), '', 'RuntimeException'),
-            array('api', array('GlobalRank', 'google.pl', 'INV'), '', 'RuntimeException'),
-            array('api', array('Invalid', 'google.pl', 'JSON'), '', 'RuntimeException'),
+            array('CountryRank', array('response', 'INV'), '', 'InvalidArgumentException'),
+            array('CountryRank', array('{}', 'JSON'), '', 'RuntimeException'),
+            array('CountryRank', array('<x />', 'XML'), '', 'RuntimeException'),
+
+            array('CategoryRank', array('response', 'INV'), '', 'InvalidArgumentException'),
+            array('Tags', array('response', 'INV'), '', 'InvalidArgumentException'),
+            array('SimilarSites', array('response', 'INV'), '', 'InvalidArgumentException'),
+            array('Category', array('response', 'INV'), '', 'InvalidArgumentException'),
             );
         }
 
@@ -299,10 +303,9 @@ class SimilarWebTest extends \PHPUnit_Framework_TestCase
             {
             $this->setExpectedException($exception);
             }
-        $reflectionClass = new \ReflectionClass(get_class($sw));
-        $reflectionMethod = $reflectionClass->getMethod($method);
-        $reflectionMethod->setAccessible(true);
-        $actualResult = $reflectionMethod->invokeArgs($sw, $args);
+        $className = 'Thunder\\Api\\SimilarWeb\\Parser\\'.$method;
+        $parser = new $className();
+        $actualResult = $parser->parse($args[0], $args[1]);
         $this->assertEquals($result, $actualResult);
         }
 
@@ -320,5 +323,12 @@ class SimilarWebTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($sw->getCountryData(null), $sw->getCountryData(null));
 
         $sw->loadCountryData('invalid', true);
+        }
+
+    public function testRealRequest()
+        {
+        $sw = new SimilarWeb('da39a3ee5e6b4b0d3255bfef95601890', 'JSON');
+        $this->setExpectedException('RuntimeException');
+        $actualResult = $sw->api('GlobalRank', 'google.pl');
         }
     }
