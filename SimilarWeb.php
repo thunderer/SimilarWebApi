@@ -11,7 +11,6 @@ class SimilarWeb
     protected $userKey;
     protected $format;
     protected $cache = array();
-    protected $countryData = null;
 
     /* ---------------------------------------------------------------------- */
     /* --- METHODS ---------------------------------------------------------- */
