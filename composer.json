@@ -1,6 +1,6 @@
 {
     "name": "thunder/similarweb-api",
-    "description": "SimilarWeb API PHP Library",
+    "description": "SimilarWeb API PHP Client Library",
     "license": "MIT",
     "authors": [
         {
@@ -10,6 +10,7 @@
     ],
     "minimum-stability": "stable",
     "require": {
+        "php": ">=5.3"
     },
     "autoload": {
         "psr-0": {

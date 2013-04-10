@@ -8,10 +8,34 @@ namespace Thunder\SimilarWebApi;
  */
 class Client
     {
+    /**
+     * Current API UserKey
+     *
+     * @var string
+     */
     protected $userKey;
+
+    /**
+     * Desired request / response format
+     *
+     * @var string
+     */
     protected $format;
+
+    /**
+     * Cache storage for valid responses
+     *
+     * @var array
+     */
     protected $cache;
 
+    /**
+     * Configure client instance
+     *
+     * @param string $userKey API UserKey
+     * @param string $format Desired request / response format
+     * @throws \InvalidArgumentException When either is invalid
+     */
     public function __construct($userKey, $format = 'JSON')
         {
         if(!preg_match('/^[a-z0-9]{32}$/', $userKey))
@@ -32,11 +56,27 @@ class Client
         $this->cache = array();
         }
 
+    /**
+     * Compute API call target URL
+     *
+     * @param $call
+     * @param $url
+     * @return string
+     */
     public function getUrlTarget($call, $url)
         {
         return sprintf('http://api.similarweb.com/Site/%s/%s?Format=%s&UserKey=%s', $url, $call, $this->format, $this->userKey);
         }
 
+    /**
+     * Call API and analyze it or fetch previous result from cache
+     *
+     * @param string $call API call name
+     * @param string $url URL (domain) to process
+     * @param bool $force Force request / override cache
+     * @return mixed Depends on API call
+     * @throws \RuntimeException When request failed
+     */
     public function api($call, $url, $force = false)
         {
         if(isset($this->cache[$call][$url]) && !$force)
@@ -60,6 +100,13 @@ class Client
         return $result;
         }
 
+    /**
+     * Wrapper for cURL request handling
+     *
+     * @param string $call API call name
+     * @param string $url Target URL
+     * @return array HTTP status code and response string
+     */
     protected function executeRequest($call, $url)
         {
         $urlTarget = $this->getUrlTarget($call, $url);

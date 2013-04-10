@@ -3,6 +3,9 @@ namespace Thunder\SimilarWebApi\Parser;
 
 use Thunder\SimilarWebApi\Parser;
 
+/**
+ * @author Tomasz Kowalczyk <tomasz@kowalczyk.cc>
+ */
 class CategoryRank extends Parser
     {
     public function processJson(array $response)
