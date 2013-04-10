@@ -3,7 +3,7 @@ namespace Thunder\SimilarWebApi\Tests;
 
 use Thunder\SimilarWebApi\Client;
 
-class SimilarWebTest extends \PHPUnit_Framework_TestCase
+class ClientTest extends \PHPUnit_Framework_TestCase
     {
     protected $instance;
 
