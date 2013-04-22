@@ -1,28 +1,28 @@
 <?php
-namespace Thunder\SimilarWebApi\Parser;
+namespace Thunder\SimilarWebApi\Parser\V1;
 
 use Thunder\SimilarWebApi\Parser;
 
 /**
  * @author Tomasz Kowalczyk <tomasz@kowalczyk.cc>
  */
-class GlobalRank extends Parser
+class Category extends Parser
     {
     public function processJson(array $response)
         {
-        if(!array_key_exists('Rank', $response))
+        if(!array_key_exists('Category', $response))
             {
             throw $this->createInvalidResponseException('JSON', $response);
             }
-        return intval($response['Rank']);
+        return $response['Category'];
         }
 
     public function processXml(\SimpleXMLElement $response)
         {
-        if(!isset($response->Rank[0]))
+        if(!isset($response->Category[0]))
             {
             throw $this->createInvalidResponseException('XML', $response);
             }
-        return intval($response->Rank[0]);
+        return $response->Category[0];
         }
     }

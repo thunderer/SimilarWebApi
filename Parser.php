@@ -77,7 +77,8 @@ abstract class Parser
         $method = 'parse'.ucfirst(strtolower($format));
         if(!method_exists($this, $method))
             {
-            throw new \InvalidArgumentException(sprintf('Unsupported response format: %s. Accepted formats are: %s.', $format, implode(',', $supportedFormats)));
+            $message = 'Unsupported response format: %s. Accepted formats are: %s.';
+            throw new \InvalidArgumentException(sprintf($message, $format, implode(',', $supportedFormats)));
             }
         return call_user_func_array(array($this, $method), array(
             'response' => $response,

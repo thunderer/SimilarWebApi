@@ -30,13 +30,22 @@ class Client
     protected $cache;
 
     /**
+     * API version
+     *
+     * @var int
+     */
+    protected $apiVersion;
+
+    /**
      * Configure client instance
      *
      * @param string $userKey API UserKey
      * @param string $format Desired request / response format
-     * @throws \InvalidArgumentException When either is invalid
+     * @param int $version API version
+     *
+     * @throws \InvalidArgumentException When any of them is invalid
      */
-    public function __construct($userKey, $format = 'JSON')
+    public function __construct($userKey, $format = 'JSON', $version = 2)
         {
         if(!preg_match('/^[a-z0-9]{32}$/', $userKey))
             {
@@ -52,6 +61,14 @@ class Client
             throw new \InvalidArgumentException(sprintf($message, $format, implode(',', $supportedFormats)));
             }
         $this->format = $format;
+
+        $supportedVersions = array(1, 2);
+        if(!in_array(intval($version), $supportedVersions))
+            {
+            $message = 'Unsupported api version: %s. Accepted versions are: %s.';
+            throw new \InvalidArgumentException(sprintf($message, $version, implode(',', $supportedVersions)));
+            }
+        $this->apiVersion = $version;
 
         $this->cache = array();
         }
@@ -90,7 +107,11 @@ class Client
             throw new \RuntimeException(sprintf('API request failed with code %s, response: "%s".', $status, $response));
             }
 
-        $class = __NAMESPACE__.'\\Parser\\'.$call;
+        $class = __NAMESPACE__.'\\Parser\\V'.$this->apiVersion.'\\'.$call;
+        if(!class_exists($class, true))
+            {
+            throw new \RuntimeException(sprintf('Failed to load parser handler class %s!', $class));
+            }
         $result = call_user_func_array(array(new $class, 'parse'), array(
             'response' => $response,
             'format' => $this->format,

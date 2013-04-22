@@ -1,19 +1,19 @@
 <?php
-namespace Thunder\SimilarWebApi\Parser;
+namespace Thunder\SimilarWebApi\Parser\V1;
 
 use Thunder\SimilarWebApi\Parser;
 
 /**
  * @author Tomasz Kowalczyk <tomasz@kowalczyk.cc>
  */
-class SimilarSites extends Parser
+class Tags extends Parser
     {
     public function processJson(array $response)
         {
         $return = array();
-        foreach($response['SimilarSites'] as $country)
+        foreach($response['Tags'] as $country)
             {
-            $return[$country['Url']] = $country['Score'];
+            $return[$country['Name']] = $country['Score'];
             }
         return $return;
         }
@@ -21,15 +21,14 @@ class SimilarSites extends Parser
     public function processXml(\SimpleXMLElement $response)
         {
         $return = array();
-        if(!isset($response->SimilarSites[0]->SimilarSite))
+        if(!isset($response->Tags[0]->Tag))
             {
             return array();
             }
-        $items = count($response->SimilarSites->SimilarSite);
+        $items = count($response->Tags->Tag);
         for($i = 0; $i < $items; $i++)
             {
-            $return[strip_tags($response->SimilarSites->SimilarSite[$i]->Url->asXml())]
-                = floatval($response->SimilarSites->SimilarSite[$i]->Score);
+            $return[strip_tags($response->Tags->Tag[$i]->Name->asXml())] = floatval($response->Tags->Tag[$i]->Score);
             }
         return $return;
         }

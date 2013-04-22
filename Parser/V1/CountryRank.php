@@ -1,5 +1,5 @@
 <?php
-namespace Thunder\SimilarWebApi\Parser;
+namespace Thunder\SimilarWebApi\Parser\V1;
 
 use Thunder\SimilarWebApi\Parser;
 

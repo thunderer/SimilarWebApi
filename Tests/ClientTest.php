@@ -84,51 +84,51 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         /* -- GLOBAL RANK --------------------------------------------------- */
         /* ------------------------------------------------------------------ */
 
-            array('GlobalRank', 'JSON', 'google.pl', 388, null, array(200, 'V1/GlobalRank-200.json')),
-            array('GlobalRank', 'JSON', 'invalid', 'exception', 'RuntimeException', array(404, 'V1/GlobalRank-404.json')),
-            array('GlobalRank', 'XML', 'google.pl', 388, null, array(200, 'V1/GlobalRank-200.xml')),
-            array('GlobalRank', 'XML', 'invalid', 'exception', 'RuntimeException', array(404, 'V1/GlobalRank-404.xml')),
+            array(1, 'GlobalRank', 'JSON', 'google.pl', 388, null, array(200, 'V1/GlobalRank-200.json')),
+            array(1, 'GlobalRank', 'JSON', 'invalid', 'exception', 'RuntimeException', array(404, 'V1/GlobalRank-404.json')),
+            array(1, 'GlobalRank', 'XML', 'google.pl', 388, null, array(200, 'V1/GlobalRank-200.xml')),
+            array(1, 'GlobalRank', 'XML', 'invalid', 'exception', 'RuntimeException', array(404, 'V1/GlobalRank-404.xml')),
 
         /* ------------------------------------------------------------------ */
         /* -- COUNTRY RANK -------------------------------------------------- */
         /* ------------------------------------------------------------------ */
 
-            array('CountryRank', 'JSON', 'google.pl',
+            array(1, 'CountryRank', 'JSON', 'google.pl',
                 array(616 => 1, 826 => 22, 276 => 69, 528 => 54, 840 => 1480),
                 null, array(200, 'V1/CountryRank-200.json')),
-            array('CountryRank', 'JSON', 'invalid', array(), null, array(200, 'V1/CountryRank-404.json')),
-            array('CountryRank', 'XML',  'google.pl',
+            array(1, 'CountryRank', 'JSON', 'invalid', array(), null, array(200, 'V1/CountryRank-404.json')),
+            array(1, 'CountryRank', 'XML',  'google.pl',
                 array(616 => 1, 826 => 22, 276 => 69, 528 => 54, 840 => 1480),
                 null,
                 array(200, 'V1/CountryRank-200.xml')),
-            array('CountryRank', 'XML',  'invalid', array(), null, array(200, 'V1/CountryRank-404.xml')),
-            array('CountryRank', 'XML',  'invalid', 'exception', 'RuntimeException', array(404, '')),
+            array(1, 'CountryRank', 'XML',  'invalid', array(), null, array(200, 'V1/CountryRank-404.xml')),
+            array(1, 'CountryRank', 'XML',  'invalid', 'exception', 'RuntimeException', array(404, '')),
 
         /* ------------------------------------------------------------------ */
         /* -- CATEGORY RANK ------------------------------------------------- */
         /* ------------------------------------------------------------------ */
 
-            array('CategoryRank', 'JSON', 'google.pl',
+            array(1, 'CategoryRank', 'JSON', 'google.pl',
                 array(
                     'name' => 'Internet_and_Telecom/Search_Engine',
                     'rank' => 20,
                     ),
                 null, array(200, 'V1/CategoryRank-200.json')),
-            array('CategoryRank', 'JSON', 'invalid', array(), null, array(200, 'V1/CategoryRank-404.json')),
-            array('CategoryRank', 'XML',  'google.pl',
+            array(1, 'CategoryRank', 'JSON', 'invalid', array(), null, array(200, 'V1/CategoryRank-404.json')),
+            array(1, 'CategoryRank', 'XML',  'google.pl',
                 array(
                     'name' => 'Internet_and_Telecom/Search_Engine',
                     'rank' => 20,
                     ),
                 null, array(200, 'V1/CategoryRank-200.xml')),
-            array('CategoryRank', 'XML',  'invalid', array(), null, array(200, 'V1/CategoryRank-404.xml')),
-            array('CategoryRank', 'XML',  'invalid', 'exception', 'RuntimeException', array(404, '')),
+            array(1, 'CategoryRank', 'XML',  'invalid', array(), null, array(200, 'V1/CategoryRank-404.xml')),
+            array(1, 'CategoryRank', 'XML',  'invalid', 'exception', 'RuntimeException', array(404, '')),
 
         /* ------------------------------------------------------------------ */
         /* -- WEBSITE TAGS -------------------------------------------------- */
         /* ------------------------------------------------------------------ */
 
-            array('Tags', 'JSON', 'google.pl',
+            array(1, 'Tags', 'JSON', 'google.pl',
                 array(
                     'google' => 0.812606952660115,
                     'search' => 0.28651044373034,
@@ -142,8 +142,8 @@ class ClientTest extends \PHPUnit_Framework_TestCase
                     'z internet explorer' => 0.0889742436821045,
                     ),
                 null, array(200, 'V1/Tags-200.json')),
-            array('Tags', 'JSON', 'invalid', array(), null, array(200, 'V1/Tags-404.json')),
-            array('Tags', 'XML',  'google.pl',
+            array(1, 'Tags', 'JSON', 'invalid', array(), null, array(200, 'V1/Tags-404.json')),
+            array(1, 'Tags', 'XML',  'google.pl',
                 array(
                     'google' => 0.812606952660115,
                     'search' => 0.28651044373034,
@@ -157,14 +157,14 @@ class ClientTest extends \PHPUnit_Framework_TestCase
                     'z internet explorer' => 0.0889742436821045,
                     ),
                 null, array(200, 'V1/Tags-200.xml')),
-            array('Tags', 'XML', 'invalid', array(), null, array(200, 'V1/Tags-404.xml')),
-            array('Tags', 'XML', 'invalid', 'exception', 'RuntimeException', array(404, '')),
+            array(1, 'Tags', 'XML', 'invalid', array(), null, array(200, 'V1/Tags-404.xml')),
+            array(1, 'Tags', 'XML', 'invalid', 'exception', 'RuntimeException', array(404, '')),
 
         /* ------------------------------------------------------------------ */
         /* -- SIMILAR SITES ------------------------------------------------ */
         /* ------------------------------------------------------------------ */
 
-            array('SimilarSites', 'JSON', 'google.pl',
+            array(1, 'SimilarSites', 'JSON', 'google.pl',
                 array(
                     'onet.pl' => 0.61636751664836,
                     'o2.pl' => 0.60592599084329,
@@ -188,8 +188,8 @@ class ClientTest extends \PHPUnit_Framework_TestCase
                     'tlen.pl' => 0.36048139871828,
                     ),
                 null, array(200, 'V1/SimilarSites-200.json')),
-            array('SimilarSites', 'JSON', 'invalid', array(), null, array(200, 'V1/SimilarSites-404.json')),
-            array('SimilarSites', 'XML',  'google.pl',
+            array(1, 'SimilarSites', 'JSON', 'invalid', array(), null, array(200, 'V1/SimilarSites-404.json')),
+            array(1, 'SimilarSites', 'XML',  'google.pl',
                 array(
                     'onet.pl' => 0.61636751664836,
                     'o2.pl' => 0.60592599084329,
@@ -214,21 +214,20 @@ class ClientTest extends \PHPUnit_Framework_TestCase
                     ),
                 null,
                 array(200, 'V1/SimilarSites-200.xml')),
-            array('SimilarSites', 'XML',  'invalid', array(), null, array(200, 'V1/SimilarSites-404.xml')),
-            array('SimilarSites', 'XML',  'invalid', 'exception', 'RuntimeException', array(404, '')),
+            array(1, 'SimilarSites', 'XML',  'invalid', array(), null, array(200, 'V1/SimilarSites-404.xml')),
+            array(1, 'SimilarSites', 'XML',  'invalid', 'exception', 'RuntimeException', array(404, '')),
 
         /* ------------------------------------------------------------------ */
         /* -- CATEGORY ------------------------------------------------------ */
         /* ------------------------------------------------------------------ */
 
-            array('Category', 'JSON', 'google.pl', 'Internet_and_Telecom/Search_Engine', null, array(200, 'V1/Category-200.json')),
-            array('Category', 'JSON', 'invalid', '', null, array(200, 'V1/Category-404.json')),
-            array('Category', 'XML',  'google.pl', 'Internet_and_Telecom/Search_Engine', null, array(200, 'V1/Category-200.xml')),
-            array('Category', 'XML',  'invalid', '', null, array(200, 'V1/Category-404.xml')),
-            array('Category', 'XML',  'invalid', 'exception', 'RuntimeException', array(404, '')),
-
-            array('Category', 'XML',  'invalid', 'exception', 'InvalidArgumentException', array(200, 'xxx')),
-            array('Category', 'JSON',  'invalid', 'exception', 'InvalidArgumentException', array(200, '}{')),
+            array(1, 'Category', 'JSON', 'google.pl', 'Internet_and_Telecom/Search_Engine', null, array(200, 'V1/Category-200.json')),
+            array(1, 'Category', 'JSON', 'invalid', '', null, array(200, 'V1/Category-404.json')),
+            array(1, 'Category', 'XML',  'google.pl', 'Internet_and_Telecom/Search_Engine', null, array(200, 'V1/Category-200.xml')),
+            array(1, 'Category', 'XML',  'invalid', '', null, array(200, 'V1/Category-404.xml')),
+            array(1, 'Category', 'XML',  'invalid', 'exception', 'RuntimeException', array(404, '')),
+            array(1, 'Category', 'XML',  'invalid', 'exception', 'InvalidArgumentException', array(200, 'xxx')),
+            array(1, 'Category', 'JSON',  'invalid', 'exception', 'InvalidArgumentException', array(200, '}{')),
 
             /* -------------------------------------------------------------- */
 
@@ -238,11 +237,12 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider apiCallsProvider
      */
-    public function testApiCalls($call, $format, $domain, $result, $exception, $payload)
+    public function testApiCalls($version, $call, $format, $domain, $result, $exception, $payload)
         {
         $swMock = $this->getMock('Thunder\SimilarWebApi\Client', array('executeRequest'), array(
             'userKey' => 'da39a3ee5e6b4b0d3255bfef95601890',
             'format' => $format,
+            'version' => $version,
             ));
         $contents = @file_get_contents(__DIR__.'/Responses/'.$payload[1]);
         if(false !== $contents)
@@ -276,38 +276,38 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function invalidCallsProvider()
         {
         return array(
-            array('GlobalRank', array('response', 'INV'), '', 'InvalidArgumentException'),
-            array('GlobalRank', array('}{', 'JSON'), '', 'InvalidArgumentException'),
-            array('GlobalRank', array('{}', 'JSON'), '', 'RuntimeException'),
-            array('GlobalRank', array('<>', 'XML'), '', 'InvalidArgumentException'),
-            array('GlobalRank', array('<x />', 'XML'), '', 'RuntimeException'),
+            array(1, 'GlobalRank', array('response', 'INV'), '', 'InvalidArgumentException'),
+            array(1, 'GlobalRank', array('}{', 'JSON'), '', 'InvalidArgumentException'),
+            array(1, 'GlobalRank', array('{}', 'JSON'), '', 'RuntimeException'),
+            array(1, 'GlobalRank', array('<>', 'XML'), '', 'InvalidArgumentException'),
+            array(1, 'GlobalRank', array('<x />', 'XML'), '', 'RuntimeException'),
 
-            array('CountryRank', array('response', 'INV'), '', 'InvalidArgumentException'),
-            array('CountryRank', array('{}', 'JSON'), '', 'RuntimeException'),
-            array('CountryRank', array('<x />', 'XML'), '', 'RuntimeException'),
+            array(1, 'CountryRank', array('response', 'INV'), '', 'InvalidArgumentException'),
+            array(1, 'CountryRank', array('{}', 'JSON'), '', 'RuntimeException'),
+            array(1, 'CountryRank', array('<x />', 'XML'), '', 'RuntimeException'),
 
-            array('CategoryRank', array('response', 'INV'), '', 'InvalidArgumentException'),
+            array(1, 'CategoryRank', array('response', 'INV'), '', 'InvalidArgumentException'),
 
-            array('Tags', array('response', 'INV'), '', 'InvalidArgumentException'),
-            array('SimilarSites', array('response', 'INV'), '', 'InvalidArgumentException'),
+            array(1, 'Tags', array('response', 'INV'), '', 'InvalidArgumentException'),
+            array(1, 'SimilarSites', array('response', 'INV'), '', 'InvalidArgumentException'),
 
-            array('Category', array('response', 'INV'), '', 'InvalidArgumentException'),
-            array('Category', array('{}', 'JSON'), '', 'RuntimeException'),
-            array('Category', array('<x />', 'XML'), '', 'RuntimeException'),
+            array(1, 'Category', array('response', 'INV'), '', 'InvalidArgumentException'),
+            array(1, 'Category', array('{}', 'JSON'), '', 'RuntimeException'),
+            array(1, 'Category', array('<x />', 'XML'), '', 'RuntimeException'),
             );
         }
 
     /**
      * @dataProvider invalidCallsProvider
      */
-    public function testForCoverage($method, array $args, $result, $exception = null)
+    public function testForCoverage($version, $method, array $args, $result, $exception = null)
         {
-        $sw = new Client('da39a3ee5e6b4b0d3255bfef95601890', 'JSON');
+        $sw = new Client('da39a3ee5e6b4b0d3255bfef95601890', 'JSON', $version);
         if(null !== $exception)
             {
             $this->setExpectedException($exception);
             }
-        $className = 'Thunder\SimilarWebApi\\Parser\\'.$method;
+        $className = 'Thunder\SimilarWebApi\\Parser\\V'.$version.'\\'.$method;
         $parser = new $className();
         $actualResult = $parser->parse($args[0], $args[1]);
         $this->assertEquals($result, $actualResult);
@@ -315,7 +315,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     public function testRealRequest()
         {
-        $sw = new Client('da39a3ee5e6b4b0d3255bfef95601890', 'JSON');
+        $sw = new Client('da39a3ee5e6b4b0d3255bfef95601890', 'JSON', 1);
         $this->setExpectedException('RuntimeException');
         $actualResult = $sw->api('GlobalRank', 'google.pl');
         }
