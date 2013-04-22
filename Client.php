@@ -101,17 +101,18 @@ class Client
             return $this->cache[$call][$url];
             }
 
+        $class = __NAMESPACE__.'\\Parser\\V'.$this->apiVersion.'\\'.$call;
+        if(!class_exists($class, true))
+            {
+            throw new \RuntimeException(sprintf('Failed to load parser handler class %s!', $class));
+            }
+
         list($status, $response) = $this->executeRequest($call, $url);
         if(200 != $status)
             {
             throw new \RuntimeException(sprintf('API request failed with code %s, response: "%s".', $status, $response));
             }
 
-        $class = __NAMESPACE__.'\\Parser\\V'.$this->apiVersion.'\\'.$call;
-        if(!class_exists($class, true))
-            {
-            throw new \RuntimeException(sprintf('Failed to load parser handler class %s!', $class));
-            }
         $result = call_user_func_array(array(new $class, 'parse'), array(
             'response' => $response,
             'format' => $this->format,

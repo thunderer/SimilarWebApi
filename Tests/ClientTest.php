@@ -229,6 +229,49 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             array(1, 'Category', 'XML',  'invalid', 'exception', 'InvalidArgumentException', array(200, 'xxx')),
             array(1, 'Category', 'JSON',  'invalid', 'exception', 'InvalidArgumentException', array(200, '}{')),
 
+
+        /* ------------------------------------------------------------------ */
+        /* ------------------------------------------------------------------ */
+        /* -- V2 ------------------------------------------------------------ */
+        /* ------------------------------------------------------------------ */
+        /* ------------------------------------------------------------------ */
+
+        /* ------------------------------------------------------------------ */
+        /* -- TAGS ---------------------------------------------------------- */
+        /* ------------------------------------------------------------------ */
+
+            array(2, 'Tags', 'JSON', 'google.pl',
+                array(
+                    'google' => 0.812606952660115,
+                    'search' => 0.28651044373034,
+                    'folder zakładek osobistych' => 0.252063426499681,
+                    'wyszukiwarka' => 0.190362443330678,
+                    'mobilne zakładki' => 0.169491699143677,
+                    'nazwa folderu' => 0.169491699143677,
+                    'wyszukiwarki' => 0.15017253537674,
+                    'internet' => 0.136542773364803,
+                    'wyszukiwanie' => 0.0970751723399089,
+                    'z internet explorer' => 0.0889742436821045,
+                    ),
+                null, array(200, 'V2/Tags/200.json')),
+            array(2, 'Tags', 'JSON', 'invalid', array(), null, array(200, 'V2/Tags/404.json')),
+            array(2, 'Tags', 'XML',  'google.pl',
+                array(
+                    'google' => 0.812606952660115,
+                    'search' => 0.28651044373034,
+                    'folder zakładek osobistych' => 0.252063426499681,
+                    'wyszukiwarka' => 0.190362443330678,
+                    'mobilne zakładki' => 0.169491699143677,
+                    'nazwa folderu' => 0.169491699143677,
+                    'wyszukiwarki' => 0.15017253537674,
+                    'internet' => 0.136542773364803,
+                    'wyszukiwanie' => 0.0970751723399089,
+                    'z internet explorer' => 0.0889742436821045,
+                    ),
+                null, array(200, 'V2/Tags/200.xml')),
+            array(2, 'Tags', 'XML', 'invalid', array(), null, array(200, 'V2/Tags/404.xml')),
+            array(2, 'Tags', 'XML', 'invalid', 'exception', 'RuntimeException', array(404, '')),
+
             /* -------------------------------------------------------------- */
 
             ); // provider array
@@ -311,6 +354,19 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $parser = new $className();
         $actualResult = $parser->parse($args[0], $args[1]);
         $this->assertEquals($result, $actualResult);
+        }
+
+    public function testInvalidVersion()
+        {
+        $this->setExpectedException('InvalidArgumentException');
+        $client = new Client('da39a3ee5e6b4b0d3255bfef95601890', 'JSON', 3);
+        }
+
+    public function testInvalidParser()
+        {
+        $client = new Client('da39a3ee5e6b4b0d3255bfef95601890', 'JSON', 2);
+        $this->setExpectedException('RuntimeException');
+        $client->api('Invalid', 'google.pl', true);
         }
 
     public function testRealRequest()
