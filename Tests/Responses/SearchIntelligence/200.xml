@@ -1,0 +1,30 @@
+<SearchIntelligenceResponse xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+    <OrganicSearchShare>0.999855885567263</OrganicSearchShare>
+    <PaidSearchShare>0.000144114432736875</PaidSearchShare>
+    <TopOrganicTerms>
+        <Keyword>google</Keyword>
+        <Keyword>google.pl</Keyword>
+        <Keyword>google pl</Keyword>
+        <Keyword>www.google.pl</Keyword>
+        <Keyword>tłumacz</Keyword>
+        <Keyword>tlumacz</Keyword>
+        <Keyword>gogle</Keyword>
+        <Keyword>tłumacz google</Keyword>
+        <Keyword>tlumacz google</Keyword>
+        <Keyword>google tłumacz</Keyword>
+    </TopOrganicTerms>
+    <TopPaidTerms>
+        <Keyword>google</Keyword>
+        <Keyword>google street view</Keyword>
+        <Keyword>reklama owocach</Keyword>
+        <Keyword>www.google.pl</Keyword>
+        <Keyword>google pl</Keyword>
+        <Keyword>google.pl</Keyword>
+        <Keyword>pozycjonowanie stron</Keyword>
+        <Keyword>adwords</Keyword>
+        <Keyword>pozycjonowanie w google</Keyword>
+        <Keyword>google.pl/</Keyword>
+    </TopPaidTerms>
+    <StartDate>01/2013</StartDate>
+    <EndDate>03/2013</EndDate>
+</SearchIntelligenceResponse>

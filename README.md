@@ -30,7 +30,7 @@ $client = new Client('api-key-provided-by-similarweb', 'JSON');
 $googleGlobalRankPosition = $client->api('GlobalRank', 'google.pl');
 $googleGlobalRankPosition = $client->api('GlobalRank', 'google.pl'); // will be served from cache
 $googleCategory = $client->api('Category', 'google.pl');
-$facebookTags = $client->api('Category', 'facebook.com');
+$facebookTags = $client->api('Tags', 'facebook.com');
 
 // to see the results
 var_dump($googleGlobalRankPosition, $googleCategory, $facebookTags);

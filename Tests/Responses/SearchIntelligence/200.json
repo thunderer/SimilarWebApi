@@ -1,0 +1,30 @@
+{
+    "OrganicSearchShare":0.999855885567263,
+    "PaidSearchShare":0.000144114432736875,
+    "TopOrganicTerms":[
+        "google",
+        "google.pl",
+        "google pl",
+        "www.google.pl",
+        "tłumacz",
+        "tlumacz",
+        "gogle",
+        "tłumacz google",
+        "tlumacz google",
+        "google tłumacz"
+    ],
+    "TopPaidTerms":[
+        "google",
+        "google street view",
+        "reklama owocach",
+        "www.google.pl",
+        "google pl",
+        "google.pl",
+        "pozycjonowanie stron",
+        "adwords",
+        "pozycjonowanie w google",
+        "google.pl/"
+    ],
+    "StartDate":"01/2013",
+    "EndDate":"03/2013"
+}

@@ -1,0 +1,11 @@
+{
+    "SocialSources":[
+        {"Source":"Facebook","Value":0.582044720352275},
+        {"Source":"Youtube","Value":0.252626360630494},
+        {"Source":"Nk.pl","Value":0.0818276171811314},
+        {"Source":"Badoo","Value":0.0461216725026514},
+        {"Source":"Ask.fm","Value":0.0254566924352841}
+    ],
+    "StartDate":"01/2013",
+    "EndDate":"03/2013"
+}
