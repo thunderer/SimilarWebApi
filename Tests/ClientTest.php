@@ -237,6 +237,95 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         /* ------------------------------------------------------------------ */
 
         /* ------------------------------------------------------------------ */
+        /* -- SIMILAR SITES ------------------------------------------------ */
+        /* ------------------------------------------------------------------ */
+
+            array(2, 'SimilarSites', 'JSON', 'google.pl',
+                array(
+                    'onet.pl' => 0.61636751664836,
+                    'o2.pl' => 0.60592599084329,
+                    'wp.pl' => 0.58248742751268,
+                    'allegro.pl' => 0.58065731826857,
+                    'searchgi.com' => 0.56054822455505,
+                    'interia.pl' => 0.55590180100101,
+                    'netsprint.pl' => 0.45038046272021,
+                    'pl.wikipedia.org' => 0.44633659083624,
+                    'nk.pl' => 0.42615714930277,
+                    'szukacz.pl' => 0.40115853165034,
+                    'jabago.com' => 0.4007476195845,
+                    'noamok.de' => 0.39713958773577,
+                    'gry.pl' => 0.39422711929614,
+                    'gcity.pl' => 0.39160146821524,
+                    'search.conduit.com' => 0.39057300532716,
+                    'googleblog.blogspot.com' => 0.38313083138904,
+                    'wyszukiwarka-chomikuj.pl' => 0.37362632165685,
+                    'nasza-klasa.pl/login' => 0.36550396041897,
+                    'zumi.pl' => 0.36051490096293,
+                    'tlen.pl' => 0.36048139871828,
+                ),
+                null, array(200, 'V2/SimilarSites/200.json')),
+            array(2, 'SimilarSites', 'JSON', 'invalid', array(), null, array(200, 'V2/SimilarSites/404.json')),
+            array(2, 'SimilarSites', 'XML',  'google.pl',
+                array(
+                    'onet.pl' => 0.61636751664836,
+                    'o2.pl' => 0.60592599084329,
+                    'wp.pl' => 0.58248742751268,
+                    'allegro.pl' => 0.58065731826857,
+                    'searchgi.com' => 0.56054822455505,
+                    'interia.pl' => 0.55590180100101,
+                    'netsprint.pl' => 0.45038046272021,
+                    'pl.wikipedia.org' => 0.44633659083624,
+                    'nk.pl' => 0.42615714930277,
+                    'szukacz.pl' => 0.40115853165034,
+                    'jabago.com' => 0.4007476195845,
+                    'noamok.de' => 0.39713958773577,
+                    'gry.pl' => 0.39422711929614,
+                    'gcity.pl' => 0.39160146821524,
+                    'search.conduit.com' => 0.39057300532716,
+                    'googleblog.blogspot.com' => 0.38313083138904,
+                    'wyszukiwarka-chomikuj.pl' => 0.37362632165685,
+                    'nasza-klasa.pl/login' => 0.36550396041897,
+                    'zumi.pl' => 0.36051490096293,
+                    'tlen.pl' => 0.36048139871828,
+                ),
+                null,
+                array(200, 'V2/SimilarSites/200.xml')),
+            array(2, 'SimilarSites', 'XML',  'invalid', array(), null, array(200, 'V2/SimilarSites/404.xml')),
+            array(2, 'SimilarSites', 'XML',  'invalid', 'exception', 'RuntimeException', array(404, '')),
+
+        /* ------------------------------------------------------------------ */
+        /* -- CATEGORY RANK ------------------------------------------------- */
+        /* ------------------------------------------------------------------ */
+
+            array(2, 'CategoryRank', 'JSON', 'google.pl',
+                array(
+                    'name' => 'Internet_and_Telecom/Search_Engine',
+                    'rank' => 22,
+                ),
+                null, array(200, 'V2/CategoryRank/200.json')),
+            array(2, 'CategoryRank', 'JSON', 'invalid', array(), null, array(200, 'V2/CategoryRank/404.json')),
+            array(2, 'CategoryRank', 'XML',  'google.pl',
+                array(
+                    'name' => 'Internet_and_Telecom/Search_Engine',
+                    'rank' => 22,
+                ),
+                null, array(200, 'V2/CategoryRank/200.xml')),
+            array(2, 'CategoryRank', 'XML',  'invalid', array(), null, array(200, 'V2/CategoryRank/404.xml')),
+            array(2, 'CategoryRank', 'XML',  'invalid', 'exception', 'RuntimeException', array(404, '')),
+
+        /* ------------------------------------------------------------------ */
+        /* -- CATEGORY ------------------------------------------------------ */
+        /* ------------------------------------------------------------------ */
+
+            array(2, 'Category', 'JSON', 'google.pl', 'Internet_and_Telecom/Search_Engine', null, array(200, 'V2/Category/200.json')),
+            array(2, 'Category', 'JSON', 'invalid', '', null, array(200, 'V2/Category/404.json')),
+            array(2, 'Category', 'XML',  'google.pl', 'Internet_and_Telecom/Search_Engine', null, array(200, 'V2/Category/200.xml')),
+            array(2, 'Category', 'XML',  'invalid', '', null, array(200, 'V2/Category/404.xml')),
+            array(2, 'Category', 'XML',  'invalid', 'exception', 'RuntimeException', array(404, '')),
+            array(2, 'Category', 'XML',  'invalid', 'exception', 'InvalidArgumentException', array(200, 'xxx')),
+            array(2, 'Category', 'JSON',  'invalid', 'exception', 'InvalidArgumentException', array(200, '}{')),
+
+        /* ------------------------------------------------------------------ */
         /* -- TAGS ---------------------------------------------------------- */
         /* ------------------------------------------------------------------ */
 
