@@ -76,12 +76,18 @@ class Client
     /**
      * Compute API call target URL
      *
-     * @param $call
-     * @param $url
-     * @return string
+     * @param string $call API call name
+     * @param string $url Domain to process
+     * @return string API target URL
      */
     public function getUrlTarget($call, $url)
         {
+        if(2 === $this->apiVersion)
+            {
+            $callsWithV1Url = array('traffic', 'engagement', 'searchintelligence', 'socialreferringsites');
+            $version = in_array(strtolower($call), $callsWithV1Url) ? 1 : 2;
+            return sprintf('http://api.similarweb.com/Site/%s/v%s/%s?Format=%s&UserKey=%s', $url, $version, $call, $this->format, $this->userKey);
+            }
         return sprintf('http://api.similarweb.com/Site/%s/%s?Format=%s&UserKey=%s', $url, $call, $this->format, $this->userKey);
         }
 

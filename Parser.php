@@ -15,6 +15,12 @@ abstract class Parser
      */
     public function prepareJson($response)
         {
+        /**
+         * Function json_decode() fails when object contains NaN (not-a-number)
+         * values and this is easiest and quite safe solution. If you have
+         * better one, please send me PR. :)
+         */
+        $response = str_replace('":NaN,', '":0,', $response);
         $process = json_decode($response, true);
         if(null === $process)
             {
@@ -111,5 +117,29 @@ abstract class Parser
     protected function createInvalidResponseException($format, $response)
         {
         return new \RuntimeException(sprintf('Invalid response: %s!', $format, $response));
+        }
+
+    /**
+     * Convert commonly used date format in responses to timestamp.
+     *
+     * @param string $monthYear Date in format m/Y (two digit month and four digit year)
+     * @return int Timestamp of first second of given month
+     */
+    protected function convertMonthYearToTimestamp($monthYear)
+        {
+        $dt = date_create_from_format('m/Y', $monthYear);
+        return $dt ? strtotime('first day of '.date('F Y', $dt->getTimestamp()), $dt->getTimestamp()) : 0;
+        }
+
+    /**
+     * Convert commonly used date format in responses to timestamp.
+     *
+     * @param string $dayMonthYear Date in format d/m/Y (two digit day && month and four digit year)
+     * @return int Timestamp of first second of given day
+     */
+    function convertDayMonthYearToTimestamp($dayMonthYear)
+        {
+        $dt = \DateTime::createFromFormat('d/m/Y', $dayMonthYear);
+        return $dt ? $dt->setTime(0, 0, 0)->getTimestamp() : 0;
         }
     }
