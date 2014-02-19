@@ -1,8 +1,0 @@
-<SearchIntelligenceResponse xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
-    <OrganicSearchShare>NaN</OrganicSearchShare>
-    <PaidSearchShare>NaN</PaidSearchShare>
-    <TopOrganicTerms/>
-    <TopPaidTerms/>
-    <StartDate>01/2013</StartDate>
-    <EndDate>03/2013</EndDate>
-</SearchIntelligenceResponse>
