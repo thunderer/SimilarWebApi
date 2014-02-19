@@ -1,0 +1,84 @@
+{
+ "SimilarSites": [
+  {
+   "Url": "yahoo.com",
+   "Score": 0.9999999999999999
+  },
+  {
+   "Url": "ask.com",
+   "Score": 0.9995939739128625
+  },
+  {
+   "Url": "msn.com",
+   "Score": 0.9976214647874057
+  },
+  {
+   "Url": "altavista.com",
+   "Score": 0.9938699846213
+  },
+  {
+   "Url": "bing.com",
+   "Score": 0.9819366562375411
+  },
+  {
+   "Url": "youtube.com",
+   "Score": 0.9803617334136692
+  },
+  {
+   "Url": "facebook.com",
+   "Score": 0.9485328930303555
+  },
+  {
+   "Url": "givemebackmygoogle.com",
+   "Score": 0.7292672352155798
+  },
+  {
+   "Url": "ninja.com",
+   "Score": 0.6111064254471278
+  },
+  {
+   "Url": "dogpile.com",
+   "Score": 0.5575768300162754
+  },
+  {
+   "Url": "wikipedia.org",
+   "Score": 0.47118077756555016
+  },
+  {
+   "Url": "webcrawler.com",
+   "Score": 0.23614786636212534
+  },
+  {
+   "Url": "cuil.com",
+   "Score": 0.2219234273850032
+  },
+  {
+   "Url": "googleguide.com",
+   "Score": 0.20790251678906022
+  },
+  {
+   "Url": "accounts.youtube.com",
+   "Score": 0.20631270305976396
+  },
+  {
+   "Url": "lycos.com",
+   "Score": 0.1897223842454015
+  },
+  {
+   "Url": "gogle.com",
+   "Score": 0.18579503237546213
+  },
+  {
+   "Url": "gppgle.com",
+   "Score": 0.18242051523498132
+  },
+  {
+   "Url": "gogole.com",
+   "Score": 0.17647987634392565
+  },
+  {
+   "Url": "googlecom.com",
+   "Score": 0.17636706490669585
+  }
+ ]
+}

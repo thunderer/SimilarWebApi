@@ -1,0 +1,44 @@
+{
+ "Tags": [
+  {
+   "Name": "google",
+   "Score": 0.5333728540275197
+  },
+  {
+   "Name": "google search",
+   "Score": 0.46402667733266306
+  },
+  {
+   "Name": "google tools",
+   "Score": 0.42471716141806953
+  },
+  {
+   "Name": "search",
+   "Score": 0.3750110743690812
+  },
+  {
+   "Name": "web search",
+   "Score": 0.2517279884446655
+  },
+  {
+   "Name": "directories",
+   "Score": 0.20652897582161162
+  },
+  {
+   "Name": "internet tools",
+   "Score": 0.1228847631669095
+  },
+  {
+   "Name": "web",
+   "Score": 0.10877547625152476
+  },
+  {
+   "Name": "internet",
+   "Score": 0.08672308463791527
+  },
+  {
+   "Name": "searchengine",
+   "Score": 0.081427474004788
+  }
+ ]
+}

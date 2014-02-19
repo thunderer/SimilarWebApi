@@ -1,0 +1,614 @@
+{
+ "SocialSources": [
+  {
+   "Source": "Youtube",
+   "Value": 0.7151226352956931
+  },
+  {
+   "Source": "Facebook",
+   "Value": 0.17507418279886344
+  },
+  {
+   "Source": "Reddit",
+   "Value": 0.05759093022575886
+  },
+  {
+   "Source": "Twitter",
+   "Value": 0.012562499420105972
+  },
+  {
+   "Source": "Orkut",
+   "Value": 0.008231686440000082
+  },
+  {
+   "Source": "Vk.com",
+   "Value": 0.004249269062853249
+  },
+  {
+   "Source": "Instagram",
+   "Value": 0.0029002251638366797
+  },
+  {
+   "Source": "Netvibes",
+   "Value": 0.002658701151612782
+  },
+  {
+   "Source": "4chan",
+   "Value": 0.002477592747314082
+  },
+  {
+   "Source": "Linkedin",
+   "Value": 0.0024755742858641326
+  },
+  {
+   "Source": "Stack Overflow",
+   "Value": 0.002051066763656652
+  },
+  {
+   "Source": "Badoo",
+   "Value": 0.0017870634429398404
+  },
+  {
+   "Source": "SoundCloud.com",
+   "Value": 0.0014790288186155567
+  },
+  {
+   "Source": "Pinterest",
+   "Value": 0.0013510460500985736
+  },
+  {
+   "Source": "quora",
+   "Value": 0.001298487650868086
+  },
+  {
+   "Source": "Ask.fm",
+   "Value": 0.0012783967841429166
+  },
+  {
+   "Source": "Weibo.com",
+   "Value": 0.0008315587991933803
+  },
+  {
+   "Source": "Taringa.net",
+   "Value": 0.0007023692101338644
+  },
+  {
+   "Source": "Imvu.com",
+   "Value": 0.0006843786888986127
+  },
+  {
+   "Source": "Odnoklassniki.ru",
+   "Value": 0.000682898323105113
+  },
+  {
+   "Source": "DailyMotion",
+   "Value": 0.00046318573535801755
+  },
+  {
+   "Source": "Douban",
+   "Value": 0.0003593217852975065
+  },
+  {
+   "Source": "DeviantArt.com",
+   "Value": 0.000354249505334627
+  },
+  {
+   "Source": "Tagged",
+   "Value": 0.0003508190841619783
+  },
+  {
+   "Source": "Digg",
+   "Value": 0.0003474688603477099
+  },
+  {
+   "Source": "Flickr",
+   "Value": 0.000268194791011777
+  },
+  {
+   "Source": "Pocket",
+   "Value": 0.00020051144199025186
+  },
+  {
+   "Source": "Vimeo",
+   "Value": 0.00017809399492658694
+  },
+  {
+   "Source": "Slideshare",
+   "Value": 0.00014931845461989152
+  },
+  {
+   "Source": "Renren",
+   "Value": 0.00011250141078270923
+  },
+  {
+   "Source": "Hi5",
+   "Value": 0.00010217768870540626
+  },
+  {
+   "Source": "Last.fm",
+   "Value": 0.00010147247116983418
+  },
+  {
+   "Source": "Draugiem.lv",
+   "Value": 0.00009692983767657615
+  },
+  {
+   "Source": "Tuenti.com",
+   "Value": 0.00009106290178546418
+  },
+  {
+   "Source": "Stumbleupon",
+   "Value": 0.00008606319577950375
+  },
+  {
+   "Source": "Scribd",
+   "Value": 0.00008521757961059885
+  },
+  {
+   "Source": "Mixi.jp",
+   "Value": 0.00008039376183051141
+  },
+  {
+   "Source": "Ning.com",
+   "Value": 0.00008030943029054546
+  },
+  {
+   "Source": "Foursquare",
+   "Value": 0.00006859260859559744
+  },
+  {
+   "Source": "Nk.pl",
+   "Value": 0.00005833295651352855
+  },
+  {
+   "Source": "Skyrock",
+   "Value": 0.0000538018141250168
+  },
+  {
+   "Source": "Hatena Bookmark",
+   "Value": 0.00004921765970932263
+  },
+  {
+   "Source": "Delicious",
+   "Value": 0.00004742496331541964
+  },
+  {
+   "Source": "Jappy",
+   "Value": 0.00004586113522269009
+  },
+  {
+   "Source": "Myspace",
+   "Value": 0.000041271782804821315
+  },
+  {
+   "Source": "Diigo",
+   "Value": 0.000040305377420798256
+  },
+  {
+   "Source": "Metacafe",
+   "Value": 0.000038507528246965805
+  },
+  {
+   "Source": "MocoSpace.com",
+   "Value": 0.00003673955700308726
+  },
+  {
+   "Source": "Balatarin",
+   "Value": 0.000036688026004134045
+  },
+  {
+   "Source": "Type Pad",
+   "Value": 0.00003558705403182435
+  },
+  {
+   "Source": "GaiaOnline.com",
+   "Value": 0.000030447272916093372
+  },
+  {
+   "Source": "LiveJournal.com",
+   "Value": 0.00002806707964790926
+  },
+  {
+   "Source": "Xing",
+   "Value": 0.000024864208282664104
+  },
+  {
+   "Source": "Instapaper",
+   "Value": 0.000022945490621569418
+  },
+  {
+   "Source": "Netlog",
+   "Value": 0.00002154339883345178
+  },
+  {
+   "Source": "WeeWorld.com",
+   "Value": 0.00001871646224222356
+  },
+  {
+   "Source": "Habbo",
+   "Value": 0.000017301200336485227
+  },
+  {
+   "Source": "Viadeo",
+   "Value": 0.00001714789916840948
+  },
+  {
+   "Source": "Trombi.com",
+   "Value": 0.00001698799230089881
+  },
+  {
+   "Source": "AmericanTowns",
+   "Value": 0.000013601056533803278
+  },
+  {
+   "Source": "Wayn.com",
+   "Value": 0.000013574477645123765
+  },
+  {
+   "Source": "Wer-Kennt-Wen.de",
+   "Value": 0.000012991641955461989
+  },
+  {
+   "Source": "Squidoo",
+   "Value": 0.000011481766029654725
+  },
+  {
+   "Source": "BlackPlanet",
+   "Value": 0.000010713122342871931
+  },
+  {
+   "Source": "FriendFeed",
+   "Value": 0.000010270672251379738
+  },
+  {
+   "Source": "Askville",
+   "Value": 0.000009934890803992079
+  },
+  {
+   "Source": "Classmates",
+   "Value": 0.000009898438720636642
+  },
+  {
+   "Source": "Yuku",
+   "Value": 0.000009681988681881679
+  },
+  {
+   "Source": "Fubar.com",
+   "Value": 0.000009675747850328981
+  },
+  {
+   "Source": "My.Opera.com",
+   "Value": 0.000008478833205016384
+  },
+  {
+   "Source": "CafeMom.com",
+   "Value": 0.000008350594103344614
+  },
+  {
+   "Source": "Care2.com",
+   "Value": 0.00000794906760530286
+  },
+  {
+   "Source": "IWIW.hu",
+   "Value": 0.000007216856486168401
+  },
+  {
+   "Source": "Experience Project",
+   "Value": 0.000007186651135194425
+  },
+  {
+   "Source": "Sonico",
+   "Value": 0.000006769622455002311
+  },
+  {
+   "Source": "Caringbridge",
+   "Value": 0.000006616400115365662
+  },
+  {
+   "Source": "Activerain",
+   "Value": 0.000006318664866508261
+  },
+  {
+   "Source": "Ancestry.com",
+   "Value": 0.000006261786073597307
+  },
+  {
+   "Source": "MyHeritage.com",
+   "Value": 0.000005243236836170207
+  },
+  {
+   "Source": "VampireFreaks.com",
+   "Value": 0.000005048223113884026
+  },
+  {
+   "Source": "Flavors.me",
+   "Value": 0.000005033031216250473
+  },
+  {
+   "Source": "Fotolog.com",
+   "Value": 0.000004872226021875199
+  },
+  {
+   "Source": "Sitejot",
+   "Value": 0.000004720998293535562
+  },
+  {
+   "Source": "MyLife.com",
+   "Value": 0.000004420617772928194
+  },
+  {
+   "Source": "Plaxo",
+   "Value": 0.0000041124508026317376
+  },
+  {
+   "Source": "Yahoo Bookmarks",
+   "Value": 0.000003429243476102312
+  },
+  {
+   "Source": "aNobii",
+   "Value": 0.0000026657198048435605
+  },
+  {
+   "Source": "Hyves.nl",
+   "Value": 0.0000025447084339352594
+  },
+  {
+   "Source": "Dealigg",
+   "Value": 0.000002283426009790321
+  },
+  {
+   "Source": "Qzone",
+   "Value": 0.0000022382723480154887
+  },
+  {
+   "Source": "Dxy.cn",
+   "Value": 0.0000020306272920490627
+  },
+  {
+   "Source": "linuxquestions",
+   "Value": 0.0000020301485080039595
+  },
+  {
+   "Source": "Geni.com",
+   "Value": 0.0000019802674141850908
+  },
+  {
+   "Source": "Docin.com",
+   "Value": 0.000001962094569946077
+  },
+  {
+   "Source": "Ibibo.com",
+   "Value": 0.0000018671567658790504
+  },
+  {
+   "Source": "StudiVZ",
+   "Value": 0.0000017098340366519635
+  },
+  {
+   "Source": "Blurtit",
+   "Value": 0.000001494213281029247
+  },
+  {
+   "Source": "Answerbag",
+   "Value": 0.0000013233690827857264
+  },
+  {
+   "Source": "LibraryThing.com",
+   "Value": 0.0000012191737122305967
+  },
+  {
+   "Source": "i-am-bored",
+   "Value": 0.0000012163138473094267
+  },
+  {
+   "Source": "Bibsonomy",
+   "Value": 0.0000011611825790418951
+  },
+  {
+   "Source": "Kaboodle",
+   "Value": 0.0000010080413166263579
+  },
+  {
+   "Source": "Friendster.com",
+   "Value": 9.903125299892916e-7
+  },
+  {
+   "Source": "Kaixin001.com",
+   "Value": 9.331990697579635e-7
+  },
+  {
+   "Source": "TravBuddy.com",
+   "Value": 8.414959357007524e-7
+  },
+  {
+   "Source": "Technorati",
+   "Value": 7.654382163629724e-7
+  },
+  {
+   "Source": "AOL Answers",
+   "Value": 7.09832378968336e-7
+  },
+  {
+   "Source": "Tianya.cn",
+   "Value": 7.014666297121036e-7
+  },
+  {
+   "Source": "LiveMocha.com",
+   "Value": 5.388282637400529e-7
+  },
+  {
+   "Source": "Folkd",
+   "Value": 4.997606001081446e-7
+  },
+  {
+   "Source": "CellUFun.com",
+   "Value": 4.7129049955683315e-7
+  },
+  {
+   "Source": "Nowpublic",
+   "Value": 3.3365249471416505e-7
+  },
+  {
+   "Source": "Vkontakte",
+   "Value": 3.131138791027746e-7
+  },
+  {
+   "Source": "Blogcatalog",
+   "Value": 3.1099451181435046e-7
+  },
+  {
+   "Source": "Nexopia.com",
+   "Value": 3.089291572009276e-7
+  },
+  {
+   "Source": "Cyworld",
+   "Value": 3.0259938061996205e-7
+  },
+  {
+   "Source": "Dzone",
+   "Value": 2.4313115212832277e-7
+  },
+  {
+   "Source": "Leenks",
+   "Value": 2.200404407878503e-7
+  },
+  {
+   "Source": "Linkagogo",
+   "Value": 2.1248269213884432e-7
+  },
+  {
+   "Source": "Friendsreunited",
+   "Value": 1.655040776607823e-7
+  },
+  {
+   "Source": "Citeulike",
+   "Value": 1.6376405611151856e-7
+  },
+  {
+   "Source": "Gather",
+   "Value": 1.4401723753618183e-7
+  },
+  {
+   "Source": "Faces",
+   "Value": 1.3720138209351624e-7
+  },
+  {
+   "Source": "Bebo",
+   "Value": 1.2738856384036919e-7
+  },
+  {
+   "Source": "Photoshoproadmap",
+   "Value": 1.1804539227104627e-7
+  },
+  {
+   "Source": "Posterous",
+   "Value": 6.773164684445274e-8
+  },
+  {
+   "Source": "StickAm.com",
+   "Value": 5.402779700442553e-8
+  },
+  {
+   "Source": "Netvouz",
+   "Value": 4.7420340668806984e-8
+  },
+  {
+   "Source": "Tutorialized",
+   "Value": 4.5168897002473e-8
+  },
+  {
+   "Source": "Stylehive.com",
+   "Value": 4.442281261858347e-8
+  },
+  {
+   "Source": "Designfloat",
+   "Value": 4.3865370559714125e-8
+  },
+  {
+   "Source": "Startaid",
+   "Value": 3.1674015794201025e-8
+  },
+  {
+   "Source": "OpenDiary.com",
+   "Value": 2.7668620651480253e-8
+  },
+  {
+   "Source": "Buddymarks",
+   "Value": 2.3944503251853998e-8
+  },
+  {
+   "Source": "Work",
+   "Value": 2.364754043571831e-8
+  },
+  {
+   "Source": "Spurl",
+   "Value": 2.0185051921932658e-8
+  },
+  {
+   "Source": "Pinterest Main",
+   "Value": 1.9924498179723524e-8
+  },
+  {
+   "Source": "Rnel.net",
+   "Value": 1.9924498179723524e-8
+  },
+  {
+   "Source": "Good-Tutorials",
+   "Value": 1.8891286351076537e-8
+  },
+  {
+   "Source": "Cloudytags",
+   "Value": 1.633387997318778e-8
+  },
+  {
+   "Source": "Blinklist",
+   "Value": 1.4772867183710916e-8
+  },
+  {
+   "Source": "Wirefan",
+   "Value": 1.4719039404961817e-8
+  },
+  {
+   "Source": "Mister-Wong",
+   "Value": 1.2220427338841756e-8
+  },
+  {
+   "Source": "TweetMeme",
+   "Value": 1.1354394408043596e-8
+  },
+  {
+   "Source": "Grono.net",
+   "Value": 1.1337172897345951e-8
+  },
+  {
+   "Source": "Givealink",
+   "Value": 9.913735337028775e-9
+  },
+  {
+   "Source": "Xanga.com",
+   "Value": 9.397546627928751e-9
+  },
+  {
+   "Source": "Faves",
+   "Value": 8.776353885956871e-9
+  },
+  {
+   "Source": "KiwiBox.com",
+   "Value": 8.776353885956871e-9
+  },
+  {
+   "Source": "a1-webmarks",
+   "Value": 8.681439822842382e-9
+  },
+  {
+   "Source": "Pixel2life",
+   "Value": 6.086121056185943e-9
+  },
+  {
+   "Source": "Google Plus",
+   "Value": 5.268273351857652e-9
+  }
+ ],
+ "StartDate": "10/2013",
+ "EndDate": "12/2013"
+}

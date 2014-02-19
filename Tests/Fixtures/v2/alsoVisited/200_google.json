@@ -1,0 +1,56 @@
+{
+ "AlsoVisited": [
+  {
+   "Url": "youtube.com",
+   "Score": 0.024337999464058662
+  },
+  {
+   "Url": "facebook.com",
+   "Score": 0.023495965763017417
+  },
+  {
+   "Url": "reddit.com",
+   "Score": 0.01657605945759931
+  },
+  {
+   "Url": "search.ask.com",
+   "Score": 0.011211117533506778
+  },
+  {
+   "Url": "yahoo.com",
+   "Score": 0.008272418543437356
+  },
+  {
+   "Url": "bing.com",
+   "Score": 0.007051869256517758
+  },
+  {
+   "Url": "mysearch.avg.com",
+   "Score": 0.0066932713506365205
+  },
+  {
+   "Url": "msn.com",
+   "Score": 0.006276650169210356
+  },
+  {
+   "Url": "amazon.com",
+   "Score": 0.00475101836569981
+  },
+  {
+   "Url": "en.wikipedia.org",
+   "Score": 0.004148055268085693
+  },
+  {
+   "Url": "qvo6.com",
+   "Score": 0.0023759074387074966
+  },
+  {
+   "Url": "dosearches.com",
+   "Score": 0.002163099218634253
+  },
+  {
+   "Url": "twitter.com",
+   "Score": 0.0020367856481640022
+  }
+ ]
+}

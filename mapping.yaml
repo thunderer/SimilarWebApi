@@ -1,0 +1,209 @@
+# --- V0 API ------------------------------------------------------------------
+
+GlobalRank:
+  path: globalRank
+  values:
+    rank:
+      json: { field: Rank }
+      xml: { field: Rank }
+
+SimilarSites:
+  path: similarSites
+  maps:
+    similarSites:
+      json: { field: SimilarSites, key: Url, value: Score }
+      xml: { field: SimilarSites.SimilarSite, key: Url, value: Score }
+
+Tagging:
+  path: tagging
+  maps:
+    tags:
+      json: { field: Tags, key: Name, value: Score }
+      xml: { field: Tags.Tag, key: Name, value: Score }
+
+V0WebsiteCategorization:
+  path: category
+  values:
+    category:
+      json: { field: Category }
+      xml: { field: Category }
+
+WebsiteCategoryRank:
+  path: categoryRank
+  values:
+    category:
+      json: { field: Category }
+      xml: { field: Category }
+    rank:
+      json: { field: CategoryRank }
+      xml: { field: CategoryRank }
+
+WebsiteCountryRank:
+  path: countryRank
+  maps:
+    topCountryRanks:
+      json: { field: TopCountryRanks, key: Code, value: Rank }
+      xml: { field: TopCountryRanks.CountryRank, key: Code, value: Rank }
+
+# --- V1 API ------------------------------------------------------------------
+
+Traffic:
+  path: v1/traffic
+  values:
+    globalRank:
+      json: { field: GlobalRank }
+      xml: { field: GlobalRank }
+    countryCode:
+      json: { field: CountryCode }
+      xml: { field: CountryCode }
+    countryRank:
+      json: { field: CountryRank }
+      xml: { field: CountryRank }
+    date:
+      json: { field: Date }
+      xml: { field: Date }
+  maps:
+    topCountryShares:
+      json: { field: TopCountryShares, key: CountryCode, value: TrafficShare }
+      xml: { field: TopCountryShares.Country, key: CountryCode, value: TrafficShare }
+    trafficReach:
+      json: { field: TrafficReach, key: Date, value: Value }
+      xml: { field: TrafficReach.TrafficReachPoint, key: Date, value: Value }
+    trafficShares:
+      json: { field: TrafficShares, key: SourceType, value: SourceValue }
+      xml: { field: TrafficShares.TrafficSource, key: SourceType, value: SourceValue }
+
+Engagement:
+  path: v1/engagement
+  values:
+    averagePageViews:
+      json: { field: AveragePageViews }
+      xml: { field: AveragePageViews }
+    averageTimeOnSite:
+      json: { field: AverageTimeOnSite }
+      xml: { field: AverageTimeOnSite }
+    bounceRate:
+      json: { field: BounceRate }
+      xml: { field: BounceRate }
+    date:
+      json: { field: Date }
+      xml: { field: Date }
+
+Keywords:
+  path: v1/searchintelligence
+  values:
+    organicSearchShare:
+      json: { field: OrganicSearchShare }
+      xml: { field: OrganicSearchShare }
+    paidSearchShare:
+      json: { field: PaidSearchShare }
+      xml: { field: PaidSearchShare }
+    startDate:
+      json: { field: StartDate }
+      xml: { field: StartDate }
+    endDate:
+      json: { field: EndDate }
+      xml: { field: EndDate }
+  arrays:
+    topOrganicTerms:
+      json: { field: TopOrganicTerms }
+      xml: { field: TopOrganicTerms.Keyword }
+    topPaidTerms:
+      json: { field: TopPaidTerms }
+      xml: { field: TopPaidTerms.Keyword }
+
+SocialReferrals:
+  path: v1/SocialReferringSites
+  values:
+    startDate:
+      json: { field: StartDate }
+      xml: { field: StartDate }
+    endDate:
+      json: { field: EndDate }
+      xml: { field: EndDate }
+  maps:
+    socialSources:
+      json: { field: SocialSources, key: Source, value: Value }
+      xml: { field: SocialSources.Source, key: Source, value: Value }
+
+# --- V2 API ------------------------------------------------------------------
+
+AdultWebsites:
+  path: v2/Category
+  values:
+    category:
+      json: { field: Category }
+      xml: { field: Category }
+
+AlsoVisited:
+  path: v2/AlsoVisited
+  maps:
+    alsoVisited:
+      json: { field: AlsoVisited, key: Url, value: Score }
+      xml: { field: AlsoVisited.AlsoVisited, key: Url, value: Score }
+
+CategoryRank:
+  path: v2/CategoryRank
+  values:
+    category:
+      json: { field: Category }
+      xml: { field: Category }
+    rank:
+      json: { field: CategoryRank }
+      xml: { field: CategoryRank }
+
+Destinations:
+  path: v2/leadingdestinationsites
+  values:
+    startDate:
+      json: { field: StartDate }
+      xml: { field: StartDate }
+    endDate:
+      json: { field: EndDate }
+      xml: { field: EndDate }
+  arrays:
+    sites:
+      json: { field: Sites }
+      xml: { field: Sites.Site }
+
+EstimatedVisitors:
+  path: v2/EstimatedTraffic
+  values:
+    estimatedVisitors:
+      json: { field: EstimatedVisitors }
+      xml: { field: EstimatedVisitors }
+
+Referrals:
+  path: v2/leadingreferringsites
+  values:
+    startDate:
+      json: { field: StartDate }
+      xml: { field: StartDate }
+    endDate:
+      json: { field: EndDate }
+      xml: { field: EndDate }
+  arrays:
+    sites:
+      json: { field: Sites }
+      xml: { field: Sites.Site }
+
+SimilarWebsites:
+  path: v2/SimilarSites
+  maps:
+    similarWebsites:
+      json: { field: SimilarSites, key: Url, value: Score }
+      xml: { field: SimilarSites.SimilarSite, key: Url, value: Score }
+
+WebsiteCategorization:
+  path: v2/Category
+  values:
+    category:
+      json: { field: Category }
+      xml: { field: Category }
+
+WebsiteTags:
+  path: v2/Tags
+  maps:
+    tags:
+      json: { field: Tags, key: Name, value: Score }
+      xml: { field: Tags.Tag, key: Name, value: Score }

@@ -1,0 +1,1056 @@
+{
+ "GlobalRank": 2,
+ "CountryCode": 840,
+ "CountryRank": 1,
+ "TopCountryShares": [
+  {
+   "CountryCode": 840,
+   "TrafficShare": 0.45005886576121484
+  },
+  {
+   "CountryCode": 356,
+   "TrafficShare": 0.03753942640732143
+  },
+  {
+   "CountryCode": 826,
+   "TrafficShare": 0.0314101451974577
+  },
+  {
+   "CountryCode": 76,
+   "TrafficShare": 0.029793864124091414
+  },
+  {
+   "CountryCode": 250,
+   "TrafficShare": 0.02491427292677666
+  },
+  {
+   "CountryCode": 392,
+   "TrafficShare": 0.023677588075490405
+  },
+  {
+   "CountryCode": 124,
+   "TrafficShare": 0.022968558092581654
+  },
+  {
+   "CountryCode": 276,
+   "TrafficShare": 0.021162301417866847
+  },
+  {
+   "CountryCode": 360,
+   "TrafficShare": 0.0209133692042486
+  },
+  {
+   "CountryCode": 410,
+   "TrafficShare": 0.020119508170552473
+  },
+  {
+   "CountryCode": 643,
+   "TrafficShare": 0.018059455194958468
+  },
+  {
+   "CountryCode": 724,
+   "TrafficShare": 0.014352605996822008
+  },
+  {
+   "CountryCode": 156,
+   "TrafficShare": 0.013812014797363565
+  },
+  {
+   "CountryCode": 380,
+   "TrafficShare": 0.013150627870192845
+  },
+  {
+   "CountryCode": 36,
+   "TrafficShare": 0.012216541448932448
+  },
+  {
+   "CountryCode": 458,
+   "TrafficShare": 0.011687427934901897
+  },
+  {
+   "CountryCode": 484,
+   "TrafficShare": 0.010196627413224725
+  },
+  {
+   "CountryCode": 616,
+   "TrafficShare": 0.009743282322639081
+  },
+  {
+   "CountryCode": 528,
+   "TrafficShare": 0.008686719585328285
+  },
+  {
+   "CountryCode": 792,
+   "TrafficShare": 0.008633773044910635
+  },
+  {
+   "CountryCode": 158,
+   "TrafficShare": 0.008266244616227998
+  },
+  {
+   "CountryCode": 704,
+   "TrafficShare": 0.007655279208620339
+  },
+  {
+   "CountryCode": 804,
+   "TrafficShare": 0.006976199593964852
+  },
+  {
+   "CountryCode": 752,
+   "TrafficShare": 0.006620707787393561
+  },
+  {
+   "CountryCode": 608,
+   "TrafficShare": 0.006504103830308169
+  },
+  {
+   "CountryCode": 32,
+   "TrafficShare": 0.006217024553910159
+  },
+  {
+   "CountryCode": 348,
+   "TrafficShare": 0.006088445017352666
+  },
+  {
+   "CountryCode": 170,
+   "TrafficShare": 0.006047286406672261
+  },
+  {
+   "CountryCode": 764,
+   "TrafficShare": 0.005870490275133425
+  },
+  {
+   "CountryCode": 152,
+   "TrafficShare": 0.0054682817720254785
+  },
+  {
+   "CountryCode": 364,
+   "TrafficShare": 0.005363147599495478
+  },
+  {
+   "CountryCode": 504,
+   "TrafficShare": 0.005019905854176022
+  },
+  {
+   "CountryCode": 56,
+   "TrafficShare": 0.004689863196955962
+  },
+  {
+   "CountryCode": 376,
+   "TrafficShare": 0.00466232218398788
+  },
+  {
+   "CountryCode": 620,
+   "TrafficShare": 0.00430880970851805
+  },
+  {
+   "CountryCode": 642,
+   "TrafficShare": 0.003977011432909133
+  },
+  {
+   "CountryCode": 208,
+   "TrafficShare": 0.003932658872255865
+  },
+  {
+   "CountryCode": 756,
+   "TrafficShare": 0.0036818229654689712
+  },
+  {
+   "CountryCode": 784,
+   "TrafficShare": 0.0031917724064087433
+  },
+  {
+   "CountryCode": 300,
+   "TrafficShare": 0.0031852961087706815
+  },
+  {
+   "CountryCode": 702,
+   "TrafficShare": 0.0031087848644005597
+  },
+  {
+   "CountryCode": 818,
+   "TrafficShare": 0.0030595736032331317
+  },
+  {
+   "CountryCode": 688,
+   "TrafficShare": 0.0030381785844518496
+  },
+  {
+   "CountryCode": 246,
+   "TrafficShare": 0.003037906281191565
+  },
+  {
+   "CountryCode": 586,
+   "TrafficShare": 0.0030118755237692764
+  },
+  {
+   "CountryCode": 682,
+   "TrafficShare": 0.0029700808608067062
+  },
+  {
+   "CountryCode": 604,
+   "TrafficShare": 0.0029297582125451453
+  },
+  {
+   "CountryCode": 862,
+   "TrafficShare": 0.002747934943762043
+  },
+  {
+   "CountryCode": 344,
+   "TrafficShare": 0.0027392138882507
+  },
+  {
+   "CountryCode": 40,
+   "TrafficShare": 0.0025922172226919634
+  },
+  {
+   "CountryCode": 578,
+   "TrafficShare": 0.0025719332617841918
+  },
+  {
+   "CountryCode": 372,
+   "TrafficShare": 0.002494626687371119
+  },
+  {
+   "CountryCode": 554,
+   "TrafficShare": 0.002346610425679428
+  },
+  {
+   "CountryCode": 710,
+   "TrafficShare": 0.0022199353955436227
+  },
+  {
+   "CountryCode": 188,
+   "TrafficShare": 0.002023040395056616
+  },
+  {
+   "CountryCode": 736,
+   "TrafficShare": 0.0018869118287861417
+  },
+  {
+   "CountryCode": 203,
+   "TrafficShare": 0.0017488406874370986
+  },
+  {
+   "CountryCode": 703,
+   "TrafficShare": 0.0017191075775773235
+  },
+  {
+   "CountryCode": 112,
+   "TrafficShare": 0.0016606858238796165
+  },
+  {
+   "CountryCode": 100,
+   "TrafficShare": 0.0014937460235958664
+  },
+  {
+   "CountryCode": 440,
+   "TrafficShare": 0.0014505281968979966
+  },
+  {
+   "CountryCode": 191,
+   "TrafficShare": 0.0013843801230776882
+  },
+  {
+   "CountryCode": 218,
+   "TrafficShare": 0.0013359929840645879
+  },
+  {
+   "CountryCode": 634,
+   "TrafficShare": 0.001289639249220435
+  },
+  {
+   "CountryCode": 12,
+   "TrafficShare": 0.0012060117344866144
+  },
+  {
+   "CountryCode": 807,
+   "TrafficShare": 0.0011975980318627072
+  },
+  {
+   "CountryCode": 591,
+   "TrafficShare": 0.0010373889248513888
+  },
+  {
+   "CountryCode": 705,
+   "TrafficShare": 0.0010162691506463344
+  },
+  {
+   "CountryCode": 788,
+   "TrafficShare": 0.0010096223015960807
+  },
+  {
+   "CountryCode": 50,
+   "TrafficShare": 0.0009563671028054893
+  },
+  {
+   "CountryCode": 760,
+   "TrafficShare": 0.0009452733144704979
+  },
+  {
+   "CountryCode": 233,
+   "TrafficShare": 0.0009105058084611107
+  },
+  {
+   "CountryCode": 8,
+   "TrafficShare": 0.0008953591621360669
+  },
+  {
+   "CountryCode": 144,
+   "TrafficShare": 0.00087084923746794
+  },
+  {
+   "CountryCode": 214,
+   "TrafficShare": 0.0007763596770796492
+  },
+  {
+   "CountryCode": 398,
+   "TrafficShare": 0.0007604192762629232
+  },
+  {
+   "CountryCode": 630,
+   "TrafficShare": 0.0007378420181671574
+  },
+  {
+   "CountryCode": 368,
+   "TrafficShare": 0.0007114838247348644
+  },
+  {
+   "CountryCode": 858,
+   "TrafficShare": 0.0007021204240921958
+  },
+  {
+   "CountryCode": 566,
+   "TrafficShare": 0.0006948451105774549
+  },
+  {
+   "CountryCode": 428,
+   "TrafficShare": 0.0006783561543291331
+  },
+  {
+   "CountryCode": 404,
+   "TrafficShare": 0.0006423791890681076
+  },
+  {
+   "CountryCode": 400,
+   "TrafficShare": 0.0006297080077322774
+  },
+  {
+   "CountryCode": 68,
+   "TrafficShare": 0.0006173890642255386
+  },
+  {
+   "CountryCode": 638,
+   "TrafficShare": 0.0006129758280564962
+  },
+  {
+   "CountryCode": 320,
+   "TrafficShare": 0.0006031826654990115
+  },
+  {
+   "CountryCode": 498,
+   "TrafficShare": 0.000582630478397516
+  },
+  {
+   "CountryCode": 512,
+   "TrafficShare": 0.0005551528878363218
+  },
+  {
+   "CountryCode": 414,
+   "TrafficShare": 0.0005138850301581252
+  },
+  {
+   "CountryCode": 268,
+   "TrafficShare": 0.0005119052341643258
+  },
+  {
+   "CountryCode": 31,
+   "TrafficShare": 0.0005093985052049852
+  },
+  {
+   "CountryCode": 422,
+   "TrafficShare": 0.0004729135185134511
+  },
+  {
+   "CountryCode": 51,
+   "TrafficShare": 0.00043196941122279874
+  },
+  {
+   "CountryCode": 70,
+   "TrafficShare": 0.00040514650691856436
+  },
+  {
+   "CountryCode": 524,
+   "TrafficShare": 0.00038858484569892303
+  },
+  {
+   "CountryCode": 887,
+   "TrafficShare": 0.0003623458775974595
+  },
+  {
+   "CountryCode": 222,
+   "TrafficShare": 0.0003619384846577208
+  },
+  {
+   "CountryCode": 442,
+   "TrafficShare": 0.00033171478198069227
+  },
+  {
+   "CountryCode": 48,
+   "TrafficShare": 0.0003204571417805044
+  },
+  {
+   "CountryCode": 275,
+   "TrafficShare": 0.0003119810133305388
+  },
+  {
+   "CountryCode": 196,
+   "TrafficShare": 0.00031125043799412264
+  },
+  {
+   "CountryCode": 600,
+   "TrafficShare": 0.0003027232569371609
+  },
+  {
+   "CountryCode": 352,
+   "TrafficShare": 0.00029591361855316715
+  },
+  {
+   "CountryCode": 780,
+   "TrafficShare": 0.0002743114109206837
+  },
+  {
+   "CountryCode": 860,
+   "TrafficShare": 0.0002603667331303271
+  },
+  {
+   "CountryCode": 446,
+   "TrafficShare": 0.00026033170790250065
+  },
+  {
+   "CountryCode": 24,
+   "TrafficShare": 0.00025738674182624905
+  },
+  {
+   "CountryCode": 662,
+   "TrafficShare": 0.0002546431137831126
+  },
+  {
+   "CountryCode": 800,
+   "TrafficShare": 0.00024909670505718926
+  },
+  {
+   "CountryCode": 417,
+   "TrafficShare": 0.00024842990439400987
+  },
+  {
+   "CountryCode": 104,
+   "TrafficShare": 0.00024388393045144505
+  },
+  {
+   "CountryCode": 288,
+   "TrafficShare": 0.0002388622426661899
+  },
+  {
+   "CountryCode": 470,
+   "TrafficShare": 0.00023716585647397216
+  },
+  {
+   "CountryCode": 116,
+   "TrafficShare": 0.00022314398125401134
+  },
+  {
+   "CountryCode": 388,
+   "TrafficShare": 0.00022145130378649564
+  },
+  {
+   "CountryCode": 686,
+   "TrafficShare": 0.0002213780434953453
+  },
+  {
+   "CountryCode": 231,
+   "TrafficShare": 0.00021698450885907468
+  },
+  {
+   "CountryCode": 52,
+   "TrafficShare": 0.00020582064613697517
+  },
+  {
+   "CountryCode": 499,
+   "TrafficShare": 0.00020192622261109663
+  },
+  {
+   "CountryCode": 258,
+   "TrafficShare": 0.00019729998763692573
+  },
+  {
+   "CountryCode": 480,
+   "TrafficShare": 0.00018772115165124762
+  },
+  {
+   "CountryCode": 340,
+   "TrafficShare": 0.00018364337857849406
+  },
+  {
+   "CountryCode": 834,
+   "TrafficShare": 0.00017455994727774262
+  },
+  {
+   "CountryCode": 558,
+   "TrafficShare": 0.0001726019164825672
+  },
+  {
+   "CountryCode": 540,
+   "TrafficShare": 0.00016284428724644713
+  },
+  {
+   "CountryCode": 316,
+   "TrafficShare": 0.00015965273228511932
+  },
+  {
+   "CountryCode": 434,
+   "TrafficShare": 0.00015897511138010666
+  },
+  {
+   "CountryCode": 384,
+   "TrafficShare": 0.0001574442021478359
+  },
+  {
+   "CountryCode": 474,
+   "TrafficShare": 0.00014502861808766217
+  },
+  {
+   "CountryCode": 496,
+   "TrafficShare": 0.00013382700685536655
+  },
+  {
+   "CountryCode": 716,
+   "TrafficShare": 0.0001317238312990048
+  },
+  {
+   "CountryCode": 4,
+   "TrafficShare": 0.00011682166304633824
+  },
+  {
+   "CountryCode": 120,
+   "TrafficShare": 0.00010549868906789676
+  },
+  {
+   "CountryCode": 740,
+   "TrafficShare": 0.00010516339922746307
+  },
+  {
+   "CountryCode": 492,
+   "TrafficShare": 0.00009341068617214581
+  },
+  {
+   "CountryCode": 44,
+   "TrafficShare": 0.00009140375104599675
+  },
+  {
+   "CountryCode": 454,
+   "TrafficShare": 0.0000876135254641718
+  },
+  {
+   "CountryCode": 831,
+   "TrafficShare": 0.00008533936940574172
+  },
+  {
+   "CountryCode": 850,
+   "TrafficShare": 0.00008354163530564711
+  },
+  {
+   "CountryCode": 478,
+   "TrafficShare": 0.00008219722869072117
+  },
+  {
+   "CountryCode": 242,
+   "TrafficShare": 0.00008128004269660628
+  },
+  {
+   "CountryCode": 96,
+   "TrafficShare": 0.00008092604061939191
+  },
+  {
+   "CountryCode": 894,
+   "TrafficShare": 0.00007981421426257863
+  },
+  {
+   "CountryCode": 60,
+   "TrafficShare": 0.00007894625982520615
+  },
+  {
+   "CountryCode": 508,
+   "TrafficShare": 0.00007444644907356623
+  },
+  {
+   "CountryCode": 418,
+   "TrafficShare": 0.00007125567388196258
+  },
+  {
+   "CountryCode": 136,
+   "TrafficShare": 0.00007097959522884569
+  },
+  {
+   "CountryCode": 462,
+   "TrafficShare": 0.00007021324272798063
+  },
+  {
+   "CountryCode": 832,
+   "TrafficShare": 0.0000674272471449119
+  },
+  {
+   "CountryCode": 762,
+   "TrafficShare": 0.00006731954527097206
+  },
+  {
+   "CountryCode": 624,
+   "TrafficShare": 0.00006679920095607651
+  },
+  {
+   "CountryCode": 332,
+   "TrafficShare": 0.0000654332087858714
+  },
+  {
+   "CountryCode": 646,
+   "TrafficShare": 0.00006542160701969689
+  },
+  {
+   "CountryCode": 533,
+   "TrafficShare": 0.00006521637022795714
+  },
+  {
+   "CountryCode": 833,
+   "TrafficShare": 0.00006484897508535518
+  },
+  {
+   "CountryCode": 516,
+   "TrafficShare": 0.00006474983950019378
+  },
+  {
+   "CountryCode": 312,
+   "TrafficShare": 0.00006324735707885566
+  },
+  {
+   "CountryCode": 450,
+   "TrafficShare": 0.00006139743852309233
+  },
+  {
+   "CountryCode": 580,
+   "TrafficShare": 0.00005952359556417685
+  },
+  {
+   "CountryCode": 234,
+   "TrafficShare": 0.00005241266346212958
+  },
+  {
+   "CountryCode": 180,
+   "TrafficShare": 0.00005151038109069464
+  },
+  {
+   "CountryCode": 72,
+   "TrafficShare": 0.000051112968008363375
+  },
+  {
+   "CountryCode": 308,
+   "TrafficShare": 0.000049210495348356576
+  },
+  {
+   "CountryCode": 768,
+   "TrafficShare": 0.00004771109309348436
+  },
+  {
+   "CountryCode": 204,
+   "TrafficShare": 0.0000444016240056543
+  },
+  {
+   "CountryCode": 266,
+   "TrafficShare": 0.00004183155981241516
+  },
+  {
+   "CountryCode": 328,
+   "TrafficShare": 0.00003931874609795802
+  },
+  {
+   "CountryCode": 854,
+   "TrafficShare": 0.00003921940931949575
+  },
+  {
+   "CountryCode": 430,
+   "TrafficShare": 0.000036949014721402484
+  },
+  {
+   "CountryCode": 466,
+   "TrafficShare": 0.00003551003703594168
+  },
+  {
+   "CountryCode": 192,
+   "TrafficShare": 0.00003385842351695694
+  },
+  {
+   "CountryCode": 84,
+   "TrafficShare": 0.00003239584028266731
+  },
+  {
+   "CountryCode": 132,
+   "TrafficShare": 0.000029665192288108326
+  },
+  {
+   "CountryCode": 20,
+   "TrafficShare": 0.00002953196633486311
+  },
+  {
+   "CountryCode": 262,
+   "TrafficShare": 0.000028349686850053476
+  },
+  {
+   "CountryCode": 674,
+   "TrafficShare": 0.00002579233220051248
+  },
+  {
+   "CountryCode": 659,
+   "TrafficShare": 0.000024758255073076677
+  },
+  {
+   "CountryCode": 64,
+   "TrafficShare": 0.00002448126645863479
+  },
+  {
+   "CountryCode": 796,
+   "TrafficShare": 0.000024352014236511814
+  },
+  {
+   "CountryCode": 270,
+   "TrafficShare": 0.000023876412634389585
+  },
+  {
+   "CountryCode": 28,
+   "TrafficShare": 0.00002127294316275028
+  },
+  {
+   "CountryCode": 292,
+   "TrafficShare": 0.00002068839865421812
+  },
+  {
+   "CountryCode": 748,
+   "TrafficShare": 0.000020590173402268216
+  },
+  {
+   "CountryCode": 548,
+   "TrafficShare": 0.000020519104189018423
+  },
+  {
+   "CountryCode": 598,
+   "TrafficShare": 0.0000199264449795803
+  },
+  {
+   "CountryCode": 706,
+   "TrafficShare": 0.000019404646236564288
+  },
+  {
+   "CountryCode": 324,
+   "TrafficShare": 0.000018692665734335643
+  },
+  {
+   "CountryCode": 670,
+   "TrafficShare": 0.000018470030162600934
+  },
+  {
+   "CountryCode": 660,
+   "TrafficShare": 0.000016385490868019273
+  },
+  {
+   "CountryCode": 296,
+   "TrafficShare": 0.00001570245357628897
+  },
+  {
+   "CountryCode": 92,
+   "TrafficShare": 0.000015569414988918964
+  },
+  {
+   "CountryCode": 175,
+   "TrafficShare": 0.000014199298310619565
+  },
+  {
+   "CountryCode": 212,
+   "TrafficShare": 0.00001322999116289967
+  },
+  {
+   "CountryCode": 426,
+   "TrafficShare": 0.00001292044004321835
+  },
+  {
+   "CountryCode": 690,
+   "TrafficShare": 0.000012782587884073157
+  },
+  {
+   "CountryCode": 178,
+   "TrafficShare": 0.000012745734573204706
+  },
+  {
+   "CountryCode": 562,
+   "TrafficShare": 0.000012246561559169653
+  },
+  {
+   "CountryCode": 254,
+   "TrafficShare": 0.000011326086297096511
+  },
+  {
+   "CountryCode": 438,
+   "TrafficShare": 0.000011240957098631107
+  },
+  {
+   "CountryCode": 108,
+   "TrafficShare": 0.000010256894425200447
+  },
+  {
+   "CountryCode": 694,
+   "TrafficShare": 0.000010245809515569857
+  },
+  {
+   "CountryCode": 304,
+   "TrafficShare": 0.000009774169051063709
+  },
+  {
+   "CountryCode": 174,
+   "TrafficShare": 0.000009368775605674154
+  },
+  {
+   "CountryCode": 226,
+   "TrafficShare": 0.0000093539022872402
+  },
+  {
+   "CountryCode": 795,
+   "TrafficShare": 0.000009295479653943132
+  },
+  {
+   "CountryCode": 90,
+   "TrafficShare": 0.000006152507690580801
+  },
+  {
+   "CountryCode": 232,
+   "TrafficShare": 0.0000045472866454549645
+  },
+  {
+   "CountryCode": 626,
+   "TrafficShare": 0.0000043551005443471635
+  },
+  {
+   "CountryCode": 583,
+   "TrafficShare": 0.000003831496026941271
+  },
+  {
+   "CountryCode": 238,
+   "TrafficShare": 0.000003110223147529826
+  },
+  {
+   "CountryCode": 584,
+   "TrafficShare": 0.000003083997535602235
+  },
+  {
+   "CountryCode": 585,
+   "TrafficShare": 0.0000030376885467209922
+  },
+  {
+   "CountryCode": 776,
+   "TrafficShare": 0.00000286136082330596
+  },
+  {
+   "CountryCode": 882,
+   "TrafficShare": 0.0000026123701871003744
+  },
+  {
+   "CountryCode": 336,
+   "TrafficShare": 0.0000025820933771741257
+  },
+  {
+   "CountryCode": 184,
+   "TrafficShare": 0.000002151890271427858
+  },
+  {
+   "CountryCode": 140,
+   "TrafficShare": 0.0000019049470400045445
+  },
+  {
+   "CountryCode": 500,
+   "TrafficShare": 0.000001388725679044086
+  },
+  {
+   "CountryCode": 570,
+   "TrafficShare": 0.0000013851667465707392
+  },
+  {
+   "CountryCode": 678,
+   "TrafficShare": 0.00000134164882288108
+  },
+  {
+   "CountryCode": 876,
+   "TrafficShare": 0.0000011218314587979148
+  },
+  {
+   "CountryCode": 798,
+   "TrafficShare": 9.58479525033155e-7
+  },
+  {
+   "CountryCode": 772,
+   "TrafficShare": 7.825901594043906e-7
+  },
+  {
+   "CountryCode": 574,
+   "TrafficShare": 7.760685747426874e-7
+  },
+  {
+   "CountryCode": 654,
+   "TrafficShare": 5.44215631320834e-7
+  },
+  {
+   "CountryCode": 16,
+   "TrafficShare": 5.151422900786792e-7
+  },
+  {
+   "CountryCode": 520,
+   "TrafficShare": 2.8122838995811313e-7
+  },
+  {
+   "CountryCode": 148,
+   "TrafficShare": 1.0696895421574101e-7
+  }
+ ],
+ "TrafficReach": [
+  {
+   "Date": "01/07/2013",
+   "Value": 0.1150925202565366
+  },
+  {
+   "Date": "08/07/2013",
+   "Value": 0.11654835357177433
+  },
+  {
+   "Date": "15/07/2013",
+   "Value": 0.11739854815937435
+  },
+  {
+   "Date": "22/07/2013",
+   "Value": 0.11698103720746292
+  },
+  {
+   "Date": "29/07/2013",
+   "Value": 0.11715954084313386
+  },
+  {
+   "Date": "05/08/2013",
+   "Value": 0.11664390019857016
+  },
+  {
+   "Date": "12/08/2013",
+   "Value": 0.11608613085021767
+  },
+  {
+   "Date": "19/08/2013",
+   "Value": 0.1161216829449245
+  },
+  {
+   "Date": "26/08/2013",
+   "Value": 0.11665711702816044
+  },
+  {
+   "Date": "02/09/2013",
+   "Value": 0.11802300833134084
+  },
+  {
+   "Date": "09/09/2013",
+   "Value": 0.11809686882660755
+  },
+  {
+   "Date": "16/09/2013",
+   "Value": 0.11993500094559892
+  },
+  {
+   "Date": "23/09/2013",
+   "Value": 0.1207507550272572
+  },
+  {
+   "Date": "30/09/2013",
+   "Value": 0.1236278033199614
+  },
+  {
+   "Date": "07/10/2013",
+   "Value": 0.12487222095172883
+  },
+  {
+   "Date": "14/10/2013",
+   "Value": 0.12462539139449613
+  },
+  {
+   "Date": "21/10/2013",
+   "Value": 0.1251362393491364
+  },
+  {
+   "Date": "28/10/2013",
+   "Value": 0.12475732241792593
+  },
+  {
+   "Date": "04/11/2013",
+   "Value": 0.12525833774179
+  },
+  {
+   "Date": "11/11/2013",
+   "Value": 0.12466931251063493
+  },
+  {
+   "Date": "18/11/2013",
+   "Value": 0.1256602829754348
+  },
+  {
+   "Date": "25/11/2013",
+   "Value": 0.12430270680606594
+  },
+  {
+   "Date": "02/12/2013",
+   "Value": 0.12494484280569022
+  },
+  {
+   "Date": "09/12/2013",
+   "Value": 0.12618223503418582
+  },
+  {
+   "Date": "16/12/2013",
+   "Value": 0.12408711340641586
+  },
+  {
+   "Date": "23/12/2013",
+   "Value": 0.12170205947171044
+  },
+  {
+   "Date": "30/12/2013",
+   "Value": 0.12285758478950902
+  }
+ ],
+ "TrafficShares": [
+  {
+   "SourceType": "Search",
+   "SourceValue": 0.12528967710405273
+  },
+  {
+   "SourceType": "Social",
+   "SourceValue": 0.033933564809008755
+  },
+  {
+   "SourceType": "Mail",
+   "SourceValue": 0.004926479199374744
+  },
+  {
+   "SourceType": "Paid Referrals",
+   "SourceValue": 0.0013970865229836593
+  },
+  {
+   "SourceType": "Direct",
+   "SourceValue": 0.6877901903955239
+  },
+  {
+   "SourceType": "Referrals",
+   "SourceValue": 0.14666300196905618
+  }
+ ],
+ "Date": "12/2013"
+}

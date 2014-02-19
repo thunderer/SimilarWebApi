@@ -1,0 +1,19 @@
+{
+    "name": "thunderer/similarweb-api",
+    "description": "SimilarWeb API PHP Client Library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Tomasz Kowalczyk",
+            "email": "tomasz@kowalczyk.cc"
+        }
+    ],
+    "require": {
+        "symfony/yaml": "2.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Thunder\\SimilarWebApi\\": ""
+        }
+    }
+}
