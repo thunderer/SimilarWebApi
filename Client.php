@@ -16,7 +16,9 @@ class Client
         $allowedFormats = array('XML', 'JSON');
         if(!in_array($format, $allowedFormats))
             {
-            throw new \InvalidArgumentException(sprintf('Invalid response format: %s, allowed: %s!', $format, implode(', ', $allowedFormats)));
+            $message = 'Invalid response format: %s, allowed: %s!';
+            sprintf($message, $format, implode(', ', $allowedFormats));
+            throw new \InvalidArgumentException();
             }
 
         $this->token = $token;
@@ -35,7 +37,7 @@ class Client
      *
      * @throws \RuntimeException When call failed
      * @throws \LogicException When no response parser was found
-     * @throws \InvalidArgumentException When given call is not supported by library
+     * @throws \InvalidArgumentException When given call is not supported
      */
     public function getResponse($call, $domain)
         {
@@ -47,7 +49,8 @@ class Client
         list($code, $content) = static::executeCall($endpoint->getPath(), $domain, $this->format, $this->token);
         if($code < 200 || $code >= 400)
             {
-            throw new \RuntimeException(sprintf('Call %s using format %s failed with code %s!', $call, $this->format, $code));
+            $message = 'Call %s using format %s failed with code %s!';
+            throw new \RuntimeException(sprintf($message, $call, $this->format, $code));
             }
         $response = $endpoint->getResponse($content, $this->format);
 
@@ -79,22 +82,23 @@ class Client
      * @param string $format Response format - XML|JSON
      * @param string $token User's API key
      *
-     * @return string Response text
+     * @return string Response text and status code
      */
     public static function executeCall($call, $domain, $format, $token)
         {
-        $target = 'http://api.similarweb.com/Site/'.$domain.'/'.$call.'?'.http_build_query(array(
+        $args = http_build_query(array(
             'Format' => $format,
             'UserKey' => $token,
             ));
+        $target = sprintf('http://api.similarweb.com/Site/%s/%s?%s', $domain, $call, $args);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $target);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
         $response = curl_exec($ch);
-        $info = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
-        return array($info, $response);
+        return array($code, $response);
         }
     }

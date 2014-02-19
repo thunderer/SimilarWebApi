@@ -17,7 +17,7 @@ This library requires PHP 5.3 and [Symfony's YAML](https://github.com/symfony/Ya
 Installation:
 -----------
 
-Add `thunderer/similarweb-php-api` to your `composer.json` and then run `install` or `update` command as required. You can also 
+Add `thunderer/similarweb-api` to your `composer.json` and then run `install` or `update` command as required. You can also `composer require` it.
 
 Usage:
 -----
