@@ -32,6 +32,7 @@ class Client
      *
      * @param string $call Call name as in URL path, eg. v1/traffic
      * @param string $domain Checked domain name
+     * @param bool $useCache Use cache or force new request
      *
      * @return Response Value object with interface to fetch results
      *
@@ -39,11 +40,13 @@ class Client
      * @throws \LogicException When no response parser was found
      * @throws \InvalidArgumentException When given call is not supported
      */
-    public function getResponse($call, $domain)
+    public function getResponse($call, $domain, $useCache = false)
         {
-        /**
-         * @var $endpoint Endpoint
-         */
+        if($useCache && !empty($this->cache[$call][$domain]))
+            {
+            return $this->cache[$call][$domain];
+            }
+
         $endpoint = $this->getEndpoint($call);
 
         list($code, $content) = static::executeCall($endpoint->getPath(), $domain, $this->format, $this->token);
@@ -53,10 +56,20 @@ class Client
             throw new \RuntimeException(sprintf($message, $call, $this->format, $code));
             }
         $response = $endpoint->getResponse($content, $this->format);
+        $this->cache[$call][$domain] = $response;
 
         return $response;
         }
 
+    /**
+     * Returns endpoint (API call handler) for given call name
+     *
+     * @param string $name API call name
+     *
+     * @return Endpoint
+     *
+     * @throws \InvalidArgumentException When given endpoint does not exist
+     */
     protected function getEndpoint($name)
         {
         if(null === $this->mapping)
