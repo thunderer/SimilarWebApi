@@ -37,9 +37,11 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
                 {
                 $this->setExpectedException($exception);
                 }
-            $response = $clientMock->getResponse($call, $domain);
+            $response = $clientMock->getResponse($call, $domain, false);
+            $cachedResponse = $clientMock->getResponse($call, $domain, true);
             if(null === $exception)
                 {
+                $this->assertTrue($response === $cachedResponse);
                 $this->assertInstanceOf('Thunder\\SimilarWebApi\\Response', $response);
                 $this->runResponseTests($response, $valueTests, $arrayTests, $mapTests);
                 }
