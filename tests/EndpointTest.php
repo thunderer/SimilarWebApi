@@ -29,7 +29,7 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
 
             $clientMock = $this->getMock('Thunder\\SimilarWebApi\\Client', array('executeCall'), array($token, $format));
             $clientMock
-                ::staticExpects($this->at(0))
+                ->expects($this->at(0))
                 ->method('executeCall')
                 ->with($endpoint->getPath(), $domain, $format, $token)
                 ->will($this->returnValue(array(200, $content)));

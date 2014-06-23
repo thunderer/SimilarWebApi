@@ -42,7 +42,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $clientMock = $this->getMock($clientClass, array('executeCall'), array($token, $format));
         $clientMock
-            ::staticExpects($this->at(0))
+            ->expects($this->at(0))
             ->method('executeCall')
             ->with('v1/traffic', 'google.com', $format, $token)
             ->will($this->returnValue(array(500, '')));

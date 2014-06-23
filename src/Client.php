@@ -97,7 +97,7 @@ class Client
      *
      * @return string Response text and status code
      */
-    public static function executeCall($call, $domain, $format, $token)
+    public function executeCall($call, $domain, $format, $token)
         {
         $args = http_build_query(array(
             'Format' => $format,
