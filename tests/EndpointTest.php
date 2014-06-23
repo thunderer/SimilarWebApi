@@ -43,6 +43,7 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
                 {
                 $this->assertTrue($response === $cachedResponse);
                 $this->assertInstanceOf('Thunder\\SimilarWebApi\\Response', $response);
+                $this->assertInstanceOf('Thunder\\SimilarWebApi\\RawResponse', $response->getResponse());
                 $this->runResponseTests($response, $valueTests, $arrayTests, $mapTests);
                 }
             }
@@ -50,9 +51,12 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
 
     protected function runResponseTests(Response $response, array $valueTests, array $arrayTests, array $mapTests)
         {
+        $rawResponse = $response->getResponse();
         foreach($valueTests as $key => $value)
             {
-            $this->assertEquals($value, $response->getValue($key));
+            $this->assertEquals($value, $rawResponse->getValue($key));
+            $call = call_user_func_array(array($response, 'get'.ucfirst($key)), array());
+            $this->assertEquals($value, $call, var_export($value, true).' === '.var_export($call, true));
             }
         foreach($arrayTests as $key => $testData)
             {
@@ -60,7 +64,9 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
                 {
                 if('count' == $name)
                     {
-                    $this->assertEquals($value, count($response->getArray($key)));
+                    $this->assertEquals($value, count($rawResponse->getArray($key)));
+                    $call = call_user_func_array(array($response, 'get'.ucfirst($key)), array());
+                    $this->assertEquals($value, count($call), var_export($value, true).' === '.var_export(count($call), true));
                     }
                 }
             }
@@ -70,7 +76,9 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
                 {
                 if('count' == $name)
                     {
-                    $this->assertEquals($value, count($response->getMap($key)));
+                    $this->assertEquals($value, count($rawResponse->getMap($key)));
+                    $call = call_user_func_array(array($response, 'get'.ucfirst($key)), array());
+                    $this->assertEquals($value, count($call), var_export($value, true).' === '.var_export(count($call), true));
                     }
                 }
             }
@@ -125,7 +133,7 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
                     ),
                 ),
 
-            array('WebsiteCategorization', null, array(
+            array('V0WebsiteCategorization', null, array(
                     'json' => 'v0/websiteCategorization/200_google.json',
                     'xml' => 'v0/websiteCategorization/200_google.xml',
                     ),
@@ -170,6 +178,7 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
                     'globalRank' => 2,
                     'countryRank' => 1,
                     'countryCode' => 840,
+                    'date' => '12/2013',
                     ),
                 array(/* no arrays */),
                 array(

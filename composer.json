@@ -11,9 +11,16 @@
     "require": {
         "symfony/yaml": "2.4"
     },
+    "require-dev": {
+        "composer/composer": "dev-master"
+    },
     "autoload": {
         "psr-4": {
-            "Thunder\\SimilarWebApi\\": ""
+            "Thunder\\SimilarWebApi\\": "src/",
+            "Thunder\\SimilarWebApi\\Tests\\": "tests/"
         }
+    },
+    "scripts": {
+        "post-install-cmd": "php bin/generate"
     }
 }

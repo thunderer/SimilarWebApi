@@ -1,19 +1,24 @@
 <?php
 namespace Thunder\SimilarWebApi;
 
-class Response
+final class RawResponse
     {
     protected $raw;
     protected $values;
     protected $arrays;
     protected $maps;
 
-    public function __construct($raw, array $values, array $arrays, array $maps)
+    private function __construct($raw, array $values, array $arrays, array $maps)
         {
         $this->raw = $raw;
         $this->values = $values;
         $this->arrays = $arrays;
         $this->maps = $maps;
+        }
+
+    public static function create($raw, array $values, array $arrays, array $maps)
+        {
+        return new self($raw, $values, $arrays, $maps);
         }
 
     public function getRaw()

@@ -14,6 +14,14 @@ class Endpoint
 
     public function getResponse($content, $format)
         {
+        $response = $this->getInternalResponse($content, $format);
+        $class = __NAMESPACE__.'\\Response\\'.$this->name;
+
+        return new $class($response);
+        }
+
+    private function getInternalResponse($content, $format)
+        {
         $format = strtoupper($format);
         if('JSON' == $format)
             {
@@ -36,7 +44,7 @@ class Endpoint
         return $this->mapping['path'];
         }
 
-    protected function parseJson($content)
+    private function parseJson($content)
         {
         $json = $this->getJsonData($content);
 
@@ -77,10 +85,10 @@ class Endpoint
                 }
             }
 
-        return new Response($content, $values, $arrays, $maps);
+        return RawResponse::create($content, $values, $arrays, $maps);
         }
 
-    protected function parseXml($content)
+    private function parseXml($content)
         {
         $xml = $this->getXmlData($content);
 
@@ -133,10 +141,10 @@ class Endpoint
                 }
             }
 
-        return new Response($content, $values, $arrays, $maps);
+        return RawResponse::create($content, $values, $arrays, $maps);
         }
 
-    protected function getJsonData($content)
+    private function getJsonData($content)
         {
         $json = json_decode($content, true);
         if(!$json)
@@ -147,7 +155,7 @@ class Endpoint
         return $json;
         }
 
-    protected function getXmlData($content)
+    private function getXmlData($content)
         {
         libxml_use_internal_errors(true);
         try

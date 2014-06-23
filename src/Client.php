@@ -70,11 +70,11 @@ class Client
      *
      * @throws \InvalidArgumentException When given endpoint does not exist
      */
-    protected function getEndpoint($name)
+    private function getEndpoint($name)
         {
         if(null === $this->mapping)
             {
-            $this->mapping = Yaml::parse(file_get_contents(__DIR__.'/mapping.yaml'));
+            $this->mapping = Yaml::parse(file_get_contents(__DIR__.'/../mapping.yaml'));
             }
         if(false == array_key_exists($name, $this->mapping))
             {
