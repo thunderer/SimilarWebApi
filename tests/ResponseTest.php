@@ -1,19 +1,19 @@
 <?php
 namespace Thunder\SimilarWebApi\Tests;
 
-use Thunder\SimilarWebApi\Response;
+use Thunder\SimilarWebApi\RawResponse;
 
 class ResponseTest extends \PHPUnit_Framework_TestCase
     {
     public function testInstance()
         {
-        $instance = new Response('', array(), array(), array());
-        $this->assertInstanceOf('Thunder\SimilarWebApi\Response', $instance);
+        $instance = new RawResponse('', array(), array(), array());
+        $this->assertInstanceOf('Thunder\SimilarWebApi\RawResponse', $instance);
         }
 
     public function testMaps()
         {
-        $instance = new Response('', array(), array(), array(
+        $instance = new RawResponse('', array(), array(), array(
             'one' => array('a' => 'b', 'c' => 'd', 'e' => 'f'),
             'two' => array('a' => 'b', 'c' => 'd', 'e' => 'f', 'g' => 'h'),
             ));
@@ -26,7 +26,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
 
     public function testArrays()
         {
-        $instance = new Response('', array(), array(
+        $instance = new RawResponse('', array(), array(
             'one' => array(1),
             'two' => array(2, 2),
             'three' => array(3, 3, 3),
@@ -39,7 +39,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
 
     public function testValues()
         {
-        $instance = new Response('', array(
+        $instance = new RawResponse('', array(
             'one' => 'oneValue',
             'two' => 'twoValue',
             'three' => 3,
@@ -52,7 +52,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
 
     public function testRaw()
         {
-        $instance = new Response('response', array(), array(), array());
+        $instance = new RawResponse('response', array(), array(), array());
         $this->assertEquals('response', $instance->getRaw());
         }
 
@@ -61,7 +61,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
      */
     public function testMapNotFound()
         {
-        $instance = new Response('', array(), array(), array());
+        $instance = new RawResponse('', array(), array(), array());
         $instance->getMap('invalid');
         }
 
@@ -70,7 +70,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
      */
     public function testArrayNotFound()
         {
-        $instance = new Response('', array(), array(), array());
+        $instance = new RawResponse('', array(), array(), array());
         $instance->getArray('invalid');
         }
 
@@ -79,7 +79,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
      */
     public function testValueNotFound()
         {
-        $instance = new Response('', array(), array(), array());
+        $instance = new RawResponse('', array(), array(), array());
         $instance->getValue('invalid');
         }
     }

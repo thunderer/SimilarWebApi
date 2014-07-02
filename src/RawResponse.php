@@ -1,12 +1,12 @@
 <?php
 namespace Thunder\SimilarWebApi;
 
-class Response
+final class RawResponse
     {
-    protected $raw;
-    protected $values;
-    protected $arrays;
-    protected $maps;
+    private $raw;
+    private $values;
+    private $arrays;
+    private $maps;
 
     public function __construct($raw, array $values, array $arrays, array $maps)
         {

@@ -9,27 +9,36 @@ use Thunder\SimilarWebApi\Response;
 class EndpointTest extends \PHPUnit_Framework_TestCase
     {
     /**
+     * @expectedException \RuntimeException
+     */
+    public function testExceptionWhenResponseClassDoesNotExist()
+        {
+        $endpoint = new Endpoint('Invalid', array());
+        $endpoint->getResponse('{"content":""}', 'JSON');
+        }
+
+    /**
      * @dataProvider provideEndpoints
      */
-    public function testClientCalls($call, $exception, array $formats, array $valueTests, array $arrayTests, array $mapTests)
+    public function testClientCalls($yaml, $call, $exception, array $formats,
+                                    array $valueTests, array $arrayTests, array $mapTests)
         {
         /**
          * @var $clientMock \PHPUnit_Framework_MockObject_MockObject|Client
          */
         $domain = 'google.com';
         $token = sha1('user_key');
-
-        $yaml = Yaml::parse(file_get_contents(__DIR__.'/../mapping.yaml'));
         $endpoint = new Endpoint($call, $yaml[$call]);
+        $clientClass = 'Thunder\\SimilarWebApi\\Client';
 
         foreach($formats as $format => $file)
             {
             $content = file_get_contents(__DIR__.'/Fixtures/'.$file);
             $format = strtoupper($format);
 
-            $clientMock = $this->getMock('Thunder\\SimilarWebApi\\Client', array('executeCall'), array($token, $format));
+            $clientMock = $this->getMock($clientClass, array('executeCall'), array($token, $format));
             $clientMock
-                ::staticExpects($this->at(0))
+                ->expects($this->at(0))
                 ->method('executeCall')
                 ->with($endpoint->getPath(), $domain, $format, $token)
                 ->will($this->returnValue(array(200, $content)));
@@ -43,6 +52,7 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
                 {
                 $this->assertTrue($response === $cachedResponse);
                 $this->assertInstanceOf('Thunder\\SimilarWebApi\\Response', $response);
+                $this->assertInstanceOf('Thunder\\SimilarWebApi\\RawResponse', $response->getRawResponse());
                 $this->runResponseTests($response, $valueTests, $arrayTests, $mapTests);
                 }
             }
@@ -50,9 +60,12 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
 
     protected function runResponseTests(Response $response, array $valueTests, array $arrayTests, array $mapTests)
         {
+        $rawResponse = $response->getRawResponse();
         foreach($valueTests as $key => $value)
             {
-            $this->assertEquals($value, $response->getValue($key));
+            $this->assertEquals($value, $rawResponse->getValue($key));
+            $call = call_user_func_array(array($response, 'get'.ucfirst($key)), array());
+            $this->assertEquals($value, $call, var_export($value, true).' === '.var_export($call, true));
             }
         foreach($arrayTests as $key => $testData)
             {
@@ -60,7 +73,10 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
                 {
                 if('count' == $name)
                     {
-                    $this->assertEquals($value, count($response->getArray($key)));
+                    $this->assertEquals($value, count($rawResponse->getArray($key)));
+                    $call = call_user_func_array(array($response, 'get'.ucfirst($key)), array());
+                    $this->assertEquals($value, count($call),
+                        var_export($value, true).' === '.var_export(count($call), true));
                     }
                 }
             }
@@ -70,7 +86,10 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
                 {
                 if('count' == $name)
                     {
-                    $this->assertEquals($value, count($response->getMap($key)));
+                    $this->assertEquals($value, count($rawResponse->getMap($key)));
+                    $call = call_user_func_array(array($response, 'get'.ucfirst($key)), array());
+                    $this->assertEquals($value, count($call),
+                        var_export($value, true).' === '.var_export(count($call), true));
                     }
                 }
             }
@@ -78,7 +97,7 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
 
     public function provideEndpoints()
         {
-        return array(
+        $items = array(
 
             /* --- INVALID TESTS ------------------------------------------- */
 
@@ -125,7 +144,7 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
                     ),
                 ),
 
-            array('WebsiteCategorization', null, array(
+            array('V0WebsiteCategorization', null, array(
                     'json' => 'v0/websiteCategorization/200_google.json',
                     'xml' => 'v0/websiteCategorization/200_google.xml',
                     ),
@@ -170,6 +189,7 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
                     'globalRank' => 2,
                     'countryRank' => 1,
                     'countryCode' => 840,
+                    'date' => '12/2013',
                     ),
                 array(/* no arrays */),
                 array(
@@ -345,6 +365,13 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
             /* --- END TESTS ----------------------------------------------- */
 
             );
+
+        $mapping = Yaml::parse(file_get_contents(__DIR__.'/../mapping.yaml'));
+        $items = array_map(function($item) use($mapping) {
+            return array_merge(array($mapping), $item);
+            }, $items);
+
+        return $items;
         }
 
     /**

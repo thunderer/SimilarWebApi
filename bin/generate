@@ -1,0 +1,68 @@
+#!/usr/bin/env php
+<?php
+use Symfony\Component\Yaml\Yaml;
+
+function generateResponseClass($name, $config)
+    {
+    $code = <<<EOF
+<?php
+namespace <NAMESPACE>;
+
+use Thunder\SimilarWebApi\RawResponse;
+use Thunder\SimilarWebApi\Response;
+
+final class <CLASS> extends Response
+    {
+    public function __construct(RawResponse \$response) { parent::__construct(\$response); }
+
+<METHODS>
+    }
+
+EOF;
+    $methods = array();
+    $calls = array(
+        'values' => 'getValue',
+        'arrays' => 'getArray',
+        'maps' => 'getMap',
+        );
+    foreach($calls as $type => $call)
+        {
+        if(array_key_exists($type, $config) && !empty($config[$type]))
+            {
+            foreach($config[$type] as $item => $fieldConfig)
+                {
+                $header = 'public function get'.ucfirst($item).'()';
+                $body = 'return $this->response->'.$call.'(\''.$item.'\');';
+                $methods[] =  '    '.$header.' { '.$body.' }';
+                }
+            $methods[] = '';
+            }
+        }
+    $ns = 'Thunder\\SimilarWebApi\\Response';
+    $replaces = array(
+        '<NAMESPACE>' => $ns,
+        '<CLASS>' => $name,
+        '<METHODS>' => implode("\n", $methods),
+        );
+    $code = str_replace(array_keys($replaces), array_values($replaces), $code);
+
+    return $code;
+    }
+
+require_once(__DIR__.'/../vendor/autoload.php');
+$mapping = Yaml::parse(file_get_contents(__DIR__.'/../mapping.yaml'));
+if(!$mapping)
+    {
+    throw new \RuntimeException('Failed to read mapping file!');
+    }
+
+echo 'SimilarWeb API PHP Client  :: [ Generating response classes ]'."\n";
+foreach($mapping as $name => $config)
+    {
+    echo sprintf('  - %s', $name)."\n";
+    $path = __DIR__.'/../src/Response/'.$name.'.php';
+    $code = generateResponseClass($name, $config);
+    @mkdir(dirname($path), 0777, true);
+    file_put_contents($path, $code);
+    }
+echo 'SimilarWeb API PHP Client  :: [ Operation completed ]'."\n";
