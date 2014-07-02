@@ -11,15 +11,13 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider provideEndpoints
      */
-    public function testClientCalls($call, $exception, array $formats, array $valueTests, array $arrayTests, array $mapTests)
+    public function testClientCalls($yaml, $call, $exception, array $formats, array $valueTests, array $arrayTests, array $mapTests)
         {
         /**
          * @var $clientMock \PHPUnit_Framework_MockObject_MockObject|Client
          */
         $domain = 'google.com';
         $token = sha1('user_key');
-
-        $yaml = Yaml::parse(file_get_contents(__DIR__.'/../mapping.yaml'));
         $endpoint = new Endpoint($call, $yaml[$call]);
 
         foreach($formats as $format => $file)
@@ -86,7 +84,7 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
 
     public function provideEndpoints()
         {
-        return array(
+        $items = array(
 
             /* --- INVALID TESTS ------------------------------------------- */
 
@@ -354,6 +352,13 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
             /* --- END TESTS ----------------------------------------------- */
 
             );
+
+        $mapping = Yaml::parse(file_get_contents(__DIR__.'/../mapping.yaml'));
+        $items = array_map(function($item) use($mapping) {
+            return array_merge(array($mapping), $item);
+            }, $items);
+
+        return $items;
         }
 
     /**
