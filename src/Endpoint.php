@@ -17,6 +17,11 @@ class Endpoint
         $response = $this->getInternalResponse($content, $format);
         $class = __NAMESPACE__.'\\Response\\'.$this->name;
 
+        if(!class_exists($class, true))
+            {
+            throw new \RuntimeException(sprintf('Failed to load response class %s!', $class));
+            }
+
         return new $class($response);
         }
 

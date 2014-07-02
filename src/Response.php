@@ -10,7 +10,7 @@ abstract class Response
         $this->response = $response;
         }
 
-    public function getResponse()
+    public function getRawResponse()
         {
         return $this->response;
         }

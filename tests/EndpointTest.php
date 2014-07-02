@@ -9,9 +9,19 @@ use Thunder\SimilarWebApi\Response;
 class EndpointTest extends \PHPUnit_Framework_TestCase
     {
     /**
+     * @expectedException \RuntimeException
+     */
+    public function testExceptionWhenResponseClassDoesNotExist()
+        {
+        $endpoint = new Endpoint('Invalid', array());
+        $endpoint->getResponse('{"content":""}', 'JSON');
+        }
+
+    /**
      * @dataProvider provideEndpoints
      */
-    public function testClientCalls($yaml, $call, $exception, array $formats, array $valueTests, array $arrayTests, array $mapTests)
+    public function testClientCalls($yaml, $call, $exception, array $formats,
+                                    array $valueTests, array $arrayTests, array $mapTests)
         {
         /**
          * @var $clientMock \PHPUnit_Framework_MockObject_MockObject|Client
@@ -19,13 +29,14 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
         $domain = 'google.com';
         $token = sha1('user_key');
         $endpoint = new Endpoint($call, $yaml[$call]);
+        $clientClass = 'Thunder\\SimilarWebApi\\Client';
 
         foreach($formats as $format => $file)
             {
             $content = file_get_contents(__DIR__.'/Fixtures/'.$file);
             $format = strtoupper($format);
 
-            $clientMock = $this->getMock('Thunder\\SimilarWebApi\\Client', array('executeCall'), array($token, $format));
+            $clientMock = $this->getMock($clientClass, array('executeCall'), array($token, $format));
             $clientMock
                 ->expects($this->at(0))
                 ->method('executeCall')
@@ -41,7 +52,7 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
                 {
                 $this->assertTrue($response === $cachedResponse);
                 $this->assertInstanceOf('Thunder\\SimilarWebApi\\Response', $response);
-                $this->assertInstanceOf('Thunder\\SimilarWebApi\\RawResponse', $response->getResponse());
+                $this->assertInstanceOf('Thunder\\SimilarWebApi\\RawResponse', $response->getRawResponse());
                 $this->runResponseTests($response, $valueTests, $arrayTests, $mapTests);
                 }
             }
@@ -49,7 +60,7 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
 
     protected function runResponseTests(Response $response, array $valueTests, array $arrayTests, array $mapTests)
         {
-        $rawResponse = $response->getResponse();
+        $rawResponse = $response->getRawResponse();
         foreach($valueTests as $key => $value)
             {
             $this->assertEquals($value, $rawResponse->getValue($key));
@@ -64,7 +75,8 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
                     {
                     $this->assertEquals($value, count($rawResponse->getArray($key)));
                     $call = call_user_func_array(array($response, 'get'.ucfirst($key)), array());
-                    $this->assertEquals($value, count($call), var_export($value, true).' === '.var_export(count($call), true));
+                    $this->assertEquals($value, count($call),
+                        var_export($value, true).' === '.var_export(count($call), true));
                     }
                 }
             }
@@ -76,7 +88,8 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
                     {
                     $this->assertEquals($value, count($rawResponse->getMap($key)));
                     $call = call_user_func_array(array($response, 'get'.ucfirst($key)), array());
-                    $this->assertEquals($value, count($call), var_export($value, true).' === '.var_export(count($call), true));
+                    $this->assertEquals($value, count($call),
+                        var_export($value, true).' === '.var_export(count($call), true));
                     }
                 }
             }

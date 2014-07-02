@@ -4,21 +4,21 @@ use Symfony\Component\Yaml\Yaml;
 
 function generateResponseClass($name, $config)
     {
-    $code = <<<EOC
+    $code = <<<EOF
 <?php
 namespace <NAMESPACE>;
 
 use Thunder\SimilarWebApi\RawResponse;
 use Thunder\SimilarWebApi\Response;
 
-class <CLASS> extends Response
+final class <CLASS> extends Response
     {
     public function __construct(RawResponse \$response) { parent::__construct(\$response); }
 
 <METHODS>
     }
 
-EOC;
+EOF;
     $methods = array();
     $calls = array(
         'values' => 'getValue',
@@ -56,9 +56,7 @@ if(!$mapping)
     throw new \RuntimeException('Failed to read mapping file!');
     }
 
-echo ''
-    .'SimilarWeb API PHP Client'
-    .' :: [ Generating response classes ]'."\n";
+echo 'SimilarWeb API PHP Client  :: [ Generating response classes ]'."\n";
 foreach($mapping as $name => $config)
     {
     echo sprintf('  - %s', $name)."\n";
@@ -67,6 +65,4 @@ foreach($mapping as $name => $config)
     @mkdir(dirname($path), 0777, true);
     file_put_contents($path, $code);
     }
-echo ''
-    .'SimilarWeb API PHP Client'
-    .' :: [ Operation completed ]'."\n";
+echo 'SimilarWeb API PHP Client  :: [ Operation completed ]'."\n";
