@@ -8,17 +8,12 @@ final class RawResponse
     private $arrays;
     private $maps;
 
-    private function __construct($raw, array $values, array $arrays, array $maps)
+    public function __construct($raw, array $values, array $arrays, array $maps)
         {
         $this->raw = $raw;
         $this->values = $values;
         $this->arrays = $arrays;
         $this->maps = $maps;
-        }
-
-    public static function create($raw, array $values, array $arrays, array $maps)
-        {
-        return new self($raw, $values, $arrays, $maps);
         }
 
     public function getRaw()

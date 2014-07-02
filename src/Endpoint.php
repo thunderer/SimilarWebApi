@@ -90,7 +90,7 @@ class Endpoint
                 }
             }
 
-        return RawResponse::create($content, $values, $arrays, $maps);
+        return new RawResponse($content, $values, $arrays, $maps);
         }
 
     private function parseXml($content)
@@ -146,7 +146,7 @@ class Endpoint
                 }
             }
 
-        return RawResponse::create($content, $values, $arrays, $maps);
+        return new RawResponse($content, $values, $arrays, $maps);
         }
 
     private function getJsonData($content)

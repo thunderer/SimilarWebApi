@@ -12,7 +12,7 @@
         "symfony/yaml": "~2.4"
     },
     "require-dev": {
-        "composer/composer": "dev-master"
+        "phpunit/phpunit": "~4.1"
     },
     "autoload": {
         "psr-4": {
