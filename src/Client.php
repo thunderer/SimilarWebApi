@@ -10,6 +10,14 @@ class Client
     private $cache;
     private $mapping;
 
+    /**
+     * Yep, it's a constructor.
+     *
+     * @param string $token User key (API token)
+     * @param string $format Raw response text format (JSON or XML)
+     *
+     * @throws \InvalidArgumentException When unsupported format is given
+     */
     public function __construct($token, $format)
         {
         $format = strtoupper($format);
