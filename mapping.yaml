@@ -15,7 +15,7 @@ SimilarSites:
       xml: { field: SimilarSites.SimilarSite, key: Url, value: Score }
 
 Tagging:
-  path: tagging
+  path: tags
   maps:
     tags:
       json: { field: Tags, key: Name, value: Score }

@@ -57,11 +57,12 @@ class Client
 
         $endpoint = $this->getEndpoint($call);
 
-        list($code, $content) = static::executeCall($endpoint->getPath(), $domain, $this->format, $this->token);
+        list($code, $content) = $this->executeCall($endpoint->getPath(), $domain, $this->format, $this->token);
         if($code < 200 || $code >= 400)
             {
-            $message = 'Call %s using format %s failed with code %s!';
-            throw new \RuntimeException(sprintf($message, $call, $this->format, $code));
+            $message = 'Call %s using format %s failed with code %s (URL: %s)!';
+            $url = $this->getCallUrl($call, $domain, $this->format, 'SECRET_TOKEN_IS_SECRET');
+            throw new \RuntimeException(sprintf($message, $call, $this->format, $code, $url));
             }
         $response = $endpoint->getResponse($content, $this->format);
         $this->cache[$call][$domain] = $response;
@@ -107,11 +108,7 @@ class Client
      */
     public function executeCall($call, $domain, $format, $token)
         {
-        $args = http_build_query(array(
-            'Format' => $format,
-            'UserKey' => $token,
-            ));
-        $target = sprintf('http://api.similarweb.com/Site/%s/%s?%s', $domain, $call, $args);
+        $target = $this->getCallUrl($call, $domain, $format, $token);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $target);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -121,5 +118,25 @@ class Client
         curl_close($ch);
 
         return array($code, $response);
+        }
+
+    /**
+     * Generate target call URL
+     *
+     * @param string $call Call name as in URL path, eg. v1/traffic
+     * @param string $domain Checked domain name
+     * @param string $format Response format - XML|JSON
+     * @param string $token User's API key
+     *
+     * @return string
+     */
+    private function getCallUrl($call, $domain, $format, $token)
+        {
+        $args = http_build_query(array(
+            'Format' => $format,
+            'UserKey' => $token,
+            ));
+
+        return sprintf('http://api.similarweb.com/Site/%s/%s?%s', $domain, $call, $args);
         }
     }

@@ -58,6 +58,41 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
             }
         }
 
+    /**
+     * THIS TEST VERIFIES LIBRARY BEHAVIOR USING ACTUAL REQUESTS TO SIMILARWEB
+     * API WITH YOUR API KEY. YES, EXACTLY THE SAME YOU PAID FOR WITH YOUR
+     * PRECIOUS MONEY. IF YOU WANT TO RUN IT, UNCOMMENT METHOD BELOW AND SET
+     * $token VARIABLE TO VALUE RECEIVED FROM SIMILARWEB DEVELOPER PANEL.
+     * ALL CURRENTLY IMPLEMENTED CALLS IN THIS TEST USE ABOUT > 80 < API HITS.
+     *
+     *                       <<< YOU HAVE BEEN WARNED >>>
+     *
+     * @dataProvider provideEndpoints
+     */
+    /* public function testRealClientCalls($yaml, $call, $exception, array $formats,
+                                    array $valueTests, array $arrayTests, array $mapTests)
+        {
+        $domain = 'google.com';
+        $token = 'YOUR_API_TOKEN_HERE';
+
+        if($exception !== null) { return; }
+        foreach($formats as $format => $file)
+            {
+            $format = strtoupper($format);
+            $client = new Client($token, $format);
+
+            $response = $client->getResponse($call, $domain, false);
+            $cachedResponse = $client->getResponse($call, $domain, true);
+            $this->assertEmpty(array_diff(array_keys($valueTests), array_keys($response->getRawResponse()->getValues())));
+            $this->assertEmpty(array_diff(array_keys($arrayTests), array_keys($response->getRawResponse()->getArrays())));
+            $this->assertEmpty(array_diff(array_keys($mapTests), array_keys($response->getRawResponse()->getMaps())));
+
+            $this->assertTrue($response === $cachedResponse);
+            $this->assertInstanceOf('Thunder\\SimilarWebApi\\Response', $response);
+            $this->assertInstanceOf('Thunder\\SimilarWebApi\\RawResponse', $response->getRawResponse());
+            }
+        } */
+
     protected function runResponseTests(Response $response, array $valueTests, array $arrayTests, array $mapTests)
         {
         $rawResponse = $response->getRawResponse();
