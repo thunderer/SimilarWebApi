@@ -1,7 +1,7 @@
 <?php
 namespace Thunder\SimilarWebApi;
 
-class Endpoint
+final class Endpoint
     {
     private $name;
     private $mapping;
@@ -90,7 +90,26 @@ class Endpoint
                 }
             }
 
-        return new RawResponse($content, $values, $arrays, $maps);
+        $tuples = array();
+        if(array_key_exists('tuples', $this->mapping))
+            {
+            foreach($this->mapping['tuples'] as $key => $item)
+                {
+                $tuple = array();
+                foreach($json[$item['json']['field']] as $element)
+                    {
+                    $array = array();
+                    foreach($item['json']['items'] as $itemData)
+                        {
+                        $array[$itemData['value']] = $element[$itemData['key']];
+                        }
+                    $tuple[$element[$item['json']['index']]] = $array;
+                    }
+                $tuples[$key] = $tuple;
+                }
+            }
+
+        return new RawResponse($content, $values, $arrays, $maps, $tuples);
         }
 
     private function parseXml($content)
@@ -102,7 +121,7 @@ class Endpoint
             {
             foreach($this->mapping['values'] as $key => $item)
                 {
-                $values[$key] = (string)$xml->{$item['json']['field']};
+                $values[$key] = (string)$xml->{$item['xml']['field']};
                 }
             }
 
@@ -131,6 +150,20 @@ class Endpoint
             {
             foreach($this->mapping['maps'] as $key => $item)
                 {
+                /* --- XML NS --- */
+                if('Mobile_RelatedApps' == $this->name)
+                    {
+                    $element = $xml->{'RelatedApps'};
+                    $ns = $xml->getNamespaces(true);
+                    $map = array();
+                    foreach($element->children($ns['d2p1']) as $element)
+                        {
+                        $map[(string)$element->{$item['xml']['key']}] = (string)$element->{$item['xml']['value']};
+                        }
+                    $maps[$key] = $map;
+                    continue;
+                    }
+                /* --- XML NS --- */
                 $map = array();
                 $parts = explode('.', $item['xml']['field']);
                 $items = array();
@@ -140,13 +173,38 @@ class Endpoint
                     }
                 foreach($items as $element)
                     {
-                    $map[(string)$element->{$item['json']['key']}] = (string)$element->{$item['json']['value']};
+                    $map[(string)$element->{$item['xml']['key']}] = (string)$element->{$item['xml']['value']};
                     }
                 $maps[$key] = $map;
                 }
             }
 
-        return new RawResponse($content, $values, $arrays, $maps);
+        $tuples = array();
+        if(array_key_exists('tuples', $this->mapping))
+            {
+            foreach($this->mapping['tuples'] as $key => $item)
+                {
+                $parts = explode('.', $item['xml']['field']);
+                $items = array();
+                if(2 == count($parts))
+                    {
+                    $items = $xml->{$parts[0]}->{$parts[1]};
+                    }
+                $tuple = array();
+                foreach($items as $element)
+                    {
+                    $array = array();
+                    foreach($item['xml']['items'] as $itemData)
+                        {
+                        $array[$itemData['value']] = (string)$element->{$itemData['key']};
+                        }
+                    $tuple[(string)$element->{$item['xml']['index']}] = $array;
+                    }
+                $tuples[$key] = $tuple;
+                }
+            }
+
+        return new RawResponse($content, $values, $arrays, $maps, $tuples);
         }
 
     private function getJsonData($content)

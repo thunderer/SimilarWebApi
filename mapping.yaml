@@ -1,6 +1,7 @@
 # --- V0 API ------------------------------------------------------------------
 
 GlobalRank:
+  args: ~
   path: globalRank
   values:
     rank:
@@ -8,6 +9,7 @@ GlobalRank:
       xml: { field: Rank }
 
 SimilarSites:
+  args: ~
   path: similarSites
   maps:
     similarSites:
@@ -15,6 +17,7 @@ SimilarSites:
       xml: { field: SimilarSites.SimilarSite, key: Url, value: Score }
 
 Tagging:
+  args: ~
   path: tags
   maps:
     tags:
@@ -22,6 +25,7 @@ Tagging:
       xml: { field: Tags.Tag, key: Name, value: Score }
 
 V0WebsiteCategorization:
+  args: ~
   path: category
   values:
     category:
@@ -29,6 +33,7 @@ V0WebsiteCategorization:
       xml: { field: Category }
 
 WebsiteCategoryRank:
+  args: ~
   path: categoryRank
   values:
     category:
@@ -39,6 +44,7 @@ WebsiteCategoryRank:
       xml: { field: CategoryRank }
 
 WebsiteCountryRank:
+  args: ~
   path: countryRank
   maps:
     topCountryRanks:
@@ -48,6 +54,7 @@ WebsiteCountryRank:
 # --- V1 API ------------------------------------------------------------------
 
 Traffic:
+  args: ~
   path: v1/traffic
   values:
     globalRank:
@@ -74,6 +81,7 @@ Traffic:
       xml: { field: TrafficShares.TrafficSource, key: SourceType, value: SourceValue }
 
 Engagement:
+  args: ~
   path: v1/engagement
   values:
     averagePageViews:
@@ -90,6 +98,7 @@ Engagement:
       xml: { field: Date }
 
 Keywords:
+  args: ~
   path: v1/searchintelligence
   values:
     organicSearchShare:
@@ -113,6 +122,7 @@ Keywords:
       xml: { field: TopPaidTerms.Keyword }
 
 SocialReferrals:
+  args: ~
   path: v1/SocialReferringSites
   values:
     startDate:
@@ -129,6 +139,7 @@ SocialReferrals:
 # --- V2 API ------------------------------------------------------------------
 
 AdultWebsites:
+  args: ~
   path: v2/Category
   values:
     category:
@@ -136,6 +147,7 @@ AdultWebsites:
       xml: { field: Category }
 
 AlsoVisited:
+  args: ~
   path: v2/AlsoVisited
   maps:
     alsoVisited:
@@ -143,6 +155,7 @@ AlsoVisited:
       xml: { field: AlsoVisited.AlsoVisited, key: Url, value: Score }
 
 CategoryRank:
+  args: ~
   path: v2/CategoryRank
   values:
     category:
@@ -153,6 +166,7 @@ CategoryRank:
       xml: { field: CategoryRank }
 
 Destinations:
+  args: ~
   path: v2/leadingdestinationsites
   values:
     startDate:
@@ -167,6 +181,7 @@ Destinations:
       xml: { field: Sites.Site }
 
 EstimatedVisitors:
+  args: ~
   path: v2/EstimatedTraffic
   values:
     estimatedVisitors:
@@ -174,6 +189,7 @@ EstimatedVisitors:
       xml: { field: EstimatedVisitors }
 
 Referrals:
+  args: ~
   path: v2/leadingreferringsites
   values:
     startDate:
@@ -188,6 +204,7 @@ Referrals:
       xml: { field: Sites.Site }
 
 SimilarWebsites:
+  args: ~
   path: v2/SimilarSites
   maps:
     similarWebsites:
@@ -195,6 +212,7 @@ SimilarWebsites:
       xml: { field: SimilarSites.SimilarSite, key: Url, value: Score }
 
 WebsiteCategorization:
+  args: ~
   path: v2/Category
   values:
     category:
@@ -202,8 +220,180 @@ WebsiteCategorization:
       xml: { field: Category }
 
 WebsiteTags:
+  args: ~
   path: v2/Tags
   maps:
     tags:
       json: { field: Tags, key: Name, value: Score }
       xml: { field: Tags.Tag, key: Name, value: Score }
+
+# --- V1 PRO API --------------------------------------------------------------
+
+TrafficPro:
+  args: [gr, start, end, md]
+  path: v1/visits
+  maps:
+    values:
+      json: { field: Values, key: Date, value: Value }
+      xml: { field: Values.Metric, key: Date, value: Value }
+
+Engagement_PageViews:
+  args: [gr, start, end, md]
+  path: v1/pageviews
+  maps:
+    values:
+      json: { field: Values, key: Date, value: Value }
+      xml: { field: Values.Metric, key: Date, value: Value }
+
+Engagement_VisitDuration:
+  args: [gr, start, end, md]
+  path: v1/visitduration
+  maps:
+    values:
+      json: { field: Values, key: Date, value: Value }
+      xml: { field: Values.Metric, key: Date, value: Value }
+
+Engagement_BounceRate:
+  args: [gr, start, end, md]
+  path: v1/bouncerate
+  maps:
+    values:
+      json: { field: Values, key: Date, value: Value }
+      xml: { field: Values.Metric, key: Date, value: Value }
+
+Keywords_OrgSearch:
+  args: [start, end, md]
+  path: v1/orgsearch
+  values:
+    results:
+      json: { field: ResultsCount }
+      xml: { field: ResultsCount }
+    total:
+      json: { field: TotalCount }
+      xml: { field: TotalCount }
+    next:
+      json: { field: Next }
+      xml: { field: Next }
+  tuples:
+    terms:
+      json: { field: Data, index: SearchTerm, items: [{ key: Visits, value: visits }, { key: Change, value: change }] }
+      xml: { field: Data.Keyword, index: SearchTerm, items: [{ key: Visits, value: visits }, { key: Change, value: change }] }
+
+Keywords_PaidSearch:
+  args: [start, end, md]
+  path: v1/paidsearch
+  values:
+    results:
+      json: { field: ResultsCount }
+      xml: { field: ResultsCount }
+    total:
+      json: { field: TotalCount }
+      xml: { field: TotalCount }
+    next:
+      json: { field: Next }
+      xml: { field: Next }
+  tuples:
+    terms:
+      json: { field: Data, index: SearchTerm, items: [{ key: Visits, value: visits }, { key: Change, value: change }] }
+      xml: { field: Data.Keyword, index: SearchTerm, items: [{ key: Visits, value: visits }, { key: Change, value: change }] }
+
+V1Referrals:
+  args: [start, end, md]
+  path: v1/referrals
+  values:
+    results:
+      json: { field: ResultsCount }
+      xml: { field: ResultsCount }
+    total:
+      json: { field: TotalCount }
+      xml: { field: TotalCount }
+    next:
+      json: { field: Next }
+      xml: { field: Next }
+  tuples:
+    sites:
+      json: { field: Data, index: Site, items: [{ key: Visits, value: visits }, { key: Change, value: change }] }
+      xml: { field: Data.SiteReferral, index: Site, items: [{ key: Visits, value: visits }, { key: Change, value: change }] }
+
+KeywordCompetitors_Org:
+  args: [start, end, md]
+  path: v1/orgkwcompetitor
+  values:
+    results:
+      json: { field: ResultsCount }
+      xml: { field: ResultsCount }
+    total:
+      json: { field: TotalCount }
+      xml: { field: TotalCount }
+    next:
+      json: { field: Next }
+      xml: { field: Next }
+  maps:
+    values:
+      json: { field: Data, key: Domain, value: Score }
+      xml: { field: Data.SearchCompetitor, key: Domain, value: Score }
+
+KeywordCompetitors_Paid:
+  args: [start, end, md]
+  path: v1/paidkwcompetitor
+  values:
+    results:
+      json: { field: ResultsCount }
+      xml: { field: ResultsCount }
+    total:
+      json: { field: TotalCount }
+      xml: { field: TotalCount }
+    next:
+      json: { field: Next }
+      xml: { field: Next }
+  maps:
+    values:
+      json: { field: Data, key: Domain, value: Score }
+      xml: { field: Data.SearchCompetitor, key: Domain, value: Score }
+
+# --- MOBILE API --------------------------------------------------------------
+
+Mobile_App:
+  args: ~
+  path: v1/GetAppDetails
+  values:
+    title:
+      json: { field: Title }
+      xml: { field: Title }
+    cover:
+      json: { field: Cover }
+      xml: { field: Cover }
+    author:
+      json: { field: Author }
+      xml: { field: Author }
+    price:
+      json: { field: Price }
+      xml: { field: Price }
+    mainCategory:
+      json: { field: MainCategory }
+      xml: { field: MainCategory }
+    mainCategoryId:
+      json: { field: MainCategoryId }
+      xml: { field: MainCategoryId }
+    rating:
+      json: { field: Rating }
+      xml: { field: Rating }
+
+Mobile_AppInstalls:
+  args: ~
+  path: v1/GetAppInstalls
+  values:
+    min:
+      json: { field: InstallsMin }
+      xml: { field: InstallsMin }
+    max:
+      json: { field: InstallsMax }
+      xml: { field: InstallsMax }
+
+Mobile_RelatedApps:
+  args: ~
+  path: v1/GetRelatedSiteApps
+  maps:
+    apps:
+      json: { field: RelatedApps, key: AppId, value: Title }
+      xml: { field: RelatedApps.App, key: AppId, value: Title }

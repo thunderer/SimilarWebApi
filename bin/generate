@@ -24,6 +24,7 @@ EOF;
         'values' => 'getValue',
         'arrays' => 'getArray',
         'maps' => 'getMap',
+        'tuples' => 'getTuple',
         );
     foreach($calls as $type => $call)
         {

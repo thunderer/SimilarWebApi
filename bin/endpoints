@@ -1,0 +1,45 @@
+#!/usr/bin/env php
+<?php
+use Symfony\Component\Yaml\Yaml;
+
+require(__DIR__.'/../vendor/autoload.php');
+
+echo <<<EOF
+
++=============================================================================+
+|                                                                             |
+| This is a reference of SimilarWeb API as implemented in this library in     |
+| readable Markdown table format. Explanation of columns is provided below.   |
+|                                                                             |
+| BTW Sorry for table formatting on small monitors. I'm working on 24"        |
+| display and really recommend you to get one.                                |
+|                                                                             |
++-----------+-----------------------------------------------------------------+
+|           |                                                                 |
+| API       = call name (should be similar to names on SimilarWeb website)    |
+| Endpoint  = URL path which needs to be passed to getResponse() method       |
+| Arguments = Whether call expects additional arguments                       |
+| Data      = what data and in what format is returned from given API call    |
+|           |                                                                 |
++=============================================================================+
+
+
+EOF;
+
+
+$yaml = Yaml::parse(file_get_contents(__DIR__.'/../mapping.yaml'));
+$format = '| %-25s | %-30s | %-15s | %-100s |';
+echo sprintf($format, 'API', 'Endpoint', 'Arguments', 'Data')."\n";
+echo sprintf($format, '-', '-', '-', '-')."\n";
+foreach($yaml as $endpoint => $data)
+    {
+    $args = $data['args'] ? implode(',', $data['args']) : '-';
+    $path = ''.$data['path'].'';
+    $datas = array();
+    $datas[] = array_key_exists('values', $data) ? 'values: '.implode(',', array_keys($data['values'])) : '';
+    $datas[] = array_key_exists('arrays', $data) ? 'arrays: '.implode(',', array_keys($data['arrays'])) : '';
+    $datas[] = array_key_exists('maps', $data) ? 'maps: '.implode(',', array_keys($data['maps'])) : '';
+    $datas[] = array_key_exists('tuples', $data) ? 'tuples: '.implode(',', array_keys($data['tuples'])) : '';
+    echo sprintf($format, $endpoint, $path, $args, implode(' / ', array_filter($datas)))."\n";
+    }
+echo "\n";

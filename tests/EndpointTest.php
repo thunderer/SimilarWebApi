@@ -21,7 +21,8 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
      * @dataProvider provideEndpoints
      */
     public function testClientCalls($yaml, $call, $exception, array $formats,
-                                    array $valueTests, array $arrayTests, array $mapTests)
+                                    array $valueTests, array $arrayTests,
+                                    array $mapTests, array $tupleTests)
         {
         /**
          * @var $clientMock \PHPUnit_Framework_MockObject_MockObject|Client
@@ -53,7 +54,7 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
                 $this->assertTrue($response === $cachedResponse);
                 $this->assertInstanceOf('Thunder\\SimilarWebApi\\Response', $response);
                 $this->assertInstanceOf('Thunder\\SimilarWebApi\\RawResponse', $response->getRawResponse());
-                $this->runResponseTests($response, $valueTests, $arrayTests, $mapTests);
+                $this->runResponseTests($response, $valueTests, $arrayTests, $mapTests, $tupleTests);
                 }
             }
         }
@@ -93,7 +94,7 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
             }
         } */
 
-    protected function runResponseTests(Response $response, array $valueTests, array $arrayTests, array $mapTests)
+    protected function runResponseTests(Response $response, array $valueTests, array $arrayTests, array $mapTests, array $tupleTests)
         {
         $rawResponse = $response->getRawResponse();
         foreach($valueTests as $key => $value)
@@ -128,6 +129,21 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
                     }
                 }
             }
+        foreach($tupleTests as $key => $testData)
+            {
+            foreach($testData as $name => $value)
+                {
+                if('count' == $name)
+                    {
+                    $this->assertEquals($value, count($rawResponse->getTuple($key)));
+                    $method = 'get'.ucfirst($key);
+                    $this->assertTrue(method_exists($response, $method), sprintf('undefined method %s::%s', get_class($response), $method));
+                    $call = call_user_func_array(array($response, $method), array());
+                    $this->assertEquals($value, count($call),
+                        var_export($value, true).' === '.var_export(count($call), true));
+                    }
+                }
+            }
         }
 
     public function provideEndpoints()
@@ -137,15 +153,9 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
             /* --- INVALID TESTS ------------------------------------------- */
 
             array('Traffic', 'RuntimeException', array('json' => 'invalid/invalid.json'),
-                array(),
-                array(),
-                array(),
-                ),
+                array(), array(), array(), array()),
             array('Traffic', 'RuntimeException', array('xml' => 'invalid/invalid.xml'),
-                array(),
-                array(),
-                array(),
-                ),
+                array(), array(), array(), array()),
 
             /* --- V0 TESTS ------------------------------------------------ */
 
@@ -157,6 +167,7 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
                 array('rank' => 2),
                 array(/* no arrays */),
                 array(/* no maps */),
+                array(/* no tuples */),
                 ),
 
             array('SimilarSites', null, array(
@@ -166,6 +177,7 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
                 array(/* no values */),
                 array(/* no arrays */),
                 array('similarSites' => array('count' => 20)),
+                array(/* no tuples */),
                 ),
 
             array('Tagging', null, array(
@@ -174,20 +186,18 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
                     ),
                 array(/* no values */),
                 array(/* no arrays */),
-                array(
-                    'tags' => array('count' => 10),
-                    ),
+                array('tags' => array('count' => 10)),
+                array(/* no tuples */),
                 ),
 
             array('V0WebsiteCategorization', null, array(
                     'json' => 'v0/websiteCategorization/200_google.json',
                     'xml' => 'v0/websiteCategorization/200_google.xml',
                     ),
-                array(
-                    'category' => 'Internet_and_Telecom/Search_Engine',
-                    ),
+                array('category' => 'Internet_and_Telecom/Search_Engine'),
                 array(/* no arrays */),
                 array(/* no maps */),
+                array(/* no tuples */),
                 ),
 
             array('WebsiteCategoryRank', null, array(
@@ -200,6 +210,7 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
                     ),
                 array(/* no arrays */),
                 array(/* no maps */),
+                array(/* no tuples */),
                 ),
 
             array('WebsiteCountryRank', null, array(
@@ -208,9 +219,8 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
                     ),
                 array(/* no values */),
                 array(/* no arrays */),
-                array(
-                    'topCountryRanks' => array('count' => 5),
-                    ),
+                array('topCountryRanks' => array('count' => 5)),
+                array(/* no tuples */),
                 ),
 
             /* --- V1 TESTS ------------------------------------------------ */
@@ -232,6 +242,7 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
                     'trafficReach' => array('count' => 27),
                     'trafficShares' => array('count' => 6),
                     ),
+                array(/* no tuples */),
                 ),
 
             array('Engagement', null, array(
@@ -246,6 +257,7 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
                     ),
                 array(/* no arrays */),
                 array(/* no maps */),
+                array(/* no tuples */),
                 ),
 
             array('Keywords', null, array(
@@ -263,6 +275,7 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
                     'topPaidTerms' => array('count' => 7),
                     ),
                 array(/* no maps */),
+                array(/* no tuples */),
                 ),
 
             array('SocialReferrals', null, array(
@@ -274,9 +287,8 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
                     'endDate' => '12/2013',
                     ),
                 array(/* no arrays */),
-                array(
-                    'socialSources' => array('count' => 152),
-                    ),
+                array('socialSources' => array('count' => 152)),
+                array(/* no tuples */),
                 ),
 
             /* --- V2 TESTS ------------------------------------------------ */
@@ -285,21 +297,19 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
                     'json' => 'v2/adultWebsites/200_google.json',
                     'xml' => 'v2/adultWebsites/200_google.xml',
                     ),
-                array(
-                    'category' => 'Internet_and_Telecom/Search_Engine',
-                    ),
+                array('category' => 'Internet_and_Telecom/Search_Engine'),
                 array(/* no arrays */),
                 array(/* no maps */),
+                array(/* no tuples */),
                 ),
             array('AdultWebsites', null, array(
                     'json' => 'v2/adultWebsites/200_sex.json',
                     'xml' => 'v2/adultWebsites/200_sex.xml',
                     ),
-                array(
-                    'category' => 'Adult',
-                    ),
+                array('category' => 'Adult'),
                 array(/* no arrays */),
                 array(/* no maps */),
+                array(/* no tuples */),
                 ),
 
             array('AlsoVisited', null, array(
@@ -308,9 +318,8 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
                     ),
                 array(/* no values */),
                 array(/* no arrays */),
-                array(
-                    'alsoVisited' => array('count' => 13),
-                    ),
+                array('alsoVisited' => array('count' => 13)),
+                array(/* no tuples */),
                 ),
 
             array('CategoryRank', null, array(
@@ -323,45 +332,37 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
                     ),
                 array(/* no arrays */),
                 array(/* no maps */),
+                array(/* no tuples */),
                 ),
 
             array('Destinations', null, array(
                     'json' => 'v2/destinations/200_google.json',
                     'xml' => 'v2/destinations/200_google.xml',
                     ),
-                array(
-                    'startDate' => '10/2013',
-                    'endDate' => '12/2013',
-                    ),
-                array(
-                    'sites' => array('count' => 10),
-                    ),
+                array('startDate' => '10/2013', 'endDate' => '12/2013'),
+                array('sites' => array('count' => 10)),
                 array(/* no maps */),
+                array(/* no tuples */),
                 ),
 
             array('EstimatedVisitors', null, array(
                     'json' => 'v2/estimatedVisitors/200_google.json',
                     'xml' => 'v2/estimatedVisitors/200_google.xml',
                     ),
-                array(
-                    'estimatedVisitors' => 8788535663,
-                    ),
+                array('estimatedVisitors' => 8788535663),
                 array(/* no arrays */),
                 array(/* no maps */),
+                array(/* no tuples */),
                 ),
 
             array('Referrals', null, array(
                     'json' => 'v2/referrals/200_google.json',
                     'xml' => 'v2/referrals/200_google.xml',
                     ),
-                array(
-                    'startDate' => '10/2013',
-                    'endDate' => '12/2013',
-                    ),
-                array(
-                    'sites' => array('count' => 10),
-                    ),
+                array('startDate' => '10/2013', 'endDate' => '12/2013'),
+                array('sites' => array('count' => 10)),
                 array(/* no maps */),
+                array(/* no tuples */),
                 ),
 
             array('SimilarWebsites', null, array(
@@ -370,20 +371,18 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
                     ),
                 array(/* no values */),
                 array(/* no arrays */),
-                array(
-                    'similarWebsites' => array('count' => 20),
-                    ),
+                array('similarWebsites' => array('count' => 20)),
+                array(/* no tuples */),
                 ),
 
             array('WebsiteCategorization', null, array(
                     'json' => 'v2/websiteCategorization/200_google.json',
                     'xml' => 'v2/websiteCategorization/200_google.xml',
                     ),
-                array(
-                    'category' => 'Internet_and_Telecom/Search_Engine',
-                    ),
+                array('category' => 'Internet_and_Telecom/Search_Engine'),
                 array(/* no arrays */),
                 array(/* no maps */),
+                array(/* no tuples */),
                 ),
 
             array('WebsiteTags', null, array(
@@ -392,9 +391,134 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
                     ),
                 array(/* no values */),
                 array(/* no arrays */),
-                array(
-                    'tags' => array('count' => 10),
+                array('tags' => array('count' => 10)),
+                array(/* no tuples */),
+                ),
+
+            /* --- V1 PRO TESTS -------------------------------------------- */
+
+            array('TrafficPro', null, array(
+                    'json' => 'v1pro/traffic/200_google.json',
+                    'xml' => 'v1pro/traffic/200_google.xml',
                     ),
+                array(/* no values */),
+                array(/* no arrays */),
+                array('values' => array('count' => 7)),
+                array(/* no tuples */),
+                ),
+
+            array('Engagement_BounceRate', null, array(
+                    'json' => 'v1pro/engagement/bouncerate/200_google.json',
+                    'xml' => 'v1pro/engagement/bouncerate/200_google.xml',
+                    ),
+                array(/* no values */),
+                array(/* no arrays */),
+                array('values' => array('count' => 2)),
+                array(/* no tuples */),
+                ),
+            array('Engagement_PageViews', null, array(
+                    'json' => 'v1pro/engagement/pageviews/200_google.json',
+                    'xml' => 'v1pro/engagement/pageviews/200_google.xml',
+                    ),
+                array(/* no values */),
+                array(/* no arrays */),
+                array('values' => array('count' => 2)),
+                array(/* no tuples */),
+                ),
+            array('Engagement_VisitDuration', null, array(
+                    'json' => 'v1pro/engagement/visitduration/200_google.json',
+                    'xml' => 'v1pro/engagement/visitduration/200_google.xml',
+                    ),
+                array(/* no values */),
+                array(/* no arrays */),
+                array('values' => array('count' => 2)),
+                array(/* no tuples */),
+                ),
+
+            array('V1Referrals', null, array(
+                    'json' => 'v1pro/referrals/200_google.json',
+                    'xml' => 'v1pro/referrals/200_google.xml',
+                    ),
+                array('results' => 10, 'total' => 1058),
+                array(/* no arrays */),
+                array(/* no maps */),
+                array('sites' => array('count' => 10)),
+                ),
+
+            array('Keywords_OrgSearch', null, array(
+                    'json' => 'v1pro/searchKeywords/organic/200_google.json',
+                    'xml' => 'v1pro/searchKeywords/organic/200_google.xml',
+                    ),
+                array('results' => 10, 'total' => 35125),
+                array(/* no arrays */),
+                array(/* no maps */),
+                array('terms' => array('count' => 10)),
+                ),
+            array('Keywords_PaidSearch', null, array(
+                    'json' => 'v1pro/searchKeywords/paid/200_google.json',
+                    'xml' => 'v1pro/searchKeywords/paid/200_google.xml',
+                    ),
+                array('results' => 10, 'total' => 1412),
+                array(/* no arrays */),
+                array(/* no maps */),
+                array('terms' => array('count' => 10)),
+                ),
+
+            array('KeywordCompetitors_Org', null, array(
+                    'json' => 'v1pro/searchCompetitors/organic/200_google.json',
+                    'xml' => 'v1pro/searchCompetitors/organic/200_google.xml',
+                    ),
+                array('results' => 10, 'total' => 1435),
+                array(/* no arrays */),
+                array('values' => array('count' => 10)),
+                array(/* no tuples */),
+                ),
+            array('KeywordCompetitors_Paid', null, array(
+                    'json' => 'v1pro/searchCompetitors/paid/200_google.json',
+                    'xml' => 'v1pro/searchCompetitors/paid/200_google.xml',
+                    ),
+                array('results' => 10, 'total' => 1680),
+                array(/* no arrays */),
+                array('values' => array('count' => 10)),
+                array(/* no tuples */),
+                ),
+
+            /* --- MOBILE TESTS -------------------------------------------- */
+
+            array('Mobile_App', null, array(
+                    'json' => 'mobile/app/android_gmail.json',
+                    'xml' => 'mobile/app/android_gmail.xml',
+                    ),
+                array(
+                    'title' => 'Gmail',
+                    'cover' => 'https://lh5.ggpht.com/jVUU0A5NY5EzMqn9AyakWNb0mUHWAkDTjnnamSGqTiEW9FEqnq4CpIEsi-5U2wzo-eYq=w300',
+                    'author' => 'Google Inc.',
+                    'price' => 'Free',
+                    'mainCategory' => 'Communication',
+                    'mainCategoryId' => 'communication',
+                    'rating' => 4.3047308921813965,
+                    ),
+                array(/* no arrays */),
+                array(/* no maps */),
+                array(/* no tuples */),
+                ),
+            array('Mobile_AppInstalls', null, array(
+                    'json' => 'mobile/installs/android_gmail.json',
+                    'xml' => 'mobile/installs/android_gmail.xml',
+                    ),
+                array('min' => 1000000000, 'max' => 5000000000),
+                array(/* no arrays */),
+                array(/* no maps */),
+                array(/* no tuples */),
+                ),
+            array('Mobile_RelatedApps', null, array(
+                    'json' => 'mobile/relatedApps/200_google.json',
+                    'xml' => 'mobile/relatedApps/200_google.xml',
+                    ),
+                array(/* no values */),
+                array(/* no arrays */),
+                array('apps' => array('count' => 101)),
+                array(/* no tuples */),
                 ),
 
             /* --- END TESTS ----------------------------------------------- */

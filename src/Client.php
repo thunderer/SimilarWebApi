@@ -31,8 +31,13 @@ class Client
 
         $this->token = $token;
         $this->format = $format;
-        $this->cache = array();
         $this->mapping = null;
+        $this->clearCache();
+        }
+
+    public function clearCache()
+        {
+        $this->cache = array();
         }
 
     /**
@@ -40,7 +45,6 @@ class Client
      *
      * @param string $call Call name as in URL path, eg. v1/traffic
      * @param string $domain Checked domain name
-     * @param bool $useCache Use cache or force new request
      *
      * @return Response Value object with interface to fetch results
      *
@@ -48,9 +52,9 @@ class Client
      * @throws \LogicException When no response parser was found
      * @throws \InvalidArgumentException When given call is not supported
      */
-    public function getResponse($call, $domain, $useCache = false)
+    public function getResponse($call, $domain)
         {
-        if($useCache && !empty($this->cache[$call][$domain]))
+        if(isset($this->cache[$call][$domain]))
             {
             return $this->cache[$call][$domain];
             }
@@ -109,10 +113,11 @@ class Client
     public function executeCall($call, $domain, $format, $token)
         {
         $target = $this->getCallUrl($call, $domain, $format, $token);
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $target);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        $ch = curl_init($target);
+        curl_setopt_array($ch, array(
+            CURLOPT_RETURNTRANSFER => 1,
+            CURLOPT_FOLLOWLOCATION => 1,
+            ));
         $response = curl_exec($ch);
         $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);

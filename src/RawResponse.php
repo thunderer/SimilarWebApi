@@ -7,13 +7,15 @@ final class RawResponse
     private $values;
     private $arrays;
     private $maps;
+    private $tuples;
 
-    public function __construct($raw, array $values, array $arrays, array $maps)
+    public function __construct($raw, array $values, array $arrays, array $maps, array $tuples)
         {
         $this->raw = $raw;
         $this->values = $values;
         $this->arrays = $arrays;
         $this->maps = $maps;
+        $this->tuples = $tuples;
         }
 
     public function getRaw()
@@ -34,6 +36,11 @@ final class RawResponse
     public function getMaps()
         {
         return $this->maps;
+        }
+
+    public function getTuples()
+        {
+        return $this->tuples;
         }
 
     public function hasValue($name)
@@ -94,5 +101,21 @@ final class RawResponse
         $flip = array_flip($this->maps[$name]);
 
         return $flip[$value];
+        }
+
+    public function hasTuple($name)
+        {
+        return array_key_exists($name, $this->tuples);
+        }
+
+    public function getTuple($name)
+        {
+        if(false == $this->hasTuple($name))
+            {
+            $tuplesKeys = $this->tuples ? implode(', ', array_keys($this->tuples)) : 'empty array';
+            throw new \RuntimeException(sprintf('Tuple %s not found among %s!', $name, $tuplesKeys));
+            }
+
+        return $this->tuples[$name];
         }
     }
