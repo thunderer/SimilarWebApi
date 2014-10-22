@@ -6,7 +6,7 @@ require(__DIR__.'/../vendor/autoload.php');
 
 echo <<<EOF
 
-+=============================================================================+
++-----------------------------------------------------------------------------+
 |                                                                             |
 | This is a reference of SimilarWeb API as implemented in this library in     |
 | readable Markdown table format. Explanation of columns is provided below.   |
@@ -21,19 +21,20 @@ echo <<<EOF
 | Arguments = Whether call expects additional arguments                       |
 | Data      = what data and in what format is returned from given API call    |
 |           |                                                                 |
-+=============================================================================+
++-----------------------------------------------------------------------------+
 
 
 EOF;
 
 
 $yaml = Yaml::parse(file_get_contents(__DIR__.'/../mapping.yaml'));
-$format = '| %-25s | %-30s | %-15s | %-100s |';
+$format = '| %-25s | %-30s | %-30s | %-100s |';
 echo sprintf($format, 'API', 'Endpoint', 'Arguments', 'Data')."\n";
 echo sprintf($format, '-', '-', '-', '-')."\n";
 foreach($yaml as $endpoint => $data)
     {
-    $args = $data['args'] ? implode(',', $data['args']) : '-';
+    preg_match_all('/\\{([a-zA-Z]+)\\}/', $data['url'], $matches);
+    $args = implode(',', array_diff($matches[1], array('path', 'format', 'token')));
     $path = ''.$data['path'].'';
     $datas = array();
     $datas[] = array_key_exists('values', $data) ? 'values: '.implode(',', array_keys($data['values'])) : '';

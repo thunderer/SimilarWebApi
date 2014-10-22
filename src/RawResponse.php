@@ -50,7 +50,7 @@ final class RawResponse
 
     public function getValue($name)
         {
-        if(false == $this->hasValue($name))
+        if(!$this->hasValue($name))
             {
             $mapsKeys = $this->maps ? implode(', ', array_keys($this->values)) : 'empty array';
             throw new \RuntimeException(sprintf('Value %s not found among %s!', $name, $mapsKeys));
@@ -66,7 +66,7 @@ final class RawResponse
 
     public function getArray($name)
         {
-        if(false == $this->hasArray($name))
+        if(!$this->hasArray($name))
             {
             $mapsKeys = $this->maps ? implode(', ', array_keys($this->arrays)) : 'empty array';
             throw new \RuntimeException(sprintf('Array %s not found among %s!', $name, $mapsKeys));
@@ -82,7 +82,7 @@ final class RawResponse
 
     public function getMap($name)
         {
-        if(false == $this->hasMap($name))
+        if(!$this->hasMap($name))
             {
             $mapsKeys = $this->maps ? implode(', ', array_keys($this->maps)) : 'empty array';
             throw new \RuntimeException(sprintf('Map %s not found among %s!', $name, $mapsKeys));
@@ -110,7 +110,7 @@ final class RawResponse
 
     public function getTuple($name)
         {
-        if(false == $this->hasTuple($name))
+        if(!$this->hasTuple($name))
             {
             $tuplesKeys = $this->tuples ? implode(', ', array_keys($this->tuples)) : 'empty array';
             throw new \RuntimeException(sprintf('Tuple %s not found among %s!', $name, $tuplesKeys));

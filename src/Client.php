@@ -1,7 +1,8 @@
 <?php
 namespace Thunder\SimilarWebApi;
 
-use Symfony\Component\Yaml\Yaml;
+use Thunder\SimilarWebApi\Parser\JsonParser;
+use Thunder\SimilarWebApi\Parser\XmlParser;
 
 class Client
     {
@@ -25,8 +26,7 @@ class Client
         if(!in_array($format, $allowedFormats))
             {
             $message = 'Invalid response format: %s, allowed: %s!';
-            sprintf($message, $format, implode(', ', $allowedFormats));
-            throw new \InvalidArgumentException();
+            throw new \InvalidArgumentException(sprintf($message, $format, implode(', ', $allowedFormats)));
             }
 
         $this->token = $token;
@@ -43,33 +43,22 @@ class Client
     /**
      * Execute given API call on specified domain
      *
-     * @param string $call Call name as in URL path, eg. v1/traffic
-     * @param string $domain Checked domain name
+     * @param AbstractRequest $request Call name as in URL path, eg. v1/traffic
      *
-     * @return Response Value object with interface to fetch results
-     *
-     * @throws \RuntimeException When call failed
-     * @throws \LogicException When no response parser was found
-     * @throws \InvalidArgumentException When given call is not supported
+     * @return AbstractResponse Value object with interface to fetch results
      */
-    public function getResponse($call, $domain)
+    public function getResponse(AbstractRequest $request)
         {
-        if(isset($this->cache[$call][$domain]))
+        $url = $request->getCallUrl($this->format, $this->token);
+        if(isset($this->cache['url'][$url]))
             {
-            return $this->cache[$call][$domain];
+            return $this->cache['url'][$url];
             }
 
-        $endpoint = $this->getEndpoint($call);
-
-        list($code, $content) = $this->executeCall($endpoint->getPath(), $domain, $this->format, $this->token);
-        if($code < 200 || $code >= 400)
-            {
-            $message = 'Call %s using format %s failed with code %s (URL: %s)!';
-            $url = $this->getCallUrl($call, $domain, $this->format, 'SECRET_TOKEN_IS_SECRET');
-            throw new \RuntimeException(sprintf($message, $call, $this->format, $code, $url));
-            }
-        $response = $endpoint->getResponse($content, $this->format);
-        $this->cache[$call][$domain] = $response;
+        $parser = $this->getParser($request);
+        $content = $this->executeCall($url);
+        $response = $parser->getResponse($content, $this->format);
+        $this->cache['url'][$url] = $response;
 
         return $response;
         }
@@ -77,25 +66,24 @@ class Client
     /**
      * Returns endpoint (API call handler) for given call name
      *
-     * @param string $name API call name
+     * @param AbstractRequest $request Request object
      *
-     * @return Endpoint
+     * @return ParserInterface
      *
      * @throws \InvalidArgumentException When given endpoint does not exist
      */
-    private function getEndpoint($name)
+    private function getParser(AbstractRequest $request)
         {
-        if(null === $this->mapping)
+        if('JSON' == $this->format)
             {
-            $this->mapping = Yaml::parse(file_get_contents(__DIR__.'/../mapping.yaml'));
+            return new JsonParser($request->getName(), $request->getMapping());
             }
-        if(false == array_key_exists($name, $this->mapping))
+        else if('XML' == $this->format)
             {
-            throw new \InvalidArgumentException(sprintf('Endpoint %s does not exist!', $name));
+            return new XmlParser($request->getName(), $request->getMapping());
             }
-        $endpoint = new Endpoint($name, $this->mapping[$name]);
 
-        return $endpoint;
+        throw new \RuntimeException(sprintf('Failed to find parser for format %s!', $this->format));
         }
 
     /**
@@ -103,45 +91,30 @@ class Client
      *
      * @codeCoverageIgnore
      *
-     * @param string $call Call name as in URL path, eg. v1/traffic
-     * @param string $domain Checked domain name
-     * @param string $format Response format - XML|JSON
-     * @param string $token User's API key
+     * @param string $url Call name as in URL path, eg. v1/traffic
      *
      * @return string Response text and status code
+     *
+     * @throws \RuntimeException If request failed (code outside 2xx range)
      */
-    public function executeCall($call, $domain, $format, $token)
+    public function executeCall($url)
         {
-        $target = $this->getCallUrl($call, $domain, $format, $token);
-        $ch = curl_init($target);
-        curl_setopt_array($ch, array(
+        $curl = curl_init($url);
+        curl_setopt_array($curl, array(
             CURLOPT_RETURNTRANSFER => 1,
             CURLOPT_FOLLOWLOCATION => 1,
             ));
-        $response = curl_exec($ch);
-        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
+        $response = curl_exec($curl);
+        $code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        curl_close($curl);
 
-        return array($code, $response);
-        }
+        if($code < 200 || $code >= 400)
+            {
+            $message = '%s request %s failed with code %s!';
+            $url = str_replace($this->token, 'SECRET_TOKEN_IS_SECRET', $url);
+            throw new \RuntimeException(sprintf($message, $this->format, $url, $code));
+            }
 
-    /**
-     * Generate target call URL
-     *
-     * @param string $call Call name as in URL path, eg. v1/traffic
-     * @param string $domain Checked domain name
-     * @param string $format Response format - XML|JSON
-     * @param string $token User's API key
-     *
-     * @return string
-     */
-    private function getCallUrl($call, $domain, $format, $token)
-        {
-        $args = http_build_query(array(
-            'Format' => $format,
-            'UserKey' => $token,
-            ));
-
-        return sprintf('http://api.similarweb.com/Site/%s/%s?%s', $domain, $call, $args);
+        return $response;
         }
     }

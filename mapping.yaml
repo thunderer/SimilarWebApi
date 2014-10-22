@@ -3,6 +3,7 @@
 GlobalRank:
   args: ~
   path: globalRank
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   values:
     rank:
       json: { field: Rank }
@@ -11,6 +12,7 @@ GlobalRank:
 SimilarSites:
   args: ~
   path: similarSites
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   maps:
     similarSites:
       json: { field: SimilarSites, key: Url, value: Score }
@@ -19,6 +21,7 @@ SimilarSites:
 Tagging:
   args: ~
   path: tags
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   maps:
     tags:
       json: { field: Tags, key: Name, value: Score }
@@ -27,6 +30,7 @@ Tagging:
 V0WebsiteCategorization:
   args: ~
   path: category
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   values:
     category:
       json: { field: Category }
@@ -35,6 +39,7 @@ V0WebsiteCategorization:
 WebsiteCategoryRank:
   args: ~
   path: categoryRank
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   values:
     category:
       json: { field: Category }
@@ -46,6 +51,7 @@ WebsiteCategoryRank:
 WebsiteCountryRank:
   args: ~
   path: countryRank
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   maps:
     topCountryRanks:
       json: { field: TopCountryRanks, key: Code, value: Rank }
@@ -56,6 +62,7 @@ WebsiteCountryRank:
 Traffic:
   args: ~
   path: v1/traffic
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   values:
     globalRank:
       json: { field: GlobalRank }
@@ -83,6 +90,7 @@ Traffic:
 Engagement:
   args: ~
   path: v1/engagement
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   values:
     averagePageViews:
       json: { field: AveragePageViews }
@@ -100,6 +108,7 @@ Engagement:
 Keywords:
   args: ~
   path: v1/searchintelligence
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   values:
     organicSearchShare:
       json: { field: OrganicSearchShare }
@@ -124,6 +133,7 @@ Keywords:
 SocialReferrals:
   args: ~
   path: v1/SocialReferringSites
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   values:
     startDate:
       json: { field: StartDate }
@@ -141,6 +151,7 @@ SocialReferrals:
 AdultWebsites:
   args: ~
   path: v2/Category
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   values:
     category:
       json: { field: Category }
@@ -149,6 +160,7 @@ AdultWebsites:
 AlsoVisited:
   args: ~
   path: v2/AlsoVisited
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   maps:
     alsoVisited:
       json: { field: AlsoVisited, key: Url, value: Score }
@@ -157,6 +169,7 @@ AlsoVisited:
 CategoryRank:
   args: ~
   path: v2/CategoryRank
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   values:
     category:
       json: { field: Category }
@@ -168,6 +181,7 @@ CategoryRank:
 Destinations:
   args: ~
   path: v2/leadingdestinationsites
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   values:
     startDate:
       json: { field: StartDate }
@@ -183,6 +197,7 @@ Destinations:
 EstimatedVisitors:
   args: ~
   path: v2/EstimatedTraffic
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   values:
     estimatedVisitors:
       json: { field: EstimatedVisitors }
@@ -191,6 +206,7 @@ EstimatedVisitors:
 Referrals:
   args: ~
   path: v2/leadingreferringsites
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   values:
     startDate:
       json: { field: StartDate }
@@ -206,6 +222,7 @@ Referrals:
 SimilarWebsites:
   args: ~
   path: v2/SimilarSites
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   maps:
     similarWebsites:
       json: { field: SimilarSites, key: Url, value: Score }
@@ -214,6 +231,7 @@ SimilarWebsites:
 WebsiteCategorization:
   args: ~
   path: v2/Category
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   values:
     category:
       json: { field: Category }
@@ -222,6 +240,7 @@ WebsiteCategorization:
 WebsiteTags:
   args: ~
   path: v2/Tags
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   maps:
     tags:
       json: { field: Tags, key: Name, value: Score }
@@ -232,6 +251,7 @@ WebsiteTags:
 TrafficPro:
   args: [gr, start, end, md]
   path: v1/visits
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}&gr={period}&start={start}&end={end}&md={main}
   maps:
     values:
       json: { field: Values, key: Date, value: Value }
@@ -240,6 +260,7 @@ TrafficPro:
 Engagement_PageViews:
   args: [gr, start, end, md]
   path: v1/pageviews
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}&gr={period}&start={start}&end={end}&md={main}
   maps:
     values:
       json: { field: Values, key: Date, value: Value }
@@ -248,6 +269,7 @@ Engagement_PageViews:
 Engagement_VisitDuration:
   args: [gr, start, end, md]
   path: v1/visitduration
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}&gr={period}&start={start}&end={end}&md={main}
   maps:
     values:
       json: { field: Values, key: Date, value: Value }
@@ -256,6 +278,7 @@ Engagement_VisitDuration:
 Engagement_BounceRate:
   args: [gr, start, end, md]
   path: v1/bouncerate
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}&gr={period}&start={start}&end={end}&md={main}
   maps:
     values:
       json: { field: Values, key: Date, value: Value }
@@ -264,6 +287,7 @@ Engagement_BounceRate:
 Keywords_OrgSearch:
   args: [start, end, md]
   path: v1/orgsearch
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}&start={start}&end={end}&md={main}&page={page}
   values:
     results:
       json: { field: ResultsCount }
@@ -282,6 +306,7 @@ Keywords_OrgSearch:
 Keywords_PaidSearch:
   args: [start, end, md]
   path: v1/paidsearch
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}&start={start}&end={end}&md={main}&page={page}
   values:
     results:
       json: { field: ResultsCount }
@@ -300,6 +325,7 @@ Keywords_PaidSearch:
 V1Referrals:
   args: [start, end, md]
   path: v1/referrals
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}&start={start}&end={end}&md={main}&page={page}
   values:
     results:
       json: { field: ResultsCount }
@@ -318,6 +344,7 @@ V1Referrals:
 KeywordCompetitors_Org:
   args: [start, end, md]
   path: v1/orgkwcompetitor
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}&start={start}&end={end}&md={main}&page={page}
   values:
     results:
       json: { field: ResultsCount }
@@ -336,6 +363,7 @@ KeywordCompetitors_Org:
 KeywordCompetitors_Paid:
   args: [start, end, md]
   path: v1/paidkwcompetitor
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}&start={start}&end={end}&md={main}&page={page}
   values:
     results:
       json: { field: ResultsCount }
@@ -356,6 +384,7 @@ KeywordCompetitors_Paid:
 Mobile_App:
   args: ~
   path: v1/GetAppDetails
+  url: /Mobile/{store}/{app}/{path}?Format={format}&UserKey={token}
   values:
     title:
       json: { field: Title }
@@ -382,6 +411,7 @@ Mobile_App:
 Mobile_AppInstalls:
   args: ~
   path: v1/GetAppInstalls
+  url: /Mobile/{store}/{app}/{path}?Format={format}&UserKey={token}
   values:
     min:
       json: { field: InstallsMin }
@@ -393,6 +423,7 @@ Mobile_AppInstalls:
 Mobile_RelatedApps:
   args: ~
   path: v1/GetRelatedSiteApps
+  url: /Mobile/{store}/{domain}/{path}?Format={format}&UserKey={token}
   maps:
     apps:
       json: { field: RelatedApps, key: AppId, value: Title }

@@ -1,58 +1,75 @@
 <?php
 namespace Thunder\SimilarWebApi\Tests;
 
-use Symfony\Component\Yaml\Yaml;
 use Thunder\SimilarWebApi\Client;
-use Thunder\SimilarWebApi\Endpoint;
-use Thunder\SimilarWebApi\Response;
+use Thunder\SimilarWebApi\Parser\JsonParser;
+use Thunder\SimilarWebApi\AbstractRequest;
+use Thunder\SimilarWebApi\AbstractResponse;
+use Thunder\SimilarWebApi\Parser\XmlParser;
 
-class EndpointTest extends \PHPUnit_Framework_TestCase
+class ParserTest extends \PHPUnit_Framework_TestCase
     {
     /**
      * @expectedException \RuntimeException
      */
     public function testExceptionWhenResponseClassDoesNotExist()
         {
-        $endpoint = new Endpoint('Invalid', array());
+        $endpoint = new JsonParser('Invalid', array());
         $endpoint->getResponse('{"content":""}', 'JSON');
         }
 
     /**
      * @dataProvider provideEndpoints
      */
-    public function testClientCalls($yaml, $call, $exception, array $formats,
+    public function testClientCalls($call, $exception, array $formats,
                                     array $valueTests, array $arrayTests,
                                     array $mapTests, array $tupleTests)
         {
-        /**
-         * @var $clientMock \PHPUnit_Framework_MockObject_MockObject|Client
-         */
-        $domain = 'google.com';
         $token = sha1('user_key');
-        $endpoint = new Endpoint($call, $yaml[$call]);
         $clientClass = 'Thunder\\SimilarWebApi\\Client';
+        $args = array(
+            'domain' => 'google.com',
+            'app' => 'com.google.app.id',
+            'page' => 1,
+            'period' => 'weekly',
+            'start' => '08-2014',
+            'end' => '09-2014',
+            'main' => 'true',
+            'store' => '0',
+            );
 
         foreach($formats as $format => $file)
             {
             $content = file_get_contents(__DIR__.'/Fixtures/'.$file);
             $format = strtoupper($format);
 
+            $requestClass = 'Thunder\\SimilarWebApi\\Request\\'.$call;
+            $reflectionClass = new \ReflectionClass($requestClass);
+            $ctorArgs = array_map(function(\ReflectionParameter $parameter) use($args) {
+                return $args[$parameter->getName()];
+                }, $reflectionClass->getConstructor()->getParameters());
+            /** @var $request AbstractRequest */
+            $request = $reflectionClass->newInstanceArgs($ctorArgs);
+            $this->assertEquals($requestClass, get_class($request));
+
+            /** @var $clientMock \PHPUnit_Framework_MockObject_MockObject|Client */
             $clientMock = $this->getMock($clientClass, array('executeCall'), array($token, $format));
             $clientMock
                 ->expects($this->at(0))
                 ->method('executeCall')
-                ->with($endpoint->getPath(), $domain, $format, $token)
-                ->will($this->returnValue(array(200, $content)));
+                ->with($request->getCallUrl($format, $token))
+                ->will($this->returnValue($content));
             if(null !== $exception)
                 {
                 $this->setExpectedException($exception);
                 }
-            $response = $clientMock->getResponse($call, $domain, false);
-            $cachedResponse = $clientMock->getResponse($call, $domain, true);
+
+            $response = $clientMock->getResponse($request);
+            $cachedResponse = $clientMock->getResponse($request);
             if(null === $exception)
                 {
                 $this->assertTrue($response === $cachedResponse);
-                $this->assertInstanceOf('Thunder\\SimilarWebApi\\Response', $response);
+                $this->assertInstanceOf('Thunder\\SimilarWebApi\\AbstractResponse', $response);
                 $this->assertInstanceOf('Thunder\\SimilarWebApi\\RawResponse', $response->getRawResponse());
                 $this->runResponseTests($response, $valueTests, $arrayTests, $mapTests, $tupleTests);
                 }
@@ -94,7 +111,7 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
             }
         } */
 
-    protected function runResponseTests(Response $response, array $valueTests, array $arrayTests, array $mapTests, array $tupleTests)
+    protected function runResponseTests(AbstractResponse $response, array $valueTests, array $arrayTests, array $mapTests, array $tupleTests)
         {
         $rawResponse = $response->getRawResponse();
         foreach($valueTests as $key => $value)
@@ -525,29 +542,24 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
 
             );
 
-        $mapping = Yaml::parse(file_get_contents(__DIR__.'/../mapping.yaml'));
-        $items = array_map(function($item) use($mapping) {
-            return array_merge(array($mapping), $item);
-            }, $items);
-
         return $items;
         }
 
     /**
      * @expectedException \RuntimeException
      */
-    public function testInvalidFormat()
+    public function testInvalidResponseClassJson()
         {
-        $instance = new Endpoint('Traffic', array());
-        $instance->getResponse('', 'INVALID');
+        $instance = new JsonParser('Traffic', array());
+        $instance->getResponse('');
         }
 
     /**
      * @expectedException \RuntimeException
      */
-    public function testNoPath()
+    public function testInvalidResponseClassXml()
         {
-        $instance = new Endpoint('Traffic', array());
-        $instance->getPath();
+        $instance = new XmlParser('Traffic', array());
+        $instance->getResponse('');
         }
     }

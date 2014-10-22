@@ -1,7 +1,7 @@
 <?php
 namespace Thunder\SimilarWebApi;
 
-abstract class Response
+abstract class AbstractResponse
     {
     protected $response;
 
