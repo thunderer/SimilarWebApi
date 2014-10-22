@@ -79,7 +79,7 @@ abstract class AbstractRequest
     abstract function getUrl();
 
     /**
-     * @return string Mapping data for response parsing
+     * @return array Mapping data for response parsing
      */
     abstract function getMapping();
     }

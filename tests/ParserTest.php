@@ -15,7 +15,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     public function testExceptionWhenResponseClassDoesNotExist()
         {
         $endpoint = new JsonParser('Invalid', array());
-        $endpoint->getResponse('{"content":""}', 'JSON');
+        $endpoint->getResponse('{"content":""}');
         }
 
     /**
@@ -46,13 +46,13 @@ class ParserTest extends \PHPUnit_Framework_TestCase
             $requestClass = 'Thunder\\SimilarWebApi\\Request\\'.$call;
             $reflectionClass = new \ReflectionClass($requestClass);
             $ctorArgs = array_map(function(\ReflectionParameter $parameter) use($args) {
-                return $args[$parameter->getName()];
+                return $args[$parameter->name];
                 }, $reflectionClass->getConstructor()->getParameters());
             /** @var $request AbstractRequest */
             $request = $reflectionClass->newInstanceArgs($ctorArgs);
             $this->assertEquals($requestClass, get_class($request));
 
-            /** @var $clientMock \PHPUnit_Framework_MockObject_MockObject|Client */
+            /** @var $clientMock \PHPUnit_Framework_MockObject_MockObject */
             $clientMock = $this->getMock($clientClass, array('executeCall'), array($token, $format));
             $clientMock
                 ->expects($this->at(0))
@@ -64,6 +64,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                 $this->setExpectedException($exception);
                 }
 
+            /** @var $clientMock Client */
             $response = $clientMock->getResponse($request);
             $cachedResponse = $clientMock->getResponse($request);
             if(null === $exception)
@@ -87,11 +88,22 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider provideEndpoints
      */
-    /* public function testRealClientCalls($yaml, $call, $exception, array $formats,
-                                    array $valueTests, array $arrayTests, array $mapTests)
+    /* public function testRealClientCalls($call, $exception, array $formats,
+                                    array $valueTests, array $arrayTests,
+                                    array $mapTests, array $tupleTests)
         {
-        $domain = 'google.com';
         $token = 'YOUR_API_TOKEN_HERE';
+
+        $args = array(
+            'domain' => 'google.com',
+            'app' => 'com.google.android.gm',
+            'page' => 1,
+            'period' => 'weekly',
+            'start' => '08-2014',
+            'end' => '09-2014',
+            'main' => 'true',
+            'store' => '0',
+            );
 
         if($exception !== null) { return; }
         foreach($formats as $format => $file)
@@ -99,14 +111,23 @@ class ParserTest extends \PHPUnit_Framework_TestCase
             $format = strtoupper($format);
             $client = new Client($token, $format);
 
-            $response = $client->getResponse($call, $domain, false);
-            $cachedResponse = $client->getResponse($call, $domain, true);
+            $requestClass = 'Thunder\\SimilarWebApi\\Request\\'.$call;
+            $reflectionClass = new \ReflectionClass($requestClass);
+            $ctorArgs = array_map(function(\ReflectionParameter $parameter) use($args) {
+                return $args[$parameter->getName()];
+                }, $reflectionClass->getConstructor()->getParameters());
+            $request = $reflectionClass->newInstanceArgs($ctorArgs);
+            $this->assertEquals($requestClass, get_class($request));
+
+            $response = $client->getResponse($request);
+            $cachedResponse = $client->getResponse($request);
             $this->assertEmpty(array_diff(array_keys($valueTests), array_keys($response->getRawResponse()->getValues())));
             $this->assertEmpty(array_diff(array_keys($arrayTests), array_keys($response->getRawResponse()->getArrays())));
             $this->assertEmpty(array_diff(array_keys($mapTests), array_keys($response->getRawResponse()->getMaps())));
+            $this->assertEmpty(array_diff(array_keys($tupleTests), array_keys($response->getRawResponse()->getTuples())));
 
             $this->assertTrue($response === $cachedResponse);
-            $this->assertInstanceOf('Thunder\\SimilarWebApi\\Response', $response);
+            $this->assertInstanceOf('Thunder\\SimilarWebApi\\AbstractResponse', $response);
             $this->assertInstanceOf('Thunder\\SimilarWebApi\\RawResponse', $response->getRawResponse());
             }
         } */

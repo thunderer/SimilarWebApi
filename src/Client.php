@@ -57,7 +57,7 @@ class Client
 
         $parser = $this->getParser($request);
         $content = $this->executeCall($url);
-        $response = $parser->getResponse($content, $this->format);
+        $response = $parser->getResponse($content);
         $this->cache['url'][$url] = $response;
 
         return $response;

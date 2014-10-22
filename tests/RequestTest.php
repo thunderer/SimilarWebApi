@@ -1,23 +1,11 @@
 <?php
 namespace Thunder\SimilarWebApi\Tests;
 
-use Thunder\SimilarWebApi\AbstractRequest;
 use Thunder\SimilarWebApi\Request\Keywords_OrgSearch;
 use Thunder\SimilarWebApi\Request\Mobile_App;
 use Thunder\SimilarWebApi\Request\Traffic;
 use Thunder\SimilarWebApi\Request\TrafficPro;
-
-class SampleRequest extends AbstractRequest
-    {
-    public function __construct()
-        {
-        $this->args['invalid'] = $this->validateArg('invalid', null);
-        }
-
-    public function getName() { return null; }
-    public function getUrl() { return null; }
-    public function getMapping() { return null; }
-    }
+use Thunder\SimilarWebApi\Tests\Dummy\SampleRequest;
 
 class RequestTest extends \PHPUnit_Framework_TestCase
     {
