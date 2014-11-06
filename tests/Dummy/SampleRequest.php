@@ -3,6 +3,9 @@ namespace Thunder\SimilarWebApi\Tests\Dummy;
 
 use Thunder\SimilarWebApi\AbstractRequest;
 
+/**
+ * @author Tomasz Kowalczyk <tomasz@kowalczyk.cc>
+ */
 class SampleRequest extends AbstractRequest
     {
     public function __construct()

@@ -1,5 +1,9 @@
 #!/usr/bin/env php
 <?php
+/**
+ * @author Tomasz Kowalczyk <tomasz@kowalczyk.cc>
+ */
+
 use Symfony\Component\Yaml\Yaml;
 use Thunder\SimilarWebApi\AbstractRequest;
 
@@ -7,10 +11,18 @@ function generateRequestClass($class, $config)
     {
     $code = <<<EOF
 <?php
+/**
+ * THIS FILE WAS GENERATED AUTOMATICALLY. ALL CHANGES WILL BE OVERWRITTEN DURING
+ * COMPOSER INSTALL, COMPOSER UPDATE OR MANUAL EXECUTION OF BIN/GENERATE SCRIPT.
+ */
+
 namespace <NAMESPACE>;
 
 use Thunder\SimilarWebApi\AbstractRequest;
 
+/**
+ * @author Tomasz Kowalczyk <tomasz@kowalczyk.cc>
+ */
 final class <CLASS> extends AbstractRequest
     {
     public function __construct(<ARGS>)
@@ -63,11 +75,19 @@ function generateResponseClass($name, $config)
     {
     $code = <<<EOF
 <?php
+/**
+ * THIS FILE WAS GENERATED AUTOMATICALLY. ALL CHANGES WILL BE OVERWRITTEN DURING
+ * COMPOSER INSTALL, COMPOSER UPDATE OR MANUAL EXECUTION OF BIN/GENERATE SCRIPT.
+ */
+
 namespace <NAMESPACE>;
 
 use Thunder\SimilarWebApi\RawResponse;
 use Thunder\SimilarWebApi\AbstractResponse;
 
+/**
+ * @author Tomasz Kowalczyk <tomasz@kowalczyk.cc>
+ */
 final class <CLASS> extends AbstractResponse
     {
     public function __construct(RawResponse \$response)

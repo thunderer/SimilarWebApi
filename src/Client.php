@@ -4,6 +4,9 @@ namespace Thunder\SimilarWebApi;
 use Thunder\SimilarWebApi\Parser\JsonParser;
 use Thunder\SimilarWebApi\Parser\XmlParser;
 
+/**
+ * @author Tomasz Kowalczyk <tomasz@kowalczyk.cc>
+ */
 class Client
     {
     private $token;

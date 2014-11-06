@@ -1,6 +1,9 @@
 <?php
 namespace Thunder\SimilarWebApi;
 
+/**
+ * @author Tomasz Kowalczyk <tomasz@kowalczyk.cc>
+ */
 abstract class AbstractRequest
     {
     const API = 'http://api.similarweb.com';

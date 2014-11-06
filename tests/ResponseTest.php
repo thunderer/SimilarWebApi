@@ -3,6 +3,9 @@ namespace Thunder\SimilarWebApi\Tests;
 
 use Thunder\SimilarWebApi\RawResponse;
 
+/**
+ * @author Tomasz Kowalczyk <tomasz@kowalczyk.cc>
+ */
 class ResponseTest extends \PHPUnit_Framework_TestCase
     {
     public function testInstance()

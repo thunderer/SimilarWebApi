@@ -7,6 +7,9 @@ use Thunder\SimilarWebApi\Request\Traffic;
 use Thunder\SimilarWebApi\Request\TrafficPro;
 use Thunder\SimilarWebApi\Tests\Dummy\SampleRequest;
 
+/**
+ * @author Tomasz Kowalczyk <tomasz@kowalczyk.cc>
+ */
 class RequestTest extends \PHPUnit_Framework_TestCase
     {
     public function testInvalidDomain()

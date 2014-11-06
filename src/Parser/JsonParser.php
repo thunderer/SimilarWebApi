@@ -4,6 +4,9 @@ namespace Thunder\SimilarWebApi\Parser;
 use Thunder\SimilarWebApi\AbstractParser;
 use Thunder\SimilarWebApi\RawResponse;
 
+/**
+ * @author Tomasz Kowalczyk <tomasz@kowalczyk.cc>
+ */
 final class JsonParser extends AbstractParser
     {
     protected function parse($content)

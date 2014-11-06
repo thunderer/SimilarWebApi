@@ -1,5 +1,9 @@
 #!/usr/bin/env php
 <?php
+/**
+ * @author Tomasz Kowalczyk <tomasz@kowalczyk.cc>
+ */
+
 use Symfony\Component\Yaml\Yaml;
 
 require(__DIR__.'/../vendor/autoload.php');

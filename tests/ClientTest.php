@@ -5,6 +5,9 @@ use Thunder\SimilarWebApi\Client;
 use Thunder\SimilarWebApi\AbstractRequest;
 use Thunder\SimilarWebApi\Request\Traffic;
 
+/**
+ * @author Tomasz Kowalczyk <tomasz@kowalczyk.cc>
+ */
 class ClientTest extends \PHPUnit_Framework_TestCase
     {
     public function testInstance()

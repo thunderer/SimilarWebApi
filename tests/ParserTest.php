@@ -7,6 +7,9 @@ use Thunder\SimilarWebApi\AbstractRequest;
 use Thunder\SimilarWebApi\AbstractResponse;
 use Thunder\SimilarWebApi\Parser\XmlParser;
 
+/**
+ * @author Tomasz Kowalczyk <tomasz@kowalczyk.cc>
+ */
 class ParserTest extends \PHPUnit_Framework_TestCase
     {
     /**

@@ -1,6 +1,9 @@
 <?php
 namespace Thunder\SimilarWebApi;
 
+/**
+ * @author Tomasz Kowalczyk <tomasz@kowalczyk.cc>
+ */
 abstract class AbstractParser implements ParserInterface
     {
     protected $name;
