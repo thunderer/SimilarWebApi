@@ -160,7 +160,8 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                 {
                 if('count' == $name)
                     {
-                    $this->assertEquals($value, count($rawResponse->getMap($key)));
+                    $this->assertEquals($value, count($rawResponse->getMap($key)),
+                        $key.' '.var_export($value, true).' === '.var_export(count($rawResponse->getMap($key)), true));
                     $call = call_user_func_array(array($response, 'get'.ucfirst($key)), array());
                     $this->assertEquals($value, count($call),
                         var_export($value, true).' === '.var_export(count($call), true));
@@ -445,7 +446,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                 array(/* no tuples */),
                 ),
 
-            array('Engagement_BounceRate', null, array(
+            array('EngagementBounceRate', null, array(
                     'json' => 'v1pro/engagement/bouncerate/200_google.json',
                     'xml' => 'v1pro/engagement/bouncerate/200_google.xml',
                     ),
@@ -454,7 +455,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                 array('values' => array('count' => 2)),
                 array(/* no tuples */),
                 ),
-            array('Engagement_PageViews', null, array(
+            array('EngagementPageViews', null, array(
                     'json' => 'v1pro/engagement/pageviews/200_google.json',
                     'xml' => 'v1pro/engagement/pageviews/200_google.xml',
                     ),
@@ -463,7 +464,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                 array('values' => array('count' => 2)),
                 array(/* no tuples */),
                 ),
-            array('Engagement_VisitDuration', null, array(
+            array('EngagementVisitDuration', null, array(
                     'json' => 'v1pro/engagement/visitduration/200_google.json',
                     'xml' => 'v1pro/engagement/visitduration/200_google.xml',
                     ),
@@ -473,7 +474,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                 array(/* no tuples */),
                 ),
 
-            array('V1Referrals', null, array(
+            array('ReferralsPro', null, array(
                     'json' => 'v1pro/referrals/200_google.json',
                     'xml' => 'v1pro/referrals/200_google.xml',
                     ),
@@ -483,7 +484,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                 array('sites' => array('count' => 10)),
                 ),
 
-            array('Keywords_OrgSearch', null, array(
+            array('KeywordsOrganicSearch', null, array(
                     'json' => 'v1pro/searchKeywords/organic/200_google.json',
                     'xml' => 'v1pro/searchKeywords/organic/200_google.xml',
                     ),
@@ -492,7 +493,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                 array(/* no maps */),
                 array('terms' => array('count' => 10)),
                 ),
-            array('Keywords_PaidSearch', null, array(
+            array('KeywordsPaidSearch', null, array(
                     'json' => 'v1pro/searchKeywords/paid/200_google.json',
                     'xml' => 'v1pro/searchKeywords/paid/200_google.xml',
                     ),
@@ -502,7 +503,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                 array('terms' => array('count' => 10)),
                 ),
 
-            array('KeywordCompetitors_Org', null, array(
+            array('KeywordCompetitorsOrganic', null, array(
                     'json' => 'v1pro/searchCompetitors/organic/200_google.json',
                     'xml' => 'v1pro/searchCompetitors/organic/200_google.xml',
                     ),
@@ -511,7 +512,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                 array('values' => array('count' => 10)),
                 array(/* no tuples */),
                 ),
-            array('KeywordCompetitors_Paid', null, array(
+            array('KeywordCompetitorsPaid', null, array(
                     'json' => 'v1pro/searchCompetitors/paid/200_google.json',
                     'xml' => 'v1pro/searchCompetitors/paid/200_google.xml',
                     ),
@@ -523,7 +524,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
 
             /* --- MOBILE TESTS -------------------------------------------- */
 
-            array('Mobile_App', null, array(
+            array('MobileApp', null, array(
                     'json' => 'mobile/app/android_gmail.json',
                     'xml' => 'mobile/app/android_gmail.xml',
                     ),
@@ -540,7 +541,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                 array(/* no maps */),
                 array(/* no tuples */),
                 ),
-            array('Mobile_AppInstalls', null, array(
+            array('MobileAppInstalls', null, array(
                     'json' => 'mobile/installs/android_gmail.json',
                     'xml' => 'mobile/installs/android_gmail.xml',
                     ),
@@ -549,7 +550,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                 array(/* no maps */),
                 array(/* no tuples */),
                 ),
-            array('Mobile_RelatedApps', null, array(
+            array('MobileRelatedApps', null, array(
                     'json' => 'mobile/relatedApps/200_google.json',
                     'xml' => 'mobile/relatedApps/200_google.xml',
                     ),

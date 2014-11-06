@@ -25,7 +25,7 @@ final class <CLASS> extends AbstractRequest
 
     public function getUrl()
         {
-        return '<URL>';
+        return self::API.'<URL>';
         }
 
     public function getMapping()
@@ -49,7 +49,7 @@ EOF;
         '<NAMESPACE>' => $ns,
         '<CLASS>' => $class,
         '<NAME>' => $class,
-        '<URL>' => AbstractRequest::API.str_replace('{path}', $config['path'], $config['url']),
+        '<URL>' => str_replace('{path}', $config['path'], $config['url']),
         '<ARGS>' => implode(', ', $args),
         '<METHODS>' => implode("\n", $methods),
         '<MAPPING>' => var_export($config, true),

@@ -257,7 +257,7 @@ TrafficPro:
       json: { field: Values, key: Date, value: Value }
       xml: { field: Values.Metric, key: Date, value: Value }
 
-Engagement_PageViews:
+EngagementPageViews:
   args: [gr, start, end, md]
   path: v1/pageviews
   url: /Site/{domain}/{path}?Format={format}&UserKey={token}&gr={period}&start={start}&end={end}&md={main}
@@ -266,7 +266,7 @@ Engagement_PageViews:
       json: { field: Values, key: Date, value: Value }
       xml: { field: Values.Metric, key: Date, value: Value }
 
-Engagement_VisitDuration:
+EngagementVisitDuration:
   args: [gr, start, end, md]
   path: v1/visitduration
   url: /Site/{domain}/{path}?Format={format}&UserKey={token}&gr={period}&start={start}&end={end}&md={main}
@@ -275,7 +275,7 @@ Engagement_VisitDuration:
       json: { field: Values, key: Date, value: Value }
       xml: { field: Values.Metric, key: Date, value: Value }
 
-Engagement_BounceRate:
+EngagementBounceRate:
   args: [gr, start, end, md]
   path: v1/bouncerate
   url: /Site/{domain}/{path}?Format={format}&UserKey={token}&gr={period}&start={start}&end={end}&md={main}
@@ -284,7 +284,7 @@ Engagement_BounceRate:
       json: { field: Values, key: Date, value: Value }
       xml: { field: Values.Metric, key: Date, value: Value }
 
-Keywords_OrgSearch:
+KeywordsOrganicSearch:
   args: [start, end, md]
   path: v1/orgsearch
   url: /Site/{domain}/{path}?Format={format}&UserKey={token}&start={start}&end={end}&md={main}&page={page}
@@ -303,7 +303,7 @@ Keywords_OrgSearch:
       json: { field: Data, index: SearchTerm, items: [{ key: Visits, value: visits }, { key: Change, value: change }] }
       xml: { field: Data.Keyword, index: SearchTerm, items: [{ key: Visits, value: visits }, { key: Change, value: change }] }
 
-Keywords_PaidSearch:
+KeywordsPaidSearch:
   args: [start, end, md]
   path: v1/paidsearch
   url: /Site/{domain}/{path}?Format={format}&UserKey={token}&start={start}&end={end}&md={main}&page={page}
@@ -322,7 +322,7 @@ Keywords_PaidSearch:
       json: { field: Data, index: SearchTerm, items: [{ key: Visits, value: visits }, { key: Change, value: change }] }
       xml: { field: Data.Keyword, index: SearchTerm, items: [{ key: Visits, value: visits }, { key: Change, value: change }] }
 
-V1Referrals:
+ReferralsPro:
   args: [start, end, md]
   path: v1/referrals
   url: /Site/{domain}/{path}?Format={format}&UserKey={token}&start={start}&end={end}&md={main}&page={page}
@@ -341,7 +341,7 @@ V1Referrals:
       json: { field: Data, index: Site, items: [{ key: Visits, value: visits }, { key: Change, value: change }] }
       xml: { field: Data.SiteReferral, index: Site, items: [{ key: Visits, value: visits }, { key: Change, value: change }] }
 
-KeywordCompetitors_Org:
+KeywordCompetitorsOrganic:
   args: [start, end, md]
   path: v1/orgkwcompetitor
   url: /Site/{domain}/{path}?Format={format}&UserKey={token}&start={start}&end={end}&md={main}&page={page}
@@ -360,7 +360,7 @@ KeywordCompetitors_Org:
       json: { field: Data, key: Domain, value: Score }
       xml: { field: Data.SearchCompetitor, key: Domain, value: Score }
 
-KeywordCompetitors_Paid:
+KeywordCompetitorsPaid:
   args: [start, end, md]
   path: v1/paidkwcompetitor
   url: /Site/{domain}/{path}?Format={format}&UserKey={token}&start={start}&end={end}&md={main}&page={page}
@@ -381,7 +381,7 @@ KeywordCompetitors_Paid:
 
 # --- MOBILE API --------------------------------------------------------------
 
-Mobile_App:
+MobileApp:
   args: ~
   path: v1/GetAppDetails
   url: /Mobile/{store}/{app}/{path}?Format={format}&UserKey={token}
@@ -408,7 +408,7 @@ Mobile_App:
       json: { field: Rating }
       xml: { field: Rating }
 
-Mobile_AppInstalls:
+MobileAppInstalls:
   args: ~
   path: v1/GetAppInstalls
   url: /Mobile/{store}/{app}/{path}?Format={format}&UserKey={token}
@@ -420,7 +420,7 @@ Mobile_AppInstalls:
       json: { field: InstallsMax }
       xml: { field: InstallsMax }
 
-Mobile_RelatedApps:
+MobileRelatedApps:
   args: ~
   path: v1/GetRelatedSiteApps
   url: /Mobile/{store}/{domain}/{path}?Format={format}&UserKey={token}

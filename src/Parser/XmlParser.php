@@ -53,7 +53,7 @@ final class XmlParser extends AbstractParser
             foreach($this->mapping['maps'] as $key => $item)
                 {
                 /* --- XML NS --- */
-                if('Mobile_RelatedApps' == $this->name)
+                if('MobileRelatedApps' == $this->name)
                     {
                     /** @var $element \SimpleXMLElement */
                     $element = $xml->{'RelatedApps'};

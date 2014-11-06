@@ -97,18 +97,18 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             array('WebsiteTags', $domainArgs, $api.'/v2/Tags?'.$formatToken),
 
             array('TrafficPro', $proPeriodArgs, $api.'/v1/visits?'.$argsNoPage),
-            array('Engagement_PageViews', $proPeriodArgsNoPage, $api.'/v1/pageviews?'.$argsNoPage),
-            array('Engagement_VisitDuration', $proPeriodArgsNoPage, $api.'/v1/visitduration?'.$argsNoPage),
-            array('Engagement_BounceRate', $proPeriodArgsNoPage, $api.'/v1/bouncerate?'.$argsNoPage),
-            array('Keywords_OrgSearch', $proNoPeriodArgs, $api.'/v1/orgsearch?'.$args),
-            array('Keywords_PaidSearch', $proNoPeriodArgs, $api.'/v1/paidsearch?'.$args),
-            array('V1Referrals', $proNoPeriodArgs, $api.'/v1/referrals?'.$args),
-            array('KeywordCompetitors_Org', $proNoPeriodArgs, $api.'/v1/orgkwcompetitor?'.$args),
-            array('KeywordCompetitors_Paid', $proNoPeriodArgs, $api.'/v1/paidkwcompetitor?'.$args),
+            array('EngagementPageViews', $proPeriodArgsNoPage, $api.'/v1/pageviews?'.$argsNoPage),
+            array('EngagementVisitDuration', $proPeriodArgsNoPage, $api.'/v1/visitduration?'.$argsNoPage),
+            array('EngagementBounceRate', $proPeriodArgsNoPage, $api.'/v1/bouncerate?'.$argsNoPage),
+            array('KeywordsOrganicSearch', $proNoPeriodArgs, $api.'/v1/orgsearch?'.$args),
+            array('KeywordsPaidSearch', $proNoPeriodArgs, $api.'/v1/paidsearch?'.$args),
+            array('ReferralsPro', $proNoPeriodArgs, $api.'/v1/referrals?'.$args),
+            array('KeywordCompetitorsOrganic', $proNoPeriodArgs, $api.'/v1/orgkwcompetitor?'.$args),
+            array('KeywordCompetitorsPaid', $proNoPeriodArgs, $api.'/v1/paidkwcompetitor?'.$args),
 
-            array('Mobile_App', array(0, $app), $mobileApi.'/v1/GetAppDetails?'.$formatToken),
-            array('Mobile_AppInstalls', array(0, $app), $mobileApi.'/v1/GetAppInstalls?'.$formatToken),
-            array('Mobile_RelatedApps', array(0, $domain), 'http://api.similarweb.com/Mobile/0/'.$domain.'/v1/GetRelatedSiteApps?'.$formatToken),
+            array('MobileApp', array(0, $app), $mobileApi.'/v1/GetAppDetails?'.$formatToken),
+            array('MobileAppInstalls', array(0, $app), $mobileApi.'/v1/GetAppInstalls?'.$formatToken),
+            array('MobileRelatedApps', array(0, $domain), 'http://api.similarweb.com/Mobile/0/'.$domain.'/v1/GetRelatedSiteApps?'.$formatToken),
             );
 
         return $items;

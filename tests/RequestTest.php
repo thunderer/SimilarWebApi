@@ -1,8 +1,8 @@
 <?php
 namespace Thunder\SimilarWebApi\Tests;
 
-use Thunder\SimilarWebApi\Request\Keywords_OrgSearch;
-use Thunder\SimilarWebApi\Request\Mobile_App;
+use Thunder\SimilarWebApi\Request\KeywordsOrganicSearch;
+use Thunder\SimilarWebApi\Request\MobileApp;
 use Thunder\SimilarWebApi\Request\Traffic;
 use Thunder\SimilarWebApi\Request\TrafficPro;
 use Thunder\SimilarWebApi\Tests\Dummy\SampleRequest;
@@ -18,13 +18,13 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function testInvalidApp()
         {
         $this->setExpectedException('InvalidArgumentException');
-        new Mobile_App(0, '');
+        new MobileApp(0, '');
         }
 
     public function testInvalidAppStore()
         {
         $this->setExpectedException('InvalidArgumentException');
-        new Mobile_App('invalid', 'app.id');
+        new MobileApp('invalid', 'app.id');
         }
 
     public function testInvalidStart()
@@ -48,7 +48,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function testInvalidPage()
         {
         $this->setExpectedException('InvalidArgumentException');
-        new Keywords_OrgSearch('example.com', '09-2014', '10-2014', true, 'invalid');
+        new KeywordsOrganicSearch('example.com', '09-2014', '10-2014', true, 'invalid');
         }
 
     public function testInvalidArg()
