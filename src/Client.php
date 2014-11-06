@@ -12,7 +12,6 @@ class Client
     private $token;
     private $format;
     private $cache;
-    private $mapping;
 
     /**
      * Yep, it's a constructor.
@@ -34,7 +33,6 @@ class Client
 
         $this->token = $token;
         $this->format = $format;
-        $this->mapping = null;
         $this->clearCache();
         }
 
