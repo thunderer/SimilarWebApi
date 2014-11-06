@@ -1,7 +1,10 @@
+# Author: Tomasz Kowalczyk <tomasz@kowalczyk.cc>
+
 # --- V0 API ------------------------------------------------------------------
 
 GlobalRank:
   path: globalRank
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   values:
     rank:
       json: { field: Rank }
@@ -9,13 +12,15 @@ GlobalRank:
 
 SimilarSites:
   path: similarSites
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   maps:
     similarSites:
       json: { field: SimilarSites, key: Url, value: Score }
       xml: { field: SimilarSites.SimilarSite, key: Url, value: Score }
 
 Tagging:
-  path: tagging
+  path: tags
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   maps:
     tags:
       json: { field: Tags, key: Name, value: Score }
@@ -23,6 +28,7 @@ Tagging:
 
 V0WebsiteCategorization:
   path: category
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   values:
     category:
       json: { field: Category }
@@ -30,6 +36,7 @@ V0WebsiteCategorization:
 
 WebsiteCategoryRank:
   path: categoryRank
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   values:
     category:
       json: { field: Category }
@@ -40,6 +47,7 @@ WebsiteCategoryRank:
 
 WebsiteCountryRank:
   path: countryRank
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   maps:
     topCountryRanks:
       json: { field: TopCountryRanks, key: Code, value: Rank }
@@ -49,6 +57,7 @@ WebsiteCountryRank:
 
 Traffic:
   path: v1/traffic
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   values:
     globalRank:
       json: { field: GlobalRank }
@@ -75,6 +84,7 @@ Traffic:
 
 Engagement:
   path: v1/engagement
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   values:
     averagePageViews:
       json: { field: AveragePageViews }
@@ -91,6 +101,7 @@ Engagement:
 
 Keywords:
   path: v1/searchintelligence
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   values:
     organicSearchShare:
       json: { field: OrganicSearchShare }
@@ -114,6 +125,7 @@ Keywords:
 
 SocialReferrals:
   path: v1/SocialReferringSites
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   values:
     startDate:
       json: { field: StartDate }
@@ -130,6 +142,7 @@ SocialReferrals:
 
 AdultWebsites:
   path: v2/Category
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   values:
     category:
       json: { field: Category }
@@ -137,6 +150,7 @@ AdultWebsites:
 
 AlsoVisited:
   path: v2/AlsoVisited
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   maps:
     alsoVisited:
       json: { field: AlsoVisited, key: Url, value: Score }
@@ -144,6 +158,7 @@ AlsoVisited:
 
 CategoryRank:
   path: v2/CategoryRank
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   values:
     category:
       json: { field: Category }
@@ -154,6 +169,7 @@ CategoryRank:
 
 Destinations:
   path: v2/leadingdestinationsites
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   values:
     startDate:
       json: { field: StartDate }
@@ -168,6 +184,7 @@ Destinations:
 
 EstimatedVisitors:
   path: v2/EstimatedTraffic
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   values:
     estimatedVisitors:
       json: { field: EstimatedVisitors }
@@ -175,6 +192,7 @@ EstimatedVisitors:
 
 Referrals:
   path: v2/leadingreferringsites
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   values:
     startDate:
       json: { field: StartDate }
@@ -189,6 +207,7 @@ Referrals:
 
 SimilarWebsites:
   path: v2/SimilarSites
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   maps:
     similarWebsites:
       json: { field: SimilarSites, key: Url, value: Score }
@@ -196,6 +215,7 @@ SimilarWebsites:
 
 WebsiteCategorization:
   path: v2/Category
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   values:
     category:
       json: { field: Category }
@@ -203,7 +223,179 @@ WebsiteCategorization:
 
 WebsiteTags:
   path: v2/Tags
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   maps:
     tags:
       json: { field: Tags, key: Name, value: Score }
       xml: { field: Tags.Tag, key: Name, value: Score }
+
+# --- V1 PRO API --------------------------------------------------------------
+
+TrafficPro:
+  path: v1/visits
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}&gr={period}&start={start}&end={end}&md={main}
+  maps:
+    values:
+      json: { field: Values, key: Date, value: Value }
+      xml: { field: Values.Metric, key: Date, value: Value }
+
+EngagementPageViews:
+  path: v1/pageviews
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}&gr={period}&start={start}&end={end}&md={main}
+  maps:
+    values:
+      json: { field: Values, key: Date, value: Value }
+      xml: { field: Values.Metric, key: Date, value: Value }
+
+EngagementVisitDuration:
+  path: v1/visitduration
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}&gr={period}&start={start}&end={end}&md={main}
+  maps:
+    values:
+      json: { field: Values, key: Date, value: Value }
+      xml: { field: Values.Metric, key: Date, value: Value }
+
+EngagementBounceRate:
+  path: v1/bouncerate
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}&gr={period}&start={start}&end={end}&md={main}
+  maps:
+    values:
+      json: { field: Values, key: Date, value: Value }
+      xml: { field: Values.Metric, key: Date, value: Value }
+
+KeywordsOrganicSearch:
+  path: v1/orgsearch
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}&start={start}&end={end}&md={main}&page={page}
+  values:
+    results:
+      json: { field: ResultsCount }
+      xml: { field: ResultsCount }
+    total:
+      json: { field: TotalCount }
+      xml: { field: TotalCount }
+    next:
+      json: { field: Next }
+      xml: { field: Next }
+  tuples:
+    terms:
+      json: { field: Data, index: SearchTerm, items: [{ key: Visits, value: visits }, { key: Change, value: change }] }
+      xml: { field: Data.Keyword, index: SearchTerm, items: [{ key: Visits, value: visits }, { key: Change, value: change }] }
+
+KeywordsPaidSearch:
+  path: v1/paidsearch
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}&start={start}&end={end}&md={main}&page={page}
+  values:
+    results:
+      json: { field: ResultsCount }
+      xml: { field: ResultsCount }
+    total:
+      json: { field: TotalCount }
+      xml: { field: TotalCount }
+    next:
+      json: { field: Next }
+      xml: { field: Next }
+  tuples:
+    terms:
+      json: { field: Data, index: SearchTerm, items: [{ key: Visits, value: visits }, { key: Change, value: change }] }
+      xml: { field: Data.Keyword, index: SearchTerm, items: [{ key: Visits, value: visits }, { key: Change, value: change }] }
+
+ReferralsPro:
+  path: v1/referrals
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}&start={start}&end={end}&md={main}&page={page}
+  values:
+    results:
+      json: { field: ResultsCount }
+      xml: { field: ResultsCount }
+    total:
+      json: { field: TotalCount }
+      xml: { field: TotalCount }
+    next:
+      json: { field: Next }
+      xml: { field: Next }
+  tuples:
+    sites:
+      json: { field: Data, index: Site, items: [{ key: Visits, value: visits }, { key: Change, value: change }] }
+      xml: { field: Data.SiteReferral, index: Site, items: [{ key: Visits, value: visits }, { key: Change, value: change }] }
+
+KeywordCompetitorsOrganic:
+  path: v1/orgkwcompetitor
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}&start={start}&end={end}&md={main}&page={page}
+  values:
+    results:
+      json: { field: ResultsCount }
+      xml: { field: ResultsCount }
+    total:
+      json: { field: TotalCount }
+      xml: { field: TotalCount }
+    next:
+      json: { field: Next }
+      xml: { field: Next }
+  maps:
+    values:
+      json: { field: Data, key: Domain, value: Score }
+      xml: { field: Data.SearchCompetitor, key: Domain, value: Score }
+
+KeywordCompetitorsPaid:
+  path: v1/paidkwcompetitor
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}&start={start}&end={end}&md={main}&page={page}
+  values:
+    results:
+      json: { field: ResultsCount }
+      xml: { field: ResultsCount }
+    total:
+      json: { field: TotalCount }
+      xml: { field: TotalCount }
+    next:
+      json: { field: Next }
+      xml: { field: Next }
+  maps:
+    values:
+      json: { field: Data, key: Domain, value: Score }
+      xml: { field: Data.SearchCompetitor, key: Domain, value: Score }
+
+# --- MOBILE API --------------------------------------------------------------
+
+MobileApp:
+  path: v1/GetAppDetails
+  url: /Mobile/{store}/{app}/{path}?Format={format}&UserKey={token}
+  values:
+    title:
+      json: { field: Title }
+      xml: { field: Title }
+    cover:
+      json: { field: Cover }
+      xml: { field: Cover }
+    author:
+      json: { field: Author }
+      xml: { field: Author }
+    price:
+      json: { field: Price }
+      xml: { field: Price }
+    mainCategory:
+      json: { field: MainCategory }
+      xml: { field: MainCategory }
+    mainCategoryId:
+      json: { field: MainCategoryId }
+      xml: { field: MainCategoryId }
+    rating:
+      json: { field: Rating }
+      xml: { field: Rating }
+
+MobileAppInstalls:
+  path: v1/GetAppInstalls
+  url: /Mobile/{store}/{app}/{path}?Format={format}&UserKey={token}
+  values:
+    min:
+      json: { field: InstallsMin }
+      xml: { field: InstallsMin }
+    max:
+      json: { field: InstallsMax }
+      xml: { field: InstallsMax }
+
+MobileRelatedApps:
+  path: v1/GetRelatedSiteApps
+  url: /Mobile/{store}/{domain}/{path}?Format={format}&UserKey={token}
+  maps:
+    apps:
+      json: { field: RelatedApps, key: AppId, value: Title }
+      xml: { field: RelatedApps.App, key: AppId, value: Title }

@@ -1,19 +1,24 @@
 <?php
 namespace Thunder\SimilarWebApi;
 
+/**
+ * @author Tomasz Kowalczyk <tomasz@kowalczyk.cc>
+ */
 final class RawResponse
     {
     private $raw;
     private $values;
     private $arrays;
     private $maps;
+    private $tuples;
 
-    public function __construct($raw, array $values, array $arrays, array $maps)
+    public function __construct($raw, array $values, array $arrays, array $maps, array $tuples)
         {
         $this->raw = $raw;
         $this->values = $values;
         $this->arrays = $arrays;
         $this->maps = $maps;
+        $this->tuples = $tuples;
         }
 
     public function getRaw()
@@ -36,6 +41,11 @@ final class RawResponse
         return $this->maps;
         }
 
+    public function getTuples()
+        {
+        return $this->tuples;
+        }
+
     public function hasValue($name)
         {
         return array_key_exists($name, $this->values);
@@ -43,7 +53,7 @@ final class RawResponse
 
     public function getValue($name)
         {
-        if(false == $this->hasValue($name))
+        if(!$this->hasValue($name))
             {
             $mapsKeys = $this->maps ? implode(', ', array_keys($this->values)) : 'empty array';
             throw new \RuntimeException(sprintf('Value %s not found among %s!', $name, $mapsKeys));
@@ -59,7 +69,7 @@ final class RawResponse
 
     public function getArray($name)
         {
-        if(false == $this->hasArray($name))
+        if(!$this->hasArray($name))
             {
             $mapsKeys = $this->maps ? implode(', ', array_keys($this->arrays)) : 'empty array';
             throw new \RuntimeException(sprintf('Array %s not found among %s!', $name, $mapsKeys));
@@ -75,7 +85,7 @@ final class RawResponse
 
     public function getMap($name)
         {
-        if(false == $this->hasMap($name))
+        if(!$this->hasMap($name))
             {
             $mapsKeys = $this->maps ? implode(', ', array_keys($this->maps)) : 'empty array';
             throw new \RuntimeException(sprintf('Map %s not found among %s!', $name, $mapsKeys));
@@ -94,5 +104,21 @@ final class RawResponse
         $flip = array_flip($this->maps[$name]);
 
         return $flip[$value];
+        }
+
+    public function hasTuple($name)
+        {
+        return array_key_exists($name, $this->tuples);
+        }
+
+    public function getTuple($name)
+        {
+        if(!$this->hasTuple($name))
+            {
+            $tuplesKeys = $this->tuples ? implode(', ', array_keys($this->tuples)) : 'empty array';
+            throw new \RuntimeException(sprintf('Tuple %s not found among %s!', $name, $tuplesKeys));
+            }
+
+        return $this->tuples[$name];
         }
     }

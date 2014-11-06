@@ -21,6 +21,7 @@
         }
     },
     "scripts": {
-        "post-install-cmd": "php bin/generate"
+        "post-install-cmd": "php bin/generate",
+        "post-update-cmd": "php bin/generate"
     }
 }

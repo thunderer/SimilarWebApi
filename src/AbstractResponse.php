@@ -1,7 +1,10 @@
 <?php
 namespace Thunder\SimilarWebApi;
 
-abstract class Response
+/**
+ * @author Tomasz Kowalczyk <tomasz@kowalczyk.cc>
+ */
+abstract class AbstractResponse
     {
     protected $response;
 

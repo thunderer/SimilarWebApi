@@ -1,19 +1,99 @@
 #!/usr/bin/env php
 <?php
+/**
+ * @author Tomasz Kowalczyk <tomasz@kowalczyk.cc>
+ */
+
 use Symfony\Component\Yaml\Yaml;
+use Thunder\SimilarWebApi\AbstractRequest;
+
+function generateRequestClass($class, $config)
+    {
+    $code = <<<EOF
+<?php
+/**
+ * THIS FILE WAS GENERATED AUTOMATICALLY. ALL CHANGES WILL BE OVERWRITTEN DURING
+ * COMPOSER INSTALL, COMPOSER UPDATE OR MANUAL EXECUTION OF BIN/GENERATE SCRIPT.
+ */
+
+namespace <NAMESPACE>;
+
+use Thunder\SimilarWebApi\AbstractRequest;
+
+/**
+ * @author Tomasz Kowalczyk <tomasz@kowalczyk.cc>
+ */
+final class <CLASS> extends AbstractRequest
+    {
+    public function __construct(<ARGS>)
+        {
+<METHODS>
+        }
+
+    public function getName()
+        {
+        return '<NAME>';
+        }
+
+    public function getUrl()
+        {
+        return self::API.'<URL>';
+        }
+
+    public function getMapping()
+        {
+        return <MAPPING>;
+        }
+    }
+
+EOF;
+    $args = array();
+    $methods = array();
+    preg_match_all('/\\{([a-zA-Z]+)\\}/', $config['url'], $matches);
+    $names = array_diff($matches[1], array('path', 'format', 'token'));
+    foreach($names as $name)
+        {
+        $args[] = '$'.$name;
+        $methods[] = "\t\t".'$this->args[\''.$name.'\'] = $this->validateArg(\''.$name.'\', $'.$name.');';
+        }
+    $ns = 'Thunder\\SimilarWebApi\\Request';
+    $replaces = array(
+        '<NAMESPACE>' => $ns,
+        '<CLASS>' => $class,
+        '<NAME>' => $class,
+        '<URL>' => str_replace('{path}', $config['path'], $config['url']),
+        '<ARGS>' => implode(', ', $args),
+        '<METHODS>' => implode("\n", $methods),
+        '<MAPPING>' => var_export($config, true),
+        );
+    $code = str_replace(array_keys($replaces), array_values($replaces), $code);
+
+    return $code;
+    }
 
 function generateResponseClass($name, $config)
     {
     $code = <<<EOF
 <?php
+/**
+ * THIS FILE WAS GENERATED AUTOMATICALLY. ALL CHANGES WILL BE OVERWRITTEN DURING
+ * COMPOSER INSTALL, COMPOSER UPDATE OR MANUAL EXECUTION OF BIN/GENERATE SCRIPT.
+ */
+
 namespace <NAMESPACE>;
 
 use Thunder\SimilarWebApi\RawResponse;
-use Thunder\SimilarWebApi\Response;
+use Thunder\SimilarWebApi\AbstractResponse;
 
-final class <CLASS> extends Response
+/**
+ * @author Tomasz Kowalczyk <tomasz@kowalczyk.cc>
+ */
+final class <CLASS> extends AbstractResponse
     {
-    public function __construct(RawResponse \$response) { parent::__construct(\$response); }
+    public function __construct(RawResponse \$response)
+        {
+        parent::__construct(\$response);
+        }
 
 <METHODS>
     }
@@ -24,6 +104,7 @@ EOF;
         'values' => 'getValue',
         'arrays' => 'getArray',
         'maps' => 'getMap',
+        'tuples' => 'getTuple',
         );
     foreach($calls as $type => $call)
         {
@@ -31,9 +112,8 @@ EOF;
             {
             foreach($config[$type] as $item => $fieldConfig)
                 {
-                $header = 'public function get'.ucfirst($item).'()';
                 $body = 'return $this->response->'.$call.'(\''.$item.'\');';
-                $methods[] =  '    '.$header.' { '.$body.' }';
+                $methods[] =  "\t\t".'public function get'.ucfirst($item).'() { '.$body.' }';
                 }
             $methods[] = '';
             }
@@ -56,7 +136,16 @@ if(!$mapping)
     throw new \RuntimeException('Failed to read mapping file!');
     }
 
-echo 'SimilarWeb API PHP Client  :: [ Generating response classes ]'."\n";
+echo 'SimilarWeb API PHP Client :: [ Generating request classes ]'."\n";
+foreach($mapping as $name => $config)
+    {
+    echo sprintf('  - %s', $name)."\n";
+    $path = __DIR__.'/../src/Request/'.$name.'.php';
+    $code = generateRequestClass($name, $config);
+    @mkdir(dirname($path), 0777, true);
+    file_put_contents($path, $code);
+    }
+echo 'SimilarWeb API PHP Client :: [ Generating response classes ]'."\n";
 foreach($mapping as $name => $config)
     {
     echo sprintf('  - %s', $name)."\n";
@@ -65,4 +154,4 @@ foreach($mapping as $name => $config)
     @mkdir(dirname($path), 0777, true);
     file_put_contents($path, $code);
     }
-echo 'SimilarWeb API PHP Client  :: [ Operation completed ]'."\n";
+echo 'SimilarWeb API PHP Client :: [ Operation completed ]'."\n";
