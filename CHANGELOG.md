@@ -1,8 +1,16 @@
-CHANGELOG
+Changelog
 =========
 
 Version 0.*
 -----------
+
+* 0.4.0
+  * introduced `bin/endpoints` command line script to get overview of implemented API calls
+  * implemented all new calls (Pro APIs), 31 total
+  * introduced Request classes for better flexibility over API changes (new APIs have different parameters)
+  * `bin/generate` script is now invoked also after `composer update`
+  * major refactoring of the whole library, unfortunately breaks all backward compatibility
+  * first tagged release (0.3.0 was also tagged for BC reasons)
 
 * 0.3.0 (02.07.2014)
 

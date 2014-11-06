@@ -3,10 +3,13 @@
 [![Build Status](https://travis-ci.org/thunderer/SimilarWebApi.png?branch=master)](https://travis-ci.org/thunderer/SimilarWebApi)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/5b82d37f-c410-4fb7-982c-ad495f488526/mini.png)](https://insight.sensiolabs.com/projects/5b82d37f-c410-4fb7-982c-ad495f488526)
 [![License](https://poser.pugx.org/thunderer/similarweb-api/license.svg)](https://packagist.org/packages/thunderer/similarweb-api)
+[![Dependency Status](https://www.versioneye.com/user/projects/53b70c110d5bb8be610000d2/badge.svg?style=flat)](https://www.versioneye.com/user/projects/53b70c110d5bb8be610000d2)
 
 ## Introduction
 
 [SimilarWeb](http://www.similarweb.com) is a project created by [SimilarGroup](http://www.similargroup.com) company. It collects and provides access to various website analytics. This is a PHP library implementing easy access to their [API](https://developer.similarweb.com/).
+
+If you want to know what changed in each version please refer to CHANGELOG file in the root of this repository.
 
 ## Requirements:
 
@@ -40,11 +43,13 @@ You can of course make it a [git submodule](http://git-scm.com/docs/git-submodul
 ## Usage:
 
 ```php
+use Thunder\SimilarWebApi\Request\Traffic;
+
 // create client object
-$client = new Thunder\SimilarWebApi\Client();
+$client = new Thunder\SimilarWebApi\Client($yourUserKey, $desiredFormat);
 
 // fetch response by passing API call name and desired domain
-$response = $client->getResponse('Traffic', 'kowalczyk.cc');
+$response = $client->getResponse(new Traffic('kowalczyk.cc'));
 
 // domain response class provides readable interface to get required information
 /** @var $response Thunder\SimilarWebApi\Response\Traffic */
@@ -66,6 +71,7 @@ The core of this library is a file called `mapping.yaml` which contains definiti
 ```
 GlobalRank:
   path: globalRank
+  url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   values:
     rank:
       json: { field: Rank }
@@ -78,13 +84,18 @@ Endpoints return associative arrays with keys containing three types of data:
 
 - `value`: primitive value such as integer, string or date (rank: 2),
 - `array`: array of primitive values of one type (months: [1, 3, 5]),
-- `map`: key-value associative arrays (domains: [google.com: 3, google.pl: 7]).
+- `map`: key-value associative arrays (domains: [google.com: 3, google.pl: 7]),
+- `tuple`: associative array with selected pieces of data as keys and associative values of the rest as values.
 
-During `composer install` or while manually executing `php bin/generate` command, all endpoint mapping configurations are used to generate domain response classes with methods hiding library complexity behind readable accessors. Such approach makes it possible to have readable class API, good IDE autocompletion and highlighting possibilities with no additional programming work. When response is parsed all elements of given type are put inside their containers and those response classes act as a facade for raw response object.
+During either `composer install`, `composer update` or manual execution of `php bin/generate` command, endpoint mapping configuration is used to generate domain request and response classes with methods hiding library complexity behind readable accessors. Such approach makes it possible to have readable class API, good IDE autocompletion and highlighting possibilities with no additional programming work. When response is parsed all elements of given type are put inside their containers and those response classes act as a facade for raw response object.
 
 ```php
-$response = /* ... */
+$response = $client->getResponse(/* ... */);
 $rawResponse = $response->getRawResponse();
 
 $response->getRank() === $rawResponse->getValue('rank');
 ```
+
+## License
+
+See LICENSE file in the root of this repository.

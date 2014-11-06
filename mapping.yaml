@@ -1,7 +1,6 @@
 # --- V0 API ------------------------------------------------------------------
 
 GlobalRank:
-  args: ~
   path: globalRank
   url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   values:
@@ -10,7 +9,6 @@ GlobalRank:
       xml: { field: Rank }
 
 SimilarSites:
-  args: ~
   path: similarSites
   url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   maps:
@@ -19,7 +17,6 @@ SimilarSites:
       xml: { field: SimilarSites.SimilarSite, key: Url, value: Score }
 
 Tagging:
-  args: ~
   path: tags
   url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   maps:
@@ -28,7 +25,6 @@ Tagging:
       xml: { field: Tags.Tag, key: Name, value: Score }
 
 V0WebsiteCategorization:
-  args: ~
   path: category
   url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   values:
@@ -37,7 +33,6 @@ V0WebsiteCategorization:
       xml: { field: Category }
 
 WebsiteCategoryRank:
-  args: ~
   path: categoryRank
   url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   values:
@@ -49,7 +44,6 @@ WebsiteCategoryRank:
       xml: { field: CategoryRank }
 
 WebsiteCountryRank:
-  args: ~
   path: countryRank
   url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   maps:
@@ -60,7 +54,6 @@ WebsiteCountryRank:
 # --- V1 API ------------------------------------------------------------------
 
 Traffic:
-  args: ~
   path: v1/traffic
   url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   values:
@@ -88,7 +81,6 @@ Traffic:
       xml: { field: TrafficShares.TrafficSource, key: SourceType, value: SourceValue }
 
 Engagement:
-  args: ~
   path: v1/engagement
   url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   values:
@@ -106,7 +98,6 @@ Engagement:
       xml: { field: Date }
 
 Keywords:
-  args: ~
   path: v1/searchintelligence
   url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   values:
@@ -131,7 +122,6 @@ Keywords:
       xml: { field: TopPaidTerms.Keyword }
 
 SocialReferrals:
-  args: ~
   path: v1/SocialReferringSites
   url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   values:
@@ -149,7 +139,6 @@ SocialReferrals:
 # --- V2 API ------------------------------------------------------------------
 
 AdultWebsites:
-  args: ~
   path: v2/Category
   url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   values:
@@ -158,7 +147,6 @@ AdultWebsites:
       xml: { field: Category }
 
 AlsoVisited:
-  args: ~
   path: v2/AlsoVisited
   url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   maps:
@@ -167,7 +155,6 @@ AlsoVisited:
       xml: { field: AlsoVisited.AlsoVisited, key: Url, value: Score }
 
 CategoryRank:
-  args: ~
   path: v2/CategoryRank
   url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   values:
@@ -179,7 +166,6 @@ CategoryRank:
       xml: { field: CategoryRank }
 
 Destinations:
-  args: ~
   path: v2/leadingdestinationsites
   url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   values:
@@ -195,7 +181,6 @@ Destinations:
       xml: { field: Sites.Site }
 
 EstimatedVisitors:
-  args: ~
   path: v2/EstimatedTraffic
   url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   values:
@@ -204,7 +189,6 @@ EstimatedVisitors:
       xml: { field: EstimatedVisitors }
 
 Referrals:
-  args: ~
   path: v2/leadingreferringsites
   url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   values:
@@ -220,7 +204,6 @@ Referrals:
       xml: { field: Sites.Site }
 
 SimilarWebsites:
-  args: ~
   path: v2/SimilarSites
   url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   maps:
@@ -229,7 +212,6 @@ SimilarWebsites:
       xml: { field: SimilarSites.SimilarSite, key: Url, value: Score }
 
 WebsiteCategorization:
-  args: ~
   path: v2/Category
   url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   values:
@@ -238,7 +220,6 @@ WebsiteCategorization:
       xml: { field: Category }
 
 WebsiteTags:
-  args: ~
   path: v2/Tags
   url: /Site/{domain}/{path}?Format={format}&UserKey={token}
   maps:
@@ -249,7 +230,6 @@ WebsiteTags:
 # --- V1 PRO API --------------------------------------------------------------
 
 TrafficPro:
-  args: [gr, start, end, md]
   path: v1/visits
   url: /Site/{domain}/{path}?Format={format}&UserKey={token}&gr={period}&start={start}&end={end}&md={main}
   maps:
@@ -258,7 +238,6 @@ TrafficPro:
       xml: { field: Values.Metric, key: Date, value: Value }
 
 EngagementPageViews:
-  args: [gr, start, end, md]
   path: v1/pageviews
   url: /Site/{domain}/{path}?Format={format}&UserKey={token}&gr={period}&start={start}&end={end}&md={main}
   maps:
@@ -267,7 +246,6 @@ EngagementPageViews:
       xml: { field: Values.Metric, key: Date, value: Value }
 
 EngagementVisitDuration:
-  args: [gr, start, end, md]
   path: v1/visitduration
   url: /Site/{domain}/{path}?Format={format}&UserKey={token}&gr={period}&start={start}&end={end}&md={main}
   maps:
@@ -276,7 +254,6 @@ EngagementVisitDuration:
       xml: { field: Values.Metric, key: Date, value: Value }
 
 EngagementBounceRate:
-  args: [gr, start, end, md]
   path: v1/bouncerate
   url: /Site/{domain}/{path}?Format={format}&UserKey={token}&gr={period}&start={start}&end={end}&md={main}
   maps:
@@ -285,7 +262,6 @@ EngagementBounceRate:
       xml: { field: Values.Metric, key: Date, value: Value }
 
 KeywordsOrganicSearch:
-  args: [start, end, md]
   path: v1/orgsearch
   url: /Site/{domain}/{path}?Format={format}&UserKey={token}&start={start}&end={end}&md={main}&page={page}
   values:
@@ -304,7 +280,6 @@ KeywordsOrganicSearch:
       xml: { field: Data.Keyword, index: SearchTerm, items: [{ key: Visits, value: visits }, { key: Change, value: change }] }
 
 KeywordsPaidSearch:
-  args: [start, end, md]
   path: v1/paidsearch
   url: /Site/{domain}/{path}?Format={format}&UserKey={token}&start={start}&end={end}&md={main}&page={page}
   values:
@@ -323,7 +298,6 @@ KeywordsPaidSearch:
       xml: { field: Data.Keyword, index: SearchTerm, items: [{ key: Visits, value: visits }, { key: Change, value: change }] }
 
 ReferralsPro:
-  args: [start, end, md]
   path: v1/referrals
   url: /Site/{domain}/{path}?Format={format}&UserKey={token}&start={start}&end={end}&md={main}&page={page}
   values:
@@ -342,7 +316,6 @@ ReferralsPro:
       xml: { field: Data.SiteReferral, index: Site, items: [{ key: Visits, value: visits }, { key: Change, value: change }] }
 
 KeywordCompetitorsOrganic:
-  args: [start, end, md]
   path: v1/orgkwcompetitor
   url: /Site/{domain}/{path}?Format={format}&UserKey={token}&start={start}&end={end}&md={main}&page={page}
   values:
@@ -361,7 +334,6 @@ KeywordCompetitorsOrganic:
       xml: { field: Data.SearchCompetitor, key: Domain, value: Score }
 
 KeywordCompetitorsPaid:
-  args: [start, end, md]
   path: v1/paidkwcompetitor
   url: /Site/{domain}/{path}?Format={format}&UserKey={token}&start={start}&end={end}&md={main}&page={page}
   values:
@@ -382,7 +354,6 @@ KeywordCompetitorsPaid:
 # --- MOBILE API --------------------------------------------------------------
 
 MobileApp:
-  args: ~
   path: v1/GetAppDetails
   url: /Mobile/{store}/{app}/{path}?Format={format}&UserKey={token}
   values:
@@ -409,7 +380,6 @@ MobileApp:
       xml: { field: Rating }
 
 MobileAppInstalls:
-  args: ~
   path: v1/GetAppInstalls
   url: /Mobile/{store}/{app}/{path}?Format={format}&UserKey={token}
   values:
@@ -421,7 +391,6 @@ MobileAppInstalls:
       xml: { field: InstallsMax }
 
 MobileRelatedApps:
-  args: ~
   path: v1/GetRelatedSiteApps
   url: /Mobile/{store}/{domain}/{path}?Format={format}&UserKey={token}
   maps:
