@@ -129,7 +129,11 @@ EOF;
     return $code;
     }
 
-require_once(__DIR__.'/../vendor/autoload.php');
+$autoload = file_exists(__DIR__.'/../vendor/autoload.php')
+    ? __DIR__.'/../vendor/autoload.php'
+    : __DIR__.'/../../../../vendor/autoload.php';
+require($autoload);
+
 $mapping = Yaml::parse(file_get_contents(__DIR__.'/../mapping.yaml'));
 if(!$mapping)
     {

@@ -6,7 +6,10 @@
 
 use Symfony\Component\Yaml\Yaml;
 
-require(__DIR__.'/../vendor/autoload.php');
+$autoload = file_exists(__DIR__.'/../vendor/autoload.php')
+    ? __DIR__.'/../vendor/autoload.php'
+    : __DIR__.'/../../../../vendor/autoload.php';
+require($autoload);
 
 echo <<<EOF
 
