@@ -9,18 +9,8 @@ use Thunder\SimilarWebApi\RawResponse;
  */
 final class XmlParser extends AbstractParser
     {
-    protected function parse($content)
+    private function parseValues(\SimpleXMLElement $xml)
         {
-        libxml_use_internal_errors(true);
-        try
-            {
-            $xml = new \SimpleXMLElement($content);
-            }
-        catch(\Exception $e)
-            {
-            throw new \RuntimeException(sprintf('Failed to parse XML data: "%s(...)"!', substr($content, 0, 100)));
-            }
-
         $values = array();
         if(array_key_exists('values', $this->mapping))
             {
@@ -30,6 +20,11 @@ final class XmlParser extends AbstractParser
                 }
             }
 
+        return $values;
+        }
+
+    private function parseArrays(\SimpleXMLElement $xml)
+        {
         $arrays = array();
         if(array_key_exists('arrays', $this->mapping))
             {
@@ -50,6 +45,11 @@ final class XmlParser extends AbstractParser
                 }
             }
 
+        return $arrays;
+        }
+
+    private function parseMaps(\SimpleXMLElement $xml)
+        {
         $maps = array();
         if(array_key_exists('maps', $this->mapping))
             {
@@ -85,6 +85,11 @@ final class XmlParser extends AbstractParser
                 }
             }
 
+        return $maps;
+        }
+
+    private function parseTuples(\SimpleXMLElement $xml)
+        {
         $tuples = array();
         if(array_key_exists('tuples', $this->mapping))
             {
@@ -110,6 +115,25 @@ final class XmlParser extends AbstractParser
                 }
             }
 
-        return new RawResponse($content, $values, $arrays, $maps, $tuples);
+        return $tuples;
+        }
+
+    protected function parse($content)
+        {
+        libxml_use_internal_errors(true);
+        try
+            {
+            $xml = new \SimpleXMLElement($content);
+            }
+        catch(\Exception $e)
+            {
+            throw new \RuntimeException(sprintf('Failed to parse XML data: "%s(...)"!', substr($content, 0, 100)));
+            }
+
+        return new RawResponse($content,
+            $this->parseValues($xml),
+            $this->parseArrays($xml),
+            $this->parseMaps($xml),
+            $this->parseTuples($xml));
         }
     }

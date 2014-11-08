@@ -9,14 +9,8 @@ use Thunder\SimilarWebApi\RawResponse;
  */
 final class JsonParser extends AbstractParser
     {
-    protected function parse($content)
+    private function parseValues(array $json)
         {
-        $json = json_decode($content, true);
-        if(!$json)
-            {
-            throw new \RuntimeException(sprintf('Failed to parse JSON data: "%s(...)"!', substr($content, 0, 100)));
-            }
-
         $values = array();
         if(array_key_exists('values', $this->mapping))
             {
@@ -26,6 +20,11 @@ final class JsonParser extends AbstractParser
                 }
             }
 
+        return $values;
+        }
+
+    private function parseArrays(array $json)
+        {
         $arrays = array();
         if(array_key_exists('arrays', $this->mapping))
             {
@@ -40,6 +39,11 @@ final class JsonParser extends AbstractParser
                 }
             }
 
+        return $arrays;
+        }
+
+    private function parseMaps(array $json)
+        {
         $maps = array();
         if(array_key_exists('maps', $this->mapping))
             {
@@ -54,6 +58,11 @@ final class JsonParser extends AbstractParser
                 }
             }
 
+        return $maps;
+        }
+
+    private function parseTuples(array $json)
+        {
         $tuples = array();
         if(array_key_exists('tuples', $this->mapping))
             {
@@ -73,6 +82,21 @@ final class JsonParser extends AbstractParser
                 }
             }
 
-        return new RawResponse($content, $values, $arrays, $maps, $tuples);
+        return $tuples;
+        }
+
+    protected function parse($content)
+        {
+        $json = json_decode($content, true);
+        if(!$json)
+            {
+            throw new \RuntimeException(sprintf('Failed to parse JSON data: "%s(...)"!', substr($content, 0, 100)));
+            }
+
+        return new RawResponse($content,
+            $this->parseValues($json),
+            $this->parseArrays($json),
+            $this->parseMaps($json),
+            $this->parseTuples($json));
         }
     }
