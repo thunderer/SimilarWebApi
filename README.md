@@ -30,17 +30,26 @@ Alternatively you can place it manually inside your `composer.json`:
 (...)
 "require": {
     "thunderer/similarweb-api": "dev-master"
-},
+}
 (...)
 ```
 
 and then run `composer install` or `composer update` as required.
 
-> Some parts of this library are generated from configuration during `composer install`. If you're not using Composer please manually run `php bin/generate` from command line. You can read more on this topic in [Internals](#internals) section.
+> This library requires Request and Response classes generated from its configuration. If you're using Composer please add proper entries to "scripts" block to composer.json file like in the example below to have them generated automatically during install or update. In any other case please manually run `php bin/generate` from command line. You can read more on this topic in [Internals](#internals) section.
+ 
+```
+"scripts": {
+    "post-install-cmd": "php vendor/thunderer/similarweb-api/bin/generate",
+    "post-update-cmd": "php vendor/thunderer/similarweb-api/bin/generate"
+}
+```
 
 You can of course make it a [git submodule](http://git-scm.com/docs/git-submodule), download and place it in your project next to your regular code or something, but really, do yourself (and the whole industry) a favor and use Composer.
 
 ## Usage:
+
+All APIs implemented in this library have the Request and Response classes named corresponding to those defined in SimilarWeb API documentation. Expected data should be retrieved by first visiting SimilarWeb API documentation and then using Request class with the same name located in `src/Request` directory. Method `getResponse()` demonstrated below will automatically match, create and return matching Response class object which can be type hinted and relied on.
 
 ```php
 use Thunder\SimilarWebApi\Request\Traffic;
@@ -66,7 +75,7 @@ assert($rank === $globalRank, 'Report an issue if you see this text.');
 
 ## Internals
 
-The core of this library is a file called `mapping.yaml` which contains definitions of data returned by each API endpoint. In this section endpoint `GlobalRank` will be described and referred to as an example. This is its mapping configuration:
+The core of this library is a file called `mapping.yaml` which contains definition of data returned by each API. This library requires existence of Request and Response classes generated using `bin/generate` script from data stored in that file. In this section API `GlobalRank` will be described and referred to as an example. This is its mapping configuration:
 
 ```
 GlobalRank:
@@ -78,16 +87,16 @@ GlobalRank:
       xml: { field: Rank }
 ```
 
-It states that there is an endpoint named `GlobalRank` which uses URL part `globalRank` and returns one value which library will refer to as `rank`, reading it either from JSON key `Rank` or XML element `Rank`.
+It states that there is an API named `GlobalRank` which uses URL part `globalRank` and returns one value which library will refer to as `rank`, reading it either from JSON key `Rank` or XML element `Rank`. From such configuration `bin/generate` script will create two classes: `Thunder\SimilarWebApi\Request\GlobalRank` and `Thunder\SimilarWebApi\Response\GlobalRank` which are used respectively as input and output objects passed to and returned from `Thunder\SimilarWebApi\Client::getResponse()` method.
 
-Endpoints return associative arrays with keys containing three types of data:
+APIs return associative arrays with keys containing four types of data:
 
 - `value`: primitive value such as integer, string or date (rank: 2),
 - `array`: array of primitive values of one type (months: [1, 3, 5]),
 - `map`: key-value associative arrays (domains: [google.com: 3, google.pl: 7]),
 - `tuple`: associative array with selected pieces of data as keys and associative values of the rest as values.
 
-During either `composer install`, `composer update` or manual execution of `php bin/generate` command, endpoint mapping configuration is used to generate domain request and response classes with methods hiding library complexity behind readable accessors. Such approach makes it possible to have readable class API, good IDE autocompletion and highlighting possibilities with no additional programming work. When response is parsed all elements of given type are put inside their containers and those response classes act as a facade for raw response object.
+During either `composer install`, `composer update` or manual execution of `php bin/generate` command, API mapping configuration is used to generate domain request and response classes with methods hiding library complexity behind readable accessors. Such approach makes it possible to have readable class API, good IDE autocompletion and highlighting possibilities with no additional programming work. When response is parsed all elements of given type are put inside their containers and those response classes act as a facade for raw response object.
 
 ```php
 $response = $client->getResponse(/* ... */);
