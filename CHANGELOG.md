@@ -4,12 +4,12 @@ Changelog
 Version 0.*
 -----------
 
-* 0.4.1
+* 0.4.1 (08.11.2014)
   * fixed issue with installation through Composer (`bin/generate` script failed to require autoloader)
   * updated README on how to automatically run `bin/generate` in your project after Composer install or update
   * refactored parsers to have cleaner and smaller methods
 
-* 0.4.0
+* 0.4.0 (06.11.2014)
   * introduced `bin/endpoints` command line script to get overview of implemented API calls
   * implemented all new calls (Pro APIs), 31 total
   * introduced Request classes for better flexibility over API changes (new APIs have different parameters)
