@@ -4,7 +4,7 @@
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/5b82d37f-c410-4fb7-982c-ad495f488526/mini.png)](https://insight.sensiolabs.com/projects/5b82d37f-c410-4fb7-982c-ad495f488526)
 [![License](https://poser.pugx.org/thunderer/similarweb-api/license.svg)](https://packagist.org/packages/thunderer/similarweb-api)
 [![Latest Stable Version](https://poser.pugx.org/thunderer/similarweb-api/v/stable.svg)](https://packagist.org/packages/thunderer/similarweb-api)
-[![Dependency Status](https://www.versioneye.com/user/projects/53b70c110d5bb8be610000d2/badge.svg?style=flat)](https://www.versioneye.com/user/projects/53b70c110d5bb8be610000d2)
+[![Dependency Status](https://www.versioneye.com/php/thunderer:similarweb-api/badge.svg)](https://www.versioneye.com/php/thunderer:similarweb-api)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/thunderer/SimilarWebApi/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/thunderer/SimilarWebApi/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/thunderer/SimilarWebApi/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/thunderer/SimilarWebApi/?branch=master)
 
