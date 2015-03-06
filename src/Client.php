@@ -113,7 +113,7 @@ class Client
             {
             $message = '%s request %s failed with code %s!';
             $url = str_replace($this->token, 'SECRET_TOKEN_IS_SECRET', $url);
-            throw new \RuntimeException(sprintf($message, $this->format, $url, $code));
+            throw new \RuntimeException(sprintf($message, $this->format, $url, $code), $code);
             }
 
         return $response;
