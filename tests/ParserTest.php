@@ -2,6 +2,7 @@
 namespace Thunder\SimilarWebApi\Tests;
 
 use Thunder\SimilarWebApi\Client;
+use Thunder\SimilarWebApi\ClientFacade;
 use Thunder\SimilarWebApi\Parser\JsonParser;
 use Thunder\SimilarWebApi\AbstractRequest;
 use Thunder\SimilarWebApi\AbstractResponse;
@@ -68,8 +69,9 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                 }
 
             /** @var $clientMock Client */
-            $response = $clientMock->getResponse($request);
-            $cachedResponse = $clientMock->getResponse($request);
+            $clientFacade = new ClientFacade($clientMock);
+            $response = call_user_func_array(array($clientFacade, 'get'.$call.'Response'), $ctorArgs);
+            $cachedResponse = call_user_func_array(array($clientFacade, 'get'.$call.'Response'), $ctorArgs);
             if(null === $exception)
                 {
                 $this->assertTrue($response === $cachedResponse);

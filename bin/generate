@@ -128,6 +128,77 @@ EOF;
     return $code;
     }
 
+function generateClientFacade(array $mapping)
+    {
+    $code = <<<EOF
+<?php
+/**
+ * THIS FILE WAS GENERATED AUTOMATICALLY. ALL CHANGES WILL BE OVERWRITTEN DURING
+ * COMPOSER INSTALL, COMPOSER UPDATE OR MANUAL EXECUTION OF BIN/GENERATE SCRIPT.
+ */
+
+namespace Thunder\SimilarWebApi;
+
+<USES>
+
+/**
+ * @author Tomasz Kowalczyk <tomasz@kowalczyk.cc>
+ */
+final class ClientFacade
+    {
+    private \$client;
+
+    public function __construct(Client \$client)
+        {
+        \$this->client = \$client;
+        }
+
+<METHODS>
+    }
+
+EOF;
+    $method = <<<EOF
+    /**
+<DOCS>
+     *
+     * @return <RETURN>Response
+     */
+    public function <NAME>(<ARGS>)
+        {
+        <BODY>
+        }
+EOF;
+
+    $uses = array();
+    $methods = array();
+    foreach($mapping as $name => $config)
+        {
+        preg_match_all('/\\{([a-zA-Z]+)\\}/', $config['url'], $matches);
+        $names = array_diff($matches[1], array('path', 'format', 'token'));
+        $docs = implode("\n", array_map(function($str) { return '     * @var $'.$str; }, $names));
+        $args = implode(', ', array_map(function($str) { return '$'.$str; }, $names));
+
+        $repl = array(
+            '<RETURN>' => $name,
+            '<NAME>' => 'get'.ucfirst($name).'Response',
+            '<DOCS>' => $docs,
+            '<ARGS>' => $args,
+            '<BODY>' => 'return $this->client->getResponse(new '.$name.'Request('.$args.'));',
+            );
+        $methods[] = str_replace(array_keys($repl), array_values($repl), $method);
+        $uses[] = 'use Thunder\\SimilarWebApi\\Request\\'.$name.' as '.$name.'Request;';
+        $uses[] = 'use Thunder\\SimilarWebApi\\Response\\'.$name.' as '.$name.'Response;';
+        }
+
+    $replaces = array(
+        '<USES>' => implode("\n", $uses),
+        '<METHODS>' => implode("\n\n", $methods),
+        );
+    $code = str_replace(array_keys($replaces), array_values($replaces), $code);
+
+    return $code;
+    }
+
 $autoload = file_exists(__DIR__.'/../vendor/autoload.php')
     ? __DIR__.'/../vendor/autoload.php'
     : __DIR__.'/../../../../vendor/autoload.php';
@@ -157,4 +228,7 @@ foreach($mapping as $name => $config)
     @mkdir(dirname($path), 0777, true);
     file_put_contents($path, $code);
     }
+echo 'SimilarWeb API PHP Client :: [ Generating client facade ]'."\n";
+$code = generateClientFacade($mapping);
+file_put_contents(__DIR__.'/../src/ClientFacade.php', $code);
 echo 'SimilarWeb API PHP Client :: [ Operation completed ]'."\n";
