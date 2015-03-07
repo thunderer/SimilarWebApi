@@ -7,6 +7,7 @@
 [![Dependency Status](https://www.versioneye.com/php/thunderer:similarweb-api/badge.svg)](https://www.versioneye.com/php/thunderer:similarweb-api)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/thunderer/SimilarWebApi/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/thunderer/SimilarWebApi/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/thunderer/SimilarWebApi/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/thunderer/SimilarWebApi/?branch=master)
+[![Code Climate](https://codeclimate.com/github/thunderer/SimilarWebApi/badges/gpa.svg)](https://codeclimate.com/github/thunderer/SimilarWebApi)
 
 ## Introduction
 

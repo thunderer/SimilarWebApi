@@ -74,15 +74,15 @@ abstract class AbstractRequest
     /**
      * @return string API endpoint name as in documentation
      */
-    abstract function getName();
+    abstract public function getName();
 
     /**
      * @return string API call URL with parameter placeholders
      */
-    abstract function getUrl();
+    abstract public function getUrl();
 
     /**
      * @return array Mapping data for response parsing
      */
-    abstract function getMapping();
+    abstract public function getMapping();
     }

@@ -4,6 +4,14 @@ Changelog
 Version 0.*
 -----------
 
+* 0.5.0
+  * introduced ClientFacade generated class for easier library usage
+  * introduced generator for ClientFacade class
+  * minor refactorings and documentation update
+
+* 0.4.2
+  * downgraded Symfony2 YAML librat requirement to ~2.3 for LTS users
+
 * 0.4.1 (08.11.2014)
   * fixed issue with installation through Composer (`bin/generate` script failed to require autoloader)
   * updated README on how to automatically run `bin/generate` in your project after Composer install or update
