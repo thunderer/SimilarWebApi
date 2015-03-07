@@ -40,7 +40,9 @@ Alternatively you can place it manually inside your `composer.json`:
 and then run `composer install` or `composer update` as required.
 
 > This library requires Request and Response classes generated from its configuration. If you're using Composer please add proper entries to "scripts" block to composer.json file like in the example below to have them generated automatically during install or update. In any other case please manually run `php bin/generate` from command line. You can read more on this topic in [Internals](#internals) section.
- 
+
+> Utility class ClientFacade containing easy to use interface is also generated just after Request and Response classes.
+
 ```
 "scripts": {
     "post-install-cmd": "php vendor/thunderer/similarweb-api/bin/generate",
@@ -52,23 +54,30 @@ You can of course make it a [git submodule](http://git-scm.com/docs/git-submodul
 
 ## Usage:
 
-All APIs implemented in this library have the Request and Response classes named corresponding to those defined in SimilarWeb API documentation. Expected data should be retrieved by first visiting SimilarWeb API documentation and then using Request class with the same name located in `src/Request` directory. Method `getResponse()` demonstrated below will automatically match, create and return matching Response class object which can be type hinted and relied on.
+All APIs implemented in this library have the Request and Response classes named corresponding to those defined in SimilarWeb API documentation. Expected data should be retrieved by first visiting SimilarWeb API documentation and then using Request class with the same name located in `src/Request` directory. Method `getResponse()` demonstrated below will automatically match, create and return matching Response class object which can be type hinted and relied on. There is also ClientFacade class which contains easy to use interface (note that this class is auto-generated):
 
 ```php
-use Thunder\SimilarWebApi\Request\Traffic;
+use Thunder\SimilarWebApi\Client;
+use Thunder\SimilarWebApi\ClientFacade;
+use Thunder\SimilarWebApi\RawResponse;
+use Thunder\SimilarWebApi\Request\Traffic as TrafficRequest;
+use Thunder\SimilarWebApi\Response\Traffic as TrafficResponse;
 
 // create client object
-$client = new Thunder\SimilarWebApi\Client($yourUserKey, $desiredFormat);
+$client = new Client($yourUserKey, $desiredFormat);
+$clientFacade = new ClientFacade($client);
 
 // fetch response by passing API call name and desired domain
-$response = $client->getResponse(new Traffic('kowalczyk.cc'));
+$response = $clientFacade->getTrafficResponse('kowalczyk.cc');
+// or if you prefer to do it manually
+$response = $client->getResponse(new TrafficRequest('kowalczyk.cc'));
 
 // domain response class provides readable interface to get required information
-/** @var $response Thunder\SimilarWebApi\Response\Traffic */
+/** @var $response TrafficResponse */
 $rank = $response->getGlobalRank();
 
 // there is also a raw response class which is used underneath
-/** @var $rawResponse Thunder\SimilarWebApi\RawResponse */
+/** @var $rawResponse RawResponse */
 $rawResponse = $response->getRawResponse();
 $globalRank = $rawResponse->getValue('globalRank');
 
