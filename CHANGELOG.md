@@ -4,6 +4,10 @@ Changelog
 Version 0.*
 -----------
 
+* 0.5.1
+  * updated Composer dependencies
+  * added new PHP versions to Travis matrix
+
 * 0.5.0
   * introduced ClientFacade generated class for easier library usage
   * introduced generator for ClientFacade class
