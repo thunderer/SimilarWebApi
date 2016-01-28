@@ -9,10 +9,10 @@
         }
     ],
     "require": {
-        "symfony/yaml": "~2.3"
+        "symfony/yaml": "^2.3|^3.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.1"
+        "phpunit/phpunit": "^4.1|^5.0"
     },
     "autoload": {
         "psr-4": {
