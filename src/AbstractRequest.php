@@ -43,7 +43,7 @@ abstract class AbstractRequest
             $msg = 'Invalid period %s, expected one of %s!';
             throw new \InvalidArgumentException(sprintf($msg, $value, $periods));
             }
-        elseif(in_array($arg, array('start', 'end')) && !preg_match('/[0-9]{2}-[0-9]{4}/', $value))
+        elseif(in_array($arg, array('start', 'end')) && (!preg_match('/[0-9]{2}-[0-9]{4}/', $value) && !preg_match('/[0-9]{4}-[0-9]{2}/', $value)))
             {
             $msg = 'Invalid %s date %s, expected format MM-YYYY!';
             throw new \InvalidArgumentException(sprintf($msg, $arg, $value));
