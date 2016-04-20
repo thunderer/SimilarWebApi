@@ -232,12 +232,12 @@ WebsiteTags:
 # --- V1 PRO API --------------------------------------------------------------
 
 TrafficPro:
-  path: v1/visits
-  url: /Site/{domain}/{path}?Format={format}&UserKey={token}&gr={period}&start={start}&end={end}&md={main}
+  path: total-traffic-and-engagement/visits
+  url: /v1/website/{domain}/{path}?Format={format}&api_key={token}&granularity={period}&start_date={start}&end_date={end}&main_domain_only={main}
   maps:
     values:
-      json: { field: Values, key: Date, value: Value }
-      xml: { field: Values.Metric, key: Date, value: Value }
+      json: { field: visits, key: date, value: visits }
+      xml: { field: visits.Metric, key: date, value: visits }
 
 EngagementPageViews:
   path: v1/pageviews
