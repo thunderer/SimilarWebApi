@@ -8,36 +8,40 @@ use Thunder\SimilarWebApi\Request\Traffic;
 /**
  * @author Tomasz Kowalczyk <tomasz@kowalczyk.cc>
  */
-class ClientTest extends \PHPUnit_Framework_TestCase
-    {
+final class ClientTest extends \PHPUnit_Framework_TestCase
+{
     public function testInstance()
-        {
+    {
         $instance = new Client(sha1('user_key'), 'XML');
         $this->assertInstanceOf('Thunder\SimilarWebApi\Client', $instance);
-        }
+    }
 
     public function testInvalidInstance()
-        {
+    {
         $this->setExpectedException('InvalidArgumentException');
         new Client(sha1('user_key'), 'INVALID');
-        }
+    }
 
     public function testCallFailed()
-        {
+    {
         $this->setExpectedException('RuntimeException');
         /** @var $clientMock \PHPUnit_Framework_MockObject_MockObject|Client */
         $request = new Traffic('google.com');
-        $clientMock = $this->getMock('Thunder\\SimilarWebApi\\Client', array('executeCall'), array(sha1('user_key'), 'JSON'));
+        $clientMock = $this
+            ->getMockBuilder('Thunder\\SimilarWebApi\\Client')
+            ->setConstructorArgs(array(sha1('user_key'), 'JSON'))
+            ->setMethods(array('executeCall'))
+            ->getMock();
         $clientMock
             ->expects($this->at(0))
             ->method('executeCall')
             ->with($request->getCallUrl('JSON', sha1('user_key')))
             ->will($this->returnValue(''));
         $clientMock->getResponse($request);
-        }
+    }
 
     public function testParserNotFound()
-        {
+    {
         $this->setExpectedException('RuntimeException');
         $client = new Client('token', 'JSON');
         $reflectionObject = new \ReflectionObject($client);
@@ -45,22 +49,22 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $property->setAccessible(true);
         $property->setValue($client, 'INVALID');
         $client->getResponse(new Traffic('google.com'));
-        }
+    }
 
     /**
      * @dataProvider provideCalls
      */
     public function testCallUrls($call, array $args, $expected)
-        {
+    {
         $class = 'Thunder\\SimilarWebApi\\Request\\'.$call;
         /** @var $request AbstractRequest */
         $reflectionClass = new \ReflectionClass($class);
         $request = $reflectionClass->newInstanceArgs($args);
         $this->assertEquals($expected, $request->getCallUrl('JSON', 'api_token'));
-        }
+    }
 
     public function provideCalls()
-        {
+    {
         $page = 1;
         $app = 'app.id';
         $domain = 'example.com';
@@ -112,8 +116,8 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             array('MobileApp', array(0, $app), $mobileApi.'/v1/GetAppDetails?'.$formatToken),
             array('MobileAppInstalls', array(0, $app), $mobileApi.'/v1/GetAppInstalls?'.$formatToken),
             array('MobileRelatedApps', array(0, $domain), 'http://api.similarweb.com/Mobile/0/'.$domain.'/v1/GetRelatedSiteApps?'.$formatToken),
-            );
+        );
 
         return $items;
-        }
     }
+}

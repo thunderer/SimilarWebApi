@@ -7,7 +7,7 @@
 use Symfony\Component\Yaml\Yaml;
 
 function generateRequestClass($class, $config)
-    {
+{
     $code = <<<EOF
 <?php
 /**
@@ -50,11 +50,10 @@ EOF;
     $methods = array();
     preg_match_all('/\\{([a-zA-Z]+)\\}/', $config['url'], $matches);
     $names = array_diff($matches[1], array('path', 'format', 'token'));
-    foreach($names as $name)
-        {
+    foreach($names as $name) {
         $args[] = '$'.$name;
         $methods[] = "\t\t".'$this->args[\''.$name.'\'] = $this->validateArg(\''.$name.'\', $'.$name.');';
-        }
+    }
     $ns = 'Thunder\\SimilarWebApi\\Request';
     $replaces = array(
         '<NAMESPACE>' => $ns,
@@ -64,14 +63,14 @@ EOF;
         '<ARGS>' => implode(', ', $args),
         '<METHODS>' => implode("\n", $methods),
         '<MAPPING>' => var_export($config, true),
-        );
+    );
     $code = str_replace(array_keys($replaces), array_values($replaces), $code);
 
     return $code;
-    }
+}
 
 function generateResponseClass($name, $config)
-    {
+{
     $code = <<<EOF
 <?php
 /**
@@ -88,14 +87,14 @@ use Thunder\SimilarWebApi\AbstractResponse;
  * @author Tomasz Kowalczyk <tomasz@kowalczyk.cc>
  */
 final class <CLASS> extends AbstractResponse
-    {
+{
     public function __construct(RawResponse \$response)
-        {
+    {
         parent::__construct(\$response);
-        }
+    }
 
 <METHODS>
-    }
+}
 
 EOF;
     $methods = array();
@@ -104,32 +103,29 @@ EOF;
         'arrays' => 'getArray',
         'maps' => 'getMap',
         'tuples' => 'getTuple',
-        );
-    foreach($calls as $type => $call)
-        {
-        if(array_key_exists($type, $config) && !empty($config[$type]))
-            {
-            foreach($config[$type] as $item => $fieldConfig)
-                {
+    );
+    foreach($calls as $type => $call) {
+        if(array_key_exists($type, $config) && !empty($config[$type])) {
+            foreach($config[$type] as $item => $fieldConfig) {
                 $body = 'return $this->response->'.$call.'(\''.$item.'\');';
-                $methods[] =  "\t\t".'public function get'.ucfirst($item).'() { '.$body.' }';
-                }
-            $methods[] = '';
+                $methods[] = "\t\t".'public function get'.ucfirst($item).'() { '.$body.' }';
             }
+            $methods[] = '';
         }
+    }
     $ns = 'Thunder\\SimilarWebApi\\Response';
     $replaces = array(
         '<NAMESPACE>' => $ns,
         '<CLASS>' => $name,
         '<METHODS>' => implode("\n", $methods),
-        );
+    );
     $code = str_replace(array_keys($replaces), array_values($replaces), $code);
 
     return $code;
-    }
+}
 
 function generateClientFacade(array $mapping)
-    {
+{
     $code = <<<EOF
 <?php
 /**
@@ -145,16 +141,16 @@ namespace Thunder\SimilarWebApi;
  * @author Tomasz Kowalczyk <tomasz@kowalczyk.cc>
  */
 final class ClientFacade
-    {
+{
     private \$client;
 
     public function __construct(Client \$client)
-        {
+    {
         \$this->client = \$client;
-        }
+    }
 
 <METHODS>
-    }
+}
 
 EOF;
     $method = <<<EOF
@@ -164,19 +160,22 @@ EOF;
      * @return <RETURN>Response
      */
     public function <NAME>(<ARGS>)
-        {
+    {
         <BODY>
-        }
+    }
 EOF;
 
     $uses = array();
     $methods = array();
-    foreach($mapping as $name => $config)
-        {
+    foreach($mapping as $name => $config) {
         preg_match_all('/\\{([a-zA-Z]+)\\}/', $config['url'], $matches);
         $names = array_diff($matches[1], array('path', 'format', 'token'));
-        $docs = implode("\n", array_map(function($str) { return '     * @var $'.$str; }, $names));
-        $args = implode(', ', array_map(function($str) { return '$'.$str; }, $names));
+        $docs = implode("\n", array_map(function($str) {
+            return '     * @var $'.$str;
+        }, $names));
+        $args = implode(', ', array_map(function($str) {
+            return '$'.$str;
+        }, $names));
 
         $repl = array(
             '<RETURN>' => $name,
@@ -184,20 +183,20 @@ EOF;
             '<DOCS>' => $docs,
             '<ARGS>' => $args,
             '<BODY>' => 'return $this->client->getResponse(new '.$name.'Request('.$args.'));',
-            );
+        );
         $methods[] = str_replace(array_keys($repl), array_values($repl), $method);
         $uses[] = 'use Thunder\\SimilarWebApi\\Request\\'.$name.' as '.$name.'Request;';
         $uses[] = 'use Thunder\\SimilarWebApi\\Response\\'.$name.' as '.$name.'Response;';
-        }
+    }
 
     $replaces = array(
         '<USES>' => implode("\n", $uses),
         '<METHODS>' => implode("\n\n", $methods),
-        );
+    );
     $code = str_replace(array_keys($replaces), array_values($replaces), $code);
 
     return $code;
-    }
+}
 
 $autoload = file_exists(__DIR__.'/../vendor/autoload.php')
     ? __DIR__.'/../vendor/autoload.php'
@@ -205,29 +204,26 @@ $autoload = file_exists(__DIR__.'/../vendor/autoload.php')
 require($autoload);
 
 $mapping = Yaml::parse(file_get_contents(__DIR__.'/../mapping.yaml'));
-if(!$mapping)
-    {
+if(!$mapping) {
     throw new \RuntimeException('Failed to read mapping file!');
-    }
+}
 
 echo 'SimilarWeb API PHP Client :: [ Generating request classes ]'."\n";
-foreach($mapping as $name => $config)
-    {
+foreach($mapping as $name => $config) {
     echo sprintf('  - %s', $name)."\n";
     $path = __DIR__.'/../src/Request/'.$name.'.php';
     $code = generateRequestClass($name, $config);
     @mkdir(dirname($path), 0777, true);
     file_put_contents($path, $code);
-    }
+}
 echo 'SimilarWeb API PHP Client :: [ Generating response classes ]'."\n";
-foreach($mapping as $name => $config)
-    {
+foreach($mapping as $name => $config) {
     echo sprintf('  - %s', $name)."\n";
     $path = __DIR__.'/../src/Response/'.$name.'.php';
     $code = generateResponseClass($name, $config);
     @mkdir(dirname($path), 0777, true);
     file_put_contents($path, $code);
-    }
+}
 echo 'SimilarWeb API PHP Client :: [ Generating client facade ]'."\n";
 $code = generateClientFacade($mapping);
 file_put_contents(__DIR__.'/../src/ClientFacade.php', $code);
