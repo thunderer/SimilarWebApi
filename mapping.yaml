@@ -399,3 +399,54 @@ MobileRelatedApps:
     apps:
       json: { field: RelatedApps, key: AppId, value: Title }
       xml: { field: RelatedApps.App, key: AppId, value: Title }
+
+
+#Domain: https://api.similarweb.com/site/
+# /v1/website/{domain}/traffic-and-engagement/visits-desktop?api_key=dc9cc1e290ud86466a928b3ed1e95692&start_date=2015-01&end_date=2015-03&main_domain_only=false&format=json
+# /Site/{domain}/v1/visits?gr=monthly&start=02-2015&end=03-2015&format=json&md=false&UserKey=dc9cc1e290ud86466a928b3ed1e95692
+# /v1/TopSites/categories
+
+# page 5
+# /v1/website/{domain}/total-traffic-and-engagement/visits?api_key={UserKey}&start_date=2015-11&end_date=2015-12&main_domain_only=false&granularity=monthly&format=json
+# /v1/website/{domain}/total-traffic-and-engagement/pages-per-visit?api_key={UserKey}&start_date=2015-11&end_date=2015-12&main_domain_only=false&granularity=monthly&format=json
+# /v1/website/{domain}/total-traffic-and-engagement/average-visit-duration?api_key={UserKey}&start_date=2015-11&end_date=2015-12&main_domain_only=false&granularity=monthly&format=json
+# /v1/website/{domain}/total-traffic-and-engagement/bounce-rate?api_key={UserKey}&start_date=2015-11&end_date=2015-12&main_domain_only=false&granularity=monthly&format=json
+# /v1/website/{domain}/total-traffic-and-engagement/visits-split?api_key={UserKey}&start_date=2016-01&end_date=2016-03&main_domain_only=false&granularity=monthly&format=json
+
+# page 6
+# /v1/website/{domain}/traffic-and-engagement/visits?api_key={UserKey}&start_date=2015-11&end_date=2015-12&main_domain_only=false&granularity=monthly&format=json
+# /v1/website/{domain}/traffic-and-engagement/pages-per-visit?api_key={UserKey}&start_date=2015-11&end_date=2015-12&main_domain_only=false&granularity=monthly&format=json
+# /v1/website/{domain}/traffic-and-engagement/average-visit-duration?api_key={UserKey}&start_date=2015-11&end_date=2015-12&main_domain_only=false&granularity=monthly&format=json
+# /v1/website/{domain}/traffic-and-engagement/bounce-rate?api_key={UserKey}&start_date=2015-11&end_date=2015-12&main_domain_only=false&granularity=monthly&format=json
+# /v1/website/{domain}/global-rank/global-rank?api_key={UserKey}&start_date=2015-11&end_date=2015-12&main_domain_only=false&format=json
+# /v1/website/{domain}/Geo/traffic-by-country?api_key={UserKey}&start_date=2016-01&end_date=2016-04&main_domain_only=false&format=json
+# /v1/website/{domain}/unique-visitors/desktop_mau?api_key={UserKey}&start_date=2016-05&end_date=2016-07&main_domain_only=false
+
+# page 7
+# /v1/website/{domain}/traffic-sources/social?api_key={UserKey}&start_date=2016-01&end_date=2016-02&main_domain_only=false&format=json
+# /Site/{domain}/v1/orgsearch?start=6-2015&end=9-2015&md=false&Format=JSON&UserKey={UserKey}&page=1
+# /Site/{domain}/v1/paidsearch?start=6-2015&end=9-2015&md=false&Format=JSON&UserKey={UserKey}&page=1
+# /v1/website/{domain}/traffic-sources/outgoing-referrals?api_key={UserKey}&start_date=2015-12&end_date=2016-01&format=json
+# /v1/website/{domain}/traffic-sources/referrals?api_key={UserKey}&start_date=2015-11&end_date=2016-01&main_domain_only=false&format=json
+# /v1/website/{domain}/traffic-sources/overview?api_key={UserKey}&start_date=2015-12&end_date=2016-01&format=json
+# /v1/website/{domain}/traffic-sources/overview-share?api_key={UserKey}&start_date=2016-1&end_date=2016-2&main_domain_only=false&format=json
+# /v1/website/{domain}/traffic-sources/ad-networks?api_key={UserKey}&main_domain_only=false&start_date=2016-1&end_date=2016-3&format=json
+
+# page 8
+# /Site/{domain}/v2/similarsites?Format=JSON&UserKey={UserKey}
+# /v1/website/{domain}/audience-interests/also-visited?api_key={UserKey}&start_date=2016-05&end_date=2016-06&main_domain_only=false
+# /Site/{domain}/v2/tags?Format=JSON&UserKey={UserKey}
+# /Site/{domain}/v2/CategoryRank?Format=JSON&UserKey={UserKey}
+# /v1/TopSites?category=XXXXX&UserKey={UserKey}&format=JSON
+# /Site/{domain}/v1/orgkwcompetitor?start=6-2015&end=9-2015&md=false&Format=JSON&UserKey={UserKey}
+# /Site/{domain}/v1/paidkwcompetitor?start=6-2015&end=9-2015&md=false&Format=JSON&UserKey={UserKey}
+
+# page 9
+# /Mobile/0/com.yahoo.mobile.client.android.mail/v1/GetAppDetails?Format=JSON&UserKey={UserKey}
+# /Mobile/0/com.cnn.cnnmoney/v1/GetAppInstalls?Format=JSON&UserKey={UserKey}
+# /Mobile/0/yahoo.com/v1/GetRelatedSiteApps?Format=JSON&UserKey={UserKey}
+
+# /v2/website/{domain}/mobile-web/visits?api_key={UserKey}&start_date=2015-11&end_date=2016-01&main_domain_only=false&granularity=monthly&format=json
+# /v2/website/{domain}/mobile-web/average-visit-duration?api_key={UserKey}&start_date=2015-11&end_date=2016-01&main_domain_only=false&granularity=monthly&format=json
+# /v2/website/{domain}/mobile-web/pages-per-visit?api_key={UserKey}&start_date=2015-11&end_date=2016-01&main_domain_only=false&granularity=monthly&format=json
+# /v2/website/{domain}/mobile-web/bounce-rate?api_key={UserKey}&start_date=2015-11&end_date=2016-01&main_domain_only=false&granularity=monthly&format=json

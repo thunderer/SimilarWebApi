@@ -7,7 +7,7 @@ use Thunder\SimilarWebApi\Parser\XmlParser;
 /**
  * @author Tomasz Kowalczyk <tomasz@kowalczyk.cc>
  */
-class Client
+final class Client
 {
     private $token;
     private $format;

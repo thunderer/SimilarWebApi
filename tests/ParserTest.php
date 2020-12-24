@@ -94,11 +94,11 @@ final class ParserTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider provideEndpoints
      */
-    /* public function testRealClientCalls($call, $exception, array $formats,
+    public function testRealClientCalls($call, $exception, array $formats,
                                     array $valueTests, array $arrayTests,
                                     array $mapTests, array $tupleTests)
-        {
-        $token = 'YOUR_API_TOKEN_HERE';
+    {
+        $token = '52548582cd268beb4a84359990d26d90';
 
         $args = array(
             'domain' => 'google.com',
@@ -109,11 +109,10 @@ final class ParserTest extends \PHPUnit_Framework_TestCase
             'end' => '09-2014',
             'main' => 'true',
             'store' => '0',
-            );
+        );
 
         if($exception !== null) { return; }
-        foreach($formats as $format => $file)
-            {
+        foreach($formats as $format => $file) {
             $format = strtoupper($format);
             $client = new Client($token, $format);
 
@@ -121,22 +120,27 @@ final class ParserTest extends \PHPUnit_Framework_TestCase
             $reflectionClass = new \ReflectionClass($requestClass);
             $ctorArgs = array_map(function(\ReflectionParameter $parameter) use($args) {
                 return $args[$parameter->getName()];
-                }, $reflectionClass->getConstructor()->getParameters());
+            }, $reflectionClass->getConstructor()->getParameters());
             $request = $reflectionClass->newInstanceArgs($ctorArgs);
             $this->assertEquals($requestClass, get_class($request));
 
-            $response = $client->getResponse($request);
-            $cachedResponse = $client->getResponse($request);
-            $this->assertEmpty(array_diff(array_keys($valueTests), array_keys($response->getRawResponse()->getValues())));
-            $this->assertEmpty(array_diff(array_keys($arrayTests), array_keys($response->getRawResponse()->getArrays())));
-            $this->assertEmpty(array_diff(array_keys($mapTests), array_keys($response->getRawResponse()->getMaps())));
-            $this->assertEmpty(array_diff(array_keys($tupleTests), array_keys($response->getRawResponse()->getTuples())));
+            try {
+                $response = $client->getResponse($request);
+                file_put_contents(__DIR__.'/data/'.$call.'.'.strtolower($format), $response->getRawResponse()->getRaw());
+                $cachedResponse = $client->getResponse($request);
+                $this->assertEmpty(array_diff(array_keys($valueTests), array_keys($response->getRawResponse()->getValues())));
+                $this->assertEmpty(array_diff(array_keys($arrayTests), array_keys($response->getRawResponse()->getArrays())));
+                $this->assertEmpty(array_diff(array_keys($mapTests), array_keys($response->getRawResponse()->getMaps())));
+                $this->assertEmpty(array_diff(array_keys($tupleTests), array_keys($response->getRawResponse()->getTuples())));
 
-            $this->assertTrue($response === $cachedResponse);
-            $this->assertInstanceOf('Thunder\\SimilarWebApi\\AbstractResponse', $response);
-            $this->assertInstanceOf('Thunder\\SimilarWebApi\\RawResponse', $response->getRawResponse());
+                $this->assertTrue($response === $cachedResponse);
+                $this->assertInstanceOf('Thunder\\SimilarWebApi\\AbstractResponse', $response);
+                $this->assertInstanceOf('Thunder\\SimilarWebApi\\RawResponse', $response->getRawResponse());
+            } catch(\Throwable $e) {
+                var_dump($request->getUrl());
             }
-        } */
+        }
+    }
 
     protected function runResponseTests(AbstractResponse $response, array $valueTests, array $arrayTests, array $mapTests, array $tupleTests)
     {
